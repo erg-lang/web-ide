@@ -1,0 +1,17 @@
+body {
+	width: 800px;
+	height: 600px;
+	border: 1px solid #ccc;
+}
+
+#editor {
+	width: 600px;
+	height: 300px;
+	border: 1px solid #ccc;
+}
+
+#result {
+	width: 600px;
+	height: 100px;
+	border: 1px solid #ccc;
+}
