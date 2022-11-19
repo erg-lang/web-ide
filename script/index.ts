@@ -3,7 +3,7 @@ import * as wasm from "erg-playground";
 
 import './index.css';
 
-function sleep(ms) {
+function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -45,7 +45,7 @@ res.className = 'textarea';
 res.readOnly = true;
 document.body.appendChild(res);
 
-const dump = function (data) {
+const dump = function (data: string) {
     res.innerHTML += data;
 };
 const clear = function () {
@@ -57,7 +57,7 @@ btn.id = 'run-button';
 btn.className = 'button is-primary is-small';
 btn.innerHTML = 'Run';
 
-const handle_result = function(result, code) {
+const handle_result = function(result: string, code: string) {
     if (result.startsWith("<<CompileError>>")) {
         result = result.replace("<<CompileError>>", "");
         // TODO: multiline error messages
