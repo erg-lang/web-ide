@@ -2,6 +2,12 @@ import * as monaco from 'monaco-editor';
 import * as wasm from "erg-playground";
 
 import './index.css';
+import { erg_syntax_def } from './syntax';
+import { escape_ansi } from './escape';
+// import { escape_ansi } from './escape';
+
+monaco.languages.register({ id: 'erg' });
+monaco.languages.setMonarchTokensProvider('erg', erg_syntax_def);
 
 function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -41,31 +47,41 @@ note.appendChild(close_btn);
 
 var edt = document.createElement('div');
 edt.id = 'editor';
+edt.className = 'block';
 document.body.appendChild(edt);
 
 var editor = monaco.editor.create(document.getElementById("editor"), {
 	value: 'print! "Hello, world!"',
-	language: 'python',
+	language: 'erg',
     theme: 'vs-dark',
 });
 
-var res = document.createElement('textarea');
+/*var palette = document.createElement('div');
+palette.className = 'container block';
+document.body.appendChild(palette);*/
+
+var btn = document.createElement('button');
+btn.id = 'run-button';
+btn.className = 'button is-primary block';
+btn.innerHTML = 'Run';
+document.body.appendChild(btn);
+
+var res = document.createElement('div');
 res.id = 'result';
-res.className = 'textarea';
-res.readOnly = true;
+res.className = 'box content textarea container block';
+// res.readOnly = true;
 document.body.appendChild(res);
 
+var footer = document.createElement('div');
+footer.className = 'box';
+document.body.appendChild(footer);
+
 const dump = function (data: string) {
-    res.innerHTML += data;
+    res.innerHTML += escape_ansi(data);
 };
 const clear = function () {
     res.innerHTML = "";
 };
-
-var btn = document.createElement('button');
-btn.id = 'run-button';
-btn.className = 'button is-primary';
-btn.innerHTML = 'Run';
 
 const handle_result = function(result: string, code: string) {
     if (result.startsWith("<<CompileError>>")) {
@@ -83,7 +99,7 @@ const handle_result = function(result: string, code: string) {
 }
 
 const run = async function (_event) {
-    btn.className = 'button is-primary is-loading';
+    btn.className = 'button is-primary is-loading block';
     await sleep(1);
     clear();
     var playground = wasm.Playground.new();
@@ -91,8 +107,7 @@ const run = async function (_event) {
     playground.set_stdout(dump);
     let result = playground.exec(code);
     handle_result(result, code);
-    btn.className = 'button is-primary';
+    btn.className = 'button is-primary block';
 };
 
 btn.addEventListener('click', run);
-document.body.appendChild(btn);
