@@ -4,6 +4,7 @@ import * as wasm from "erg-playground";
 import './index.css';
 import { erg_syntax_def } from './syntax';
 import { escape_ansi } from './escape';
+import { validate } from './check';
 // import { escape_ansi } from './escape';
 
 monaco.languages.register({ id: 'erg' });
@@ -50,10 +51,17 @@ edt.id = 'editor';
 edt.className = 'block';
 document.body.appendChild(edt);
 
+const value = 'print! "Hello, world!"';
+const uri = monaco.Uri.parse('inmemory://playground.er');
+const model = monaco.editor.createModel(value, 'erg', uri);
 var editor = monaco.editor.create(document.getElementById("editor"), {
-	value: 'print! "Hello, world!"',
+	// value: value,
 	language: 'erg',
     theme: 'vs-dark',
+    model: model,
+});
+model.onDidChangeContent(() => {
+	validate(model);
 });
 
 /*var palette = document.createElement('div');

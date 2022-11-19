@@ -42,3 +42,17 @@ export function escape_ansi(text: string) {
         .replace(RESET, "</span>")
         .replace(ATTR_RESET, "</span>");
 }
+
+export function remove_ansi(text: string) {
+    return text
+        .replace(RED, '')
+        .replace(YELLOW, '')
+        .replace(GREEN, '')
+        .replace(CYAN, '')
+        .replace(GRAY, '')
+        .replace(WHITE, '')
+        .replace(BOLD, "")
+        .replace(UNDERLINE, "")
+        .replace(RESET, "")
+        .replace(ATTR_RESET, "");
+}
