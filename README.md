@@ -8,5 +8,5 @@ Erg Web IDE
 
 - [x] editor
 - [x] executing code
-- [ ] error highlighting
+- [x] error highlighting
 - [ ] auto complete
