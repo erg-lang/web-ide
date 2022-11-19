@@ -45,7 +45,7 @@ module.exports = {
 	},
 	plugins: [
 		new HtmlWebPackPlugin({
-			title: 'Monaco Editor Sample'
+			title: 'Erg Web IDE'
 		})
 	]
 };
