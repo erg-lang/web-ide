@@ -25,9 +25,19 @@ var hero_body = document.createElement('div');
 hero_body.className = 'hero-body';
 hero.appendChild(hero_body);
 var title = document.createElement('p');
-title.className = 'subtitle';
+title.className = 'title';
 title.innerHTML = 'Erg Playground';
 hero_body.appendChild(title);
+var note = document.createElement('div');
+note.className = 'notification is-small has-text-grey-dark';
+note.innerHTML = 'Web-REPL is here: <a href="https://erg-lang.org/erg-playground/">https://erg-lang.org/erg-playground</a>';
+hero_body.appendChild(note);
+var close_btn = document.createElement('button');
+close_btn.className = 'delete';
+close_btn.onclick = function (_event) {
+    hero_body.removeChild(note);
+};
+note.appendChild(close_btn);
 
 var edt = document.createElement('div');
 edt.id = 'editor';
