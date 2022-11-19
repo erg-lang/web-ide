@@ -19,7 +19,7 @@ self.MonacoEnvironment = {
 
 var hero = document.createElement('section');
 hero.id = 'hero';
-hero.className = 'hero is-small is-info';
+hero.className = 'hero is-info';
 document.body.appendChild(hero);
 var hero_body = document.createElement('div');
 hero_body.className = 'hero-body';
@@ -54,7 +54,7 @@ const clear = function () {
 
 var btn = document.createElement('button');
 btn.id = 'run-button';
-btn.className = 'button is-primary is-small';
+btn.className = 'button is-primary';
 btn.innerHTML = 'Run';
 
 const handle_result = function(result: string, code: string) {
@@ -73,7 +73,7 @@ const handle_result = function(result: string, code: string) {
 }
 
 const run = async function (_event) {
-    btn.className = 'button is-primary is-small is-loading';
+    btn.className = 'button is-primary is-loading';
     await sleep(1);
     clear();
     var playground = wasm.Playground.new();
@@ -81,7 +81,7 @@ const run = async function (_event) {
     playground.set_stdout(dump);
     let result = playground.exec(code);
     handle_result(result, code);
-    btn.className = 'button is-primary is-small';
+    btn.className = 'button is-primary';
 };
 
 btn.addEventListener('click', run);
