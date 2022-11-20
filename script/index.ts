@@ -113,9 +113,12 @@ model.onDidChangeContent(() => {
 	validate(model);
 });
 
+let palette_area = document.createElement('div');
+palette_area.className = 'container block';
+document.body.appendChild(palette_area);
 var palette = document.createElement('div');
 palette.className = 'buttons block';
-document.body.appendChild(palette);
+palette_area.appendChild(palette);
 
 var run_btn = document.createElement('button');
 run_btn.id = 'run-button';
