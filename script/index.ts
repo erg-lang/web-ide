@@ -211,6 +211,7 @@ const share_url = async function (_event) {
     await sleep(1);
     let code = editor.getValue();
     let url = `https://erg-lang.org/web-ide/?code=${encodeURIComponent(code)}`;
+    clear();
     dump(url);
     localStorage.setItem("saved_code", code);
     share_btn.className = 'button is-link is-light';
