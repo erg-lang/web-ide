@@ -87,6 +87,12 @@ close_btn.onclick = function (_event) {
 py_code_area.appendChild(close_btn);
 
 var value = 'print! "Hello, world!"';
+// load code from local storage (if exists)
+let cached = localStorage.getItem("saved_code");
+if (cached != null) {
+    value = cached;
+}
+// load code from URL (if specified)
 let query = window.location.search.slice(1); // ?code=
 query.split('&').forEach(function (part) {
     var item = part.split('=');
@@ -94,11 +100,6 @@ query.split('&').forEach(function (part) {
         value = decodeURIComponent(item[1]);
     }
 });
-// load code from local storage (if exists)
-let cached = localStorage.getItem("saved_code");
-if (cached != null) {
-    value = cached;
-}
 const uri = monaco.Uri.parse('inmemory://playground.er');
 const model = monaco.editor.createModel(value, 'erg', uri);
 var editor = monaco.editor.create(document.getElementById("editor"), {
