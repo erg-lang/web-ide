@@ -7,6 +7,8 @@ import { escape_ansi } from './escape';
 import { validate } from './check';
 // import { escape_ansi } from './escape';
 
+const WAIT_FOR = 50;
+
 monaco.languages.register({ id: 'erg' });
 monaco.languages.setMonarchTokensProvider('erg', erg_syntax_def);
 
@@ -181,7 +183,7 @@ const handle_result = function(result: string, code: string) {
 
 const run = async function (_event) {
     run_btn.className = 'button is-primary is-medium is-loading';
-    await sleep(1);
+    await sleep(WAIT_FOR);
     clear();
     var playground = wasm.Playground.new();
     let code = editor.getValue();
@@ -194,7 +196,7 @@ const run = async function (_event) {
 
 const transpile = async function (_event) {
     transpile_btn.className = 'button is-warning is-light is-loading';
-    await sleep(1);
+    await sleep(WAIT_FOR);
     clear();
     var playground = wasm.Playground.new();
     let code = editor.getValue();
@@ -209,7 +211,7 @@ const transpile = async function (_event) {
 
 const share_url = async function (_event) {
     share_btn.className = 'button is-link is-light is-loading';
-    await sleep(1);
+    // await sleep(WAIT_FOR);
     let code = editor.getValue();
     let url = `https://erg-lang.org/web-ide/?code=${encodeURIComponent(code)}`;
     clear();
