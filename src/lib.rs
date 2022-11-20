@@ -130,6 +130,10 @@ impl Playground {
         }
     }
 
+    pub fn transpile(&mut self, input: &str) -> Option<String> {
+        self.transpiler.transpile(input.to_string(), "exec").map(|script| script.code).ok()
+    }
+
     pub fn exec(&mut self, input: &str) -> String {
         match self.transpiler.transpile(input.to_string(), "exec") {
             Ok(script) => {

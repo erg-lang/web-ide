@@ -26,7 +26,7 @@ self.MonacoEnvironment = {
 
 var hero = document.createElement('section');
 hero.id = 'hero';
-hero.className = 'hero is-info';
+hero.className = 'hero block is-info';
 document.body.appendChild(hero);
 var hero_body = document.createElement('div');
 hero_body.className = 'hero-body';
@@ -46,39 +46,103 @@ close_btn.onclick = function (_event) {
 };
 note.appendChild(close_btn);
 
-var edt = document.createElement('div');
-edt.id = 'editor';
-edt.className = 'block';
-document.body.appendChild(edt);
+var code_area = document.createElement('div');
+code_area.className = 'container block';
+document.body.appendChild(code_area);
 
-const value = 'print! "Hello, world!"';
+var editor_area = document.createElement('div');
+editor_area.id = 'editor';
+editor_area.className = 'block';
+code_area.appendChild(editor_area);
+
+let py_code_area = document.createElement('div');
+py_code_area.id = 'py-code-area';
+py_code_area.className = 'notification';
+py_code_area.hidden = true;
+code_area.appendChild(py_code_area);
+let py_code_message = document.createElement('div');
+py_code_message.className = 'message-header';
+py_code_message.innerHTML = 'Transpiled Python code';
+py_code_area.appendChild(py_code_message);
+const py_uri = monaco.Uri.parse('inmemory://playground.py');
+const py_model = monaco.editor.createModel("", 'erg', py_uri);
+let py_code_editor = document.createElement('div');
+py_code_editor.id = 'py-code-editor';
+py_code_editor.className = 'block';
+py_code_area.appendChild(py_code_editor);
+var py_code_display = monaco.editor.create(document.getElementById("py-code-editor"), {
+    language: 'erg',
+    theme: 'vs-dark',
+    model: py_model,
+    readOnly: true,
+    scrollbar: {
+        handleMouseWheel: false,
+    },
+});
+var close_btn = document.createElement('button');
+close_btn.className = 'delete';
+close_btn.onclick = function (_event) {
+    py_code_area.hidden = true;
+};
+py_code_area.appendChild(close_btn);
+
+var value = 'print! "Hello, world!"';
+let query = window.location.search.slice(1); // ?code=
+query.split('&').forEach(function (part) {
+    var item = part.split('=');
+    if (item[0] === 'code') {
+        value = decodeURIComponent(item[1]);
+    }
+});
+// load code from local storage (if exists)
+let cached = localStorage.getItem("saved_code");
+if (cached != null) {
+    value = cached;
+}
 const uri = monaco.Uri.parse('inmemory://playground.er');
 const model = monaco.editor.createModel(value, 'erg', uri);
 var editor = monaco.editor.create(document.getElementById("editor"), {
-	// value: value,
 	language: 'erg',
     theme: 'vs-dark',
     model: model,
+    scrollbar: {
+        handleMouseWheel: false,
+    },
 });
 model.onDidChangeContent(() => {
 	validate(model);
 });
 
-/*var palette = document.createElement('div');
-palette.className = 'container block';
-document.body.appendChild(palette);*/
+var palette = document.createElement('div');
+palette.className = 'buttons block';
+document.body.appendChild(palette);
 
-var btn = document.createElement('button');
-btn.id = 'run-button';
-btn.className = 'button is-primary block';
-btn.innerHTML = 'Run';
-document.body.appendChild(btn);
+var run_btn = document.createElement('button');
+run_btn.id = 'run-button';
+run_btn.className = 'button is-primary is-medium';
+run_btn.innerHTML = 'Run';
+palette.appendChild(run_btn);
 
+var transpile_btn = document.createElement('button');
+transpile_btn.id = 'transpile-button';
+transpile_btn.className = 'button is-warning is-light';
+transpile_btn.innerHTML = 'Transpile';
+palette.appendChild(transpile_btn);
+
+var share_btn = document.createElement('button');
+share_btn.id = 'share-button';
+share_btn.className = 'button is-link is-light';
+share_btn.innerHTML = 'Share';
+palette.appendChild(share_btn);
+
+var res_area = document.createElement('div');
+res_area.className = 'block container';
+document.body.appendChild(res_area);
 var res = document.createElement('div');
 res.id = 'result';
-res.className = 'box content textarea container block';
+res.className = 'box content textarea block';
 // res.readOnly = true;
-document.body.appendChild(res);
+res_area.appendChild(res);
 
 var footer = document.createElement('div');
 footer.className = 'box';
@@ -86,6 +150,11 @@ document.body.appendChild(footer);
 
 const dump = function (data: string) {
     res.innerHTML += escape_ansi(data);
+};
+const render_py_code = function (code: string) {
+    py_code_area.hidden = false;
+    py_code_display.setValue(code);
+    py_code_display.layout();
 };
 const clear = function () {
     res.innerHTML = "";
@@ -107,7 +176,7 @@ const handle_result = function(result: string, code: string) {
 }
 
 const run = async function (_event) {
-    btn.className = 'button is-primary is-loading block';
+    run_btn.className = 'button is-primary is-medium is-loading';
     await sleep(1);
     clear();
     var playground = wasm.Playground.new();
@@ -115,7 +184,35 @@ const run = async function (_event) {
     playground.set_stdout(dump);
     let result = playground.exec(code);
     handle_result(result, code);
-    btn.className = 'button is-primary block';
+    localStorage.setItem("saved_code", code);
+    run_btn.className = 'button is-primary is-medium';
 };
 
-btn.addEventListener('click', run);
+const transpile = async function (_event) {
+    transpile_btn.className = 'button is-warning is-light is-loading';
+    await sleep(1);
+    clear();
+    var playground = wasm.Playground.new();
+    let code = editor.getValue();
+    playground.set_stdout(dump);
+    let opt_code = playground.transpile(code);
+    if (opt_code != null) {
+        render_py_code(opt_code);
+        localStorage.setItem("saved_code", code);
+    }
+    transpile_btn.className = 'button is-warning is-light';
+};
+
+const share_url = async function (_event) {
+    share_btn.className = 'button is-link is-light is-loading';
+    await sleep(1);
+    let code = editor.getValue();
+    let url = `https://erg-lang.org/web-ide/?code=${encodeURIComponent(code)}`;
+    dump(url);
+    localStorage.setItem("saved_code", code);
+    share_btn.className = 'button is-link is-light';
+};
+
+run_btn.addEventListener('click', run);
+transpile_btn.addEventListener('click', transpile);
+share_btn.addEventListener('click', share_url);
