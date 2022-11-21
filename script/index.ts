@@ -96,7 +96,7 @@ class OutputArea {
 
     constructor() {
         var output_area = document.createElement('div');
-        output_area.className = 'block container';
+        output_area.className = 'block container is-fluid';
         document.body.appendChild(output_area);
         this.output = document.createElement('div');
         this.output.id = 'result';
@@ -125,8 +125,12 @@ class Playground {
     handle_result(this: this, result: string, code: string) {
         if (result.startsWith("<<CompileError>>")) {
             result = result.replace("<<CompileError>>", "");
-            // TODO: multiline error messages
-            result = result.replace("1 | ", `1 | ${code}`);
+            const replacer = function (match: string, p1: string) {
+                let lineno = parseInt(p1);
+                let lines = code.split('\n');
+                return `${lineno} | ${lines.slice(lineno - 1, lineno)}`;
+            };
+            result = result.replace(/([0-9]+) \| /g, replacer);
             this.output.dump(result);
         } else if (result.startsWith("<<RuntimeError>>")) {
             result = result.replace("<<RuntimeError>>", "");
@@ -242,7 +246,7 @@ class Playground {
 
     init_palette(this: this) {
         let palette_area = document.createElement('div');
-        palette_area.className = 'container block';
+        palette_area.className = 'container block is-fluid';
         document.body.appendChild(palette_area);
         var palette = document.createElement('div');
         palette.className = 'buttons block';

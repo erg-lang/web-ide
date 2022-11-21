@@ -32,5 +32,6 @@ body {
 	height: 10vh;
 	resize: both;
     overflow: auto;
+	font-family: monospace;
 	/* border: 1px solid #ccc; */
 }

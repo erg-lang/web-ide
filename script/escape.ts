@@ -30,6 +30,9 @@ const WHITE = /\x1b\[97m/g;
 
 export function escape_ansi(text: string) {
     return text
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/ /g, "&nbsp;")
         .replace(/\n/g, "<br>")
         .replace(RED, '<span style="color:#aa2222">')
         .replace(YELLOW, '<span style="color:#aa8822">')
