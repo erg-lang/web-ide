@@ -80,52 +80,75 @@ class PyCodeArea {
     }
 }
 
+class OutputArea {
+    output: HTMLDivElement;
+
+    clear(this: this) {
+        this.output.innerHTML = "";
+    }
+    dump(this: this, data: string) {
+        this.output.innerHTML += escape_ansi(data);
+    }
+    select(this: this) {
+        this.output.focus();
+        window.getSelection().selectAllChildren(this.output);
+    }
+
+    constructor() {
+        var output_area = document.createElement('div');
+        output_area.className = 'block container';
+        document.body.appendChild(output_area);
+        this.output = document.createElement('div');
+        this.output.id = 'result';
+        this.output.className = 'box content textarea block';
+        let _this = this;
+        this.output.onclick = function (_event) {
+            _this.select();
+        };
+        output_area.appendChild(this.output);
+    }
+}
+
 class Playground {
     editor: monaco.editor.IStandaloneCodeEditor;
     py_code_area: PyCodeArea;
-    output: HTMLDivElement;
+    output: OutputArea;
     run_btn: HTMLButtonElement;
     transpile_btn: HTMLButtonElement;
     share_btn: HTMLButtonElement;
 
-    dump(this, data: string) {
-        this.output.innerHTML += escape_ansi(data);
-    };
-    render_py_code(this, code: string) {
+    render_py_code(this: this, code: string) {
         this.py_code_area.area.hidden = false;
         this.py_code_area.display.setValue(code);
         this.py_code_area.display.layout();
     };
-    clear(this) {
-        this.output.innerHTML = "";
-    };
-    handle_result(this, result: string, code: string) {
+    handle_result(this: this, result: string, code: string) {
         if (result.startsWith("<<CompileError>>")) {
             result = result.replace("<<CompileError>>", "");
             // TODO: multiline error messages
             result = result.replace("1 | ", `1 | ${code}`);
-            this.dump(result);
+            this.output.dump(result);
         } else if (result.startsWith("<<RuntimeError>>")) {
             result = result.replace("<<RuntimeError>>", "");
-            this.dump("runtime error caused:\n");
-            this.dump(result);
+            this.output.dump("runtime error caused:\n");
+            this.output.dump(result);
         } else if (result.length > 0) {
-            this.dump(result);
+            this.output.dump(result);
         }
     }
-    close_py_code_area(this, _event) {
+    close_py_code_area(this: this, _event) {
         this.py_code_area.area.hidden = true;
     }
 
-    async run(this, _event) {
+    async run(this: this, _event) {
         this.run_btn.className = 'button is-primary is-medium is-loading';
         await sleep(WAIT_FOR);
-        this.clear();
+        this.output.clear();
         var playground = wasm.Playground.new();
         let code = this.editor.getValue();
         let _this = this;
         playground.set_stdout(function(data) {
-            _this.dump(data);
+            _this.output.dump(data);
         });
         let result = playground.exec(code);
         this.handle_result(result, code);
@@ -133,36 +156,39 @@ class Playground {
         this.run_btn.className = 'button is-primary is-medium';
     };
 
-    async transpile(this, _event) {
+    async transpile(this: this, _event) {
         this.transpile_btn.className = 'button is-warning is-light is-loading';
         await sleep(WAIT_FOR);
-        this.clear();
+        this.output.clear();
         var playground = wasm.Playground.new();
         let code = this.editor.getValue();
         let _this = this;
         playground.set_stdout(function(data) {
-            _this.dump(data);
+            _this.output.dump(data);
         });
         let opt_code = playground.transpile(code);
         if (opt_code != null) {
             this.render_py_code(opt_code);
             localStorage.setItem("saved_code", code);
+        } else {
+            this.output.dump("transpilation failed");
         }
         this.transpile_btn.className = 'button is-warning is-light';
     };
 
-    async share_url(this, _event) {
+    async share_url(this: this, _event) {
         this.share_btn.className = 'button is-link is-light is-loading';
         // await sleep(WAIT_FOR);
         let code = this.editor.getValue();
         let url = `https://erg-lang.org/web-ide/?code=${encodeURIComponent(code)}`;
-        this.clear();
-        this.dump(url);
+        this.output.clear();
+        this.output.dump(url);
         localStorage.setItem("saved_code", code);
         this.share_btn.className = 'button is-link is-light';
+        this.output.select();
     };
 
-    constructor() {
+    init_header(this: this) {
         var hero = document.createElement('section');
         hero.id = 'hero';
         hero.className = 'hero block is-info';
@@ -184,9 +210,11 @@ class Playground {
             hero_body.removeChild(note);
         };
         note.appendChild(close_btn);
+    }
 
+    init_editor(this: this) {
         var code_area = document.createElement('div');
-        code_area.className = 'container block';
+        code_area.className = 'container block is-fluid';
         document.body.appendChild(code_area);
 
         var editor_area = document.createElement('div');
@@ -210,7 +238,9 @@ class Playground {
         model.onDidChangeContent(() => {
             validate(model);
         });
+    }
 
+    init_palette(this: this) {
         let palette_area = document.createElement('div');
         palette_area.className = 'container block';
         document.body.appendChild(palette_area);
@@ -235,14 +265,17 @@ class Playground {
         this.share_btn.className = 'button is-link is-light';
         this.share_btn.innerHTML = 'Share';
         palette.appendChild(this.share_btn);
+    }
 
-        var output_area = document.createElement('div');
-        output_area.className = 'block container';
-        document.body.appendChild(output_area);
-        this.output = document.createElement('div');
-        this.output.id = 'result';
-        this.output.className = 'box content textarea block';
-        output_area.appendChild(this.output);
+    init_output() {
+        this.output = new OutputArea();
+    }
+
+    constructor() {
+        this.init_header();
+        this.init_editor();
+        this.init_palette();
+        this.init_output();
 
         var footer = document.createElement('div');
         footer.className = 'box';
