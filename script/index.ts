@@ -29,7 +29,7 @@ function get_init_code() {
     query.split('&').forEach(function (part) {
         var item = part.split('=');
         if (item[0] === 'code') {
-            value = decompressFromEncodedURIComponent(item[1]);
+            value = decompressFromEncodedURIComponent(item.slice(1).join('='));
         }
     });
     return value;
@@ -188,7 +188,8 @@ class Playground {
         this.share_btn.className = 'button is-link is-light is-loading';
         // await sleep(WAIT_FOR);
         let code = this.editor.getValue();
-        let url = `https://erg-lang.org/web-ide/?code=${compressToEncodedURIComponent(code)}`;
+        let compressed = compressToEncodedURIComponent(code);
+        let url = `https://erg-lang.org/web-ide/?code=${compressed}`;
         this.output.clear();
         this.output.dump(url);
         localStorage.setItem("saved_code", code);
