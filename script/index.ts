@@ -242,6 +242,7 @@ class Playground {
         model.onDidChangeContent(() => {
             validate(model);
         });
+        validate(model);
     }
 
     init_palette(this: this) {
