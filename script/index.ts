@@ -9,7 +9,16 @@ import './index.css';
 import { erg_syntax_def } from './syntax';
 import { escape_ansi } from './escape';
 import { validate } from './check';
+import { suggest } from './complete';
 // import { escape_ansi } from './escape';
+
+var playground = wasm.Playground.new();
+
+const erg_completion_provider = {
+	provideCompletionItems: function (model: monaco.editor.ITextModel, position: monaco.IPosition) {
+        return suggest(playground, model, position);
+    }
+};
 
 const WAIT_FOR = 50;
 
@@ -37,6 +46,7 @@ function get_init_code() {
 
 monaco.languages.register({ id: 'erg' });
 monaco.languages.setMonarchTokensProvider('erg', erg_syntax_def);
+monaco.languages.registerCompletionItemProvider('erg', erg_completion_provider);
 
 // @ts-ignore
 self.MonacoEnvironment = {
@@ -152,7 +162,7 @@ class Playground {
         this.run_btn.className = 'button is-primary is-medium is-loading';
         await sleep(WAIT_FOR);
         this.output.clear();
-        var playground = wasm.Playground.new();
+        playground = wasm.Playground.new();
         let code = this.editor.getValue();
         let _this = this;
         playground.set_stdout(function(data) {
@@ -168,7 +178,7 @@ class Playground {
         this.transpile_btn.className = 'button is-warning is-light is-loading';
         await sleep(WAIT_FOR);
         this.output.clear();
-        var playground = wasm.Playground.new();
+        playground = wasm.Playground.new();
         let code = this.editor.getValue();
         let _this = this;
         playground.set_stdout(function(data) {

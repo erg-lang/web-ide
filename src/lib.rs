@@ -1,18 +1,49 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
+use rustpython_wasm::{VMStore, WASMVirtualMachine};
+use once_cell::sync::Lazy;
+
+use erg_compiler::erg_parser::ast::VarName;
 use erg_compiler::error::CompileError;
 use erg_compiler::transpile::Transpiler;
 use erg_common::traits::{Stream, Runnable};
 use erg_common::error::{Location, ErrorDisplay};
-use rustpython_wasm::{VMStore, WASMVirtualMachine};
-use once_cell::sync::Lazy;
+use erg_compiler::ty::Type;
+use erg_compiler::varinfo::VarInfo;
 
-// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
-// allocator.
-#[cfg(feature = "wee_alloc")]
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[wasm_bindgen]
+pub enum CompItemKind {
+    Method = 0,
+    Function = 1,
+    Constructor = 2,
+    Field = 3,
+    Variable = 4,
+    Class = 5,
+    Struct = 6,
+    Interface = 7,
+    Module = 8,
+    Property = 9,
+    Event = 10,
+    Operator = 11,
+    Unit = 12,
+    Value = 13,
+    Constant = 14,
+    Enum = 15,
+    EnumMember = 16,
+    Keyword = 17,
+    Text = 18,
+    Color = 19,
+    File = 20,
+    Reference = 21,
+    Customcolor = 22,
+    Folder = 23,
+    TypeParameter = 24,
+    User = 25,
+    Issue = 26,
+    Snippet = 27
+}
 
 #[derive(Debug, Clone)]
 #[wasm_bindgen]
@@ -26,6 +57,52 @@ impl From<Location> for ErgErrorLoc {
 
 impl ErgErrorLoc {
     pub const UNKNOWN: ErgErrorLoc = ErgErrorLoc(Location::Unknown);
+}
+
+#[derive(Debug, Clone)]
+#[wasm_bindgen]
+pub struct ErgType(Type);
+
+#[derive(Debug, Clone)]
+#[wasm_bindgen]
+pub struct ErgVarEntry {
+    name: VarName,
+    vi: VarInfo,
+}
+
+impl ErgVarEntry {
+    pub fn new(name: VarName, vi: VarInfo) -> Self {
+        Self { name, vi }
+    }
+}
+
+#[wasm_bindgen]
+impl ErgVarEntry {
+    pub fn name(&self) -> String { self.name.to_string() }
+    pub fn item_kind(&self) -> CompItemKind {
+        match &self.vi.t {
+            Type::Callable { .. } => CompItemKind::Function,
+            Type::Subr(subr) => if subr.self_t().is_some() {
+                CompItemKind::Method
+            } else {
+                CompItemKind::Function
+            },
+            Type::Quantified(quant) => match quant.as_ref() {
+                Type::Callable { .. } => CompItemKind::Function,
+                Type::Subr(subr) => if subr.self_t().is_some() {
+                    CompItemKind::Method
+                } else {
+                    CompItemKind::Function
+                },
+                _ => unreachable!(),
+            },
+            Type::ClassType => CompItemKind::Class,
+            Type::TraitType => CompItemKind::Interface,
+            Type::Poly{ name, .. } if &name[..] == "Module" => CompItemKind::Module,
+            _ if self.vi.muty.is_const() => CompItemKind::Constant,
+            _ => CompItemKind::Variable,
+        }
+    }
 }
 
 #[wasm_bindgen]
@@ -117,6 +194,15 @@ impl Playground {
 
     pub fn start_message(&self) -> String {
         self.transpiler.start_message().replace("Erg transpiler", "Erg Playground (experimental)")
+    }
+
+    /// returns `Box<[JsValue]>` instead of `Vec<ErgVarEntry>`
+    pub fn dir(&mut self) -> Box<[JsValue]> {
+        self.transpiler.dir()
+            .into_iter()
+            .map(|(n, vi)| JsValue::from(ErgVarEntry::new(n.clone(), vi.clone())))
+            .collect::<Vec<_>>()
+            .into_boxed_slice()
     }
 
     /// returns `Box<[JsValue]>` instead of `Vec<ErgError>`

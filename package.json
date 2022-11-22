@@ -2,6 +2,7 @@
     "name": "erg-web-ide",
     "scripts": {
         "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+        "copy": "xcopy /e /y pkg node_modules\\erg-playground",
         "build": "node ./node_modules/webpack/bin/webpack.js --progress && move dist docs"
     },
     "devDependencies": {

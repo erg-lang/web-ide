@@ -9,7 +9,7 @@ Erg Web IDE
 - [x] editor
 - [x] executing code
 - [x] error highlighting
-- [ ] auto complete
+- [x] auto completion
 
 ## building
 
@@ -30,4 +30,4 @@ If you find an error like:
 Module not found: Error: Can't resolve './snippets/rustpython_wasm-1a681ef34bfe87cf/inline1.js' in '...\web-ide\node_modules\erg-playground'
 ```
 
-move `snippets` folder from `pkg` to `node_modules/erg-playground`.
+move `snippets` folder from `pkg` to `node_modules/erg-playground` (run `npm run copy` if you use Windows).
