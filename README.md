@@ -4,7 +4,7 @@ Erg Web IDE
 
 [Try now](https://erg-lang.org/web-ide)
 
-![screenshot](./screenshot.png)
+![screenshot](./screen.png)
 
 ## features
 
