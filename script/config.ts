@@ -1,6 +1,48 @@
 import { Playground, sleep } from './index';
 import { validate } from './check';
 
+export function set_dark(playground: Playground) {
+    playground.editor.updateOptions({
+        theme: 'vs-dark'
+    });
+    document.body.classList.add('has-background-dark');
+    document.getElementById('hero').classList.add('has-background-black-ter');
+    document.getElementById('result').classList.add('has-text-light');
+    document.getElementById('result').classList.add('has-background-black-ter');
+    document.getElementById('foot').classList.add('has-background-dark');
+    document.getElementById('transpile-button').classList.remove('is-light');
+    document.getElementById('transpile-button').classList.add('is-dark');
+    document.getElementById('share-button').classList.remove('is-light');
+    document.getElementById('share-button').classList.add('is-dark');
+    document.getElementById('config-button').classList.add('has-background-grey');
+    document.getElementById('file-tree').classList.add('has-background-black-ter');
+    var panes = document.body.getElementsByClassName('panel-block');
+    for (var i = 0; i < panes.length; i++) {
+        panes[i].classList.add('has-text-grey-lighter');
+    }
+}
+
+export function set_light(playground: Playground) {
+    playground.editor.updateOptions({
+        theme: 'vs'
+    });
+    document.body.classList.remove('has-background-dark');
+    document.getElementById('hero').classList.remove('has-background-black-ter');
+    document.getElementById('result').classList.remove('has-text-light');
+    document.getElementById('result').classList.remove('has-background-black-ter');
+    document.getElementById('foot').classList.remove('has-background-dark');
+    document.getElementById('transpile-button').classList.add('is-light');
+    document.getElementById('transpile-button').classList.remove('is-dark');
+    document.getElementById('share-button').classList.add('is-light');
+    document.getElementById('share-button').classList.remove('is-dark');
+    document.getElementById('config-button').classList.remove('has-background-grey');
+    document.getElementById('file-tree').classList.remove('has-background-black-ter');
+    var panes = document.body.getElementsByClassName('panel-block');
+    for (var i = 0; i < panes.length; i++) {
+        panes[i].classList.remove('has-text-grey-lighter');
+    }
+}
+
 export class ConfigModal {
     config_btn: HTMLButtonElement;
 
@@ -91,6 +133,47 @@ export class ConfigModal {
         section.appendChild(checking);
     }
 
+    add_color_theme_menu(section, playground: Playground) {
+        var checking = document.createElement('div');
+        checking.className = 'panel-block columns config-item';
+        var label = document.createElement('div');
+        label.className = 'column';
+        label.innerHTML = 'Color theme';
+        checking.appendChild(label);
+        var toggle_btn = document.createElement('div');
+        toggle_btn.className = 'column buttons has-addons';
+        var dark_btn = document.createElement('button');
+        if (localStorage.getItem('.config:color-theme') == 'dark') {
+            dark_btn.className = 'button is-small is-dark is-selected';
+        } else {
+            dark_btn.className = 'button is-small is-light';
+        }
+        dark_btn.innerHTML = 'Dark';
+        dark_btn.onclick = function (_event) {
+            set_dark(playground);
+            localStorage.setItem('.config:color-theme', 'dark');
+            dark_btn.className = 'button is-small is-dark is-selected';
+            light_btn.className = 'button is-light is-small';
+        };
+        var light_btn = document.createElement('button');
+        if (localStorage.getItem('.config:color-theme') == 'dark') {
+            light_btn.className = 'button is-small is-light';
+        } else {
+            light_btn.className = 'button is-small is-selected';
+        }
+        light_btn.innerHTML = 'Light';
+        light_btn.onclick = function (_event) {
+            set_light(playground);
+            localStorage.setItem('.config:color-theme', 'light');
+            light_btn.className = 'button is-small is-selected';
+            dark_btn.className = 'button is-light is-small';
+        };
+        toggle_btn.appendChild(dark_btn);
+        toggle_btn.appendChild(light_btn);
+        checking.appendChild(toggle_btn);
+        section.appendChild(checking);
+    }
+
     add_clean_storage_menu(section, _playground: Playground) {
         var clean = document.createElement('div');
         clean.className = 'panel-block columns config-item';
@@ -132,6 +215,7 @@ export class ConfigModal {
         section.className = 'modal-card-body';
         this.add_complete_menu(section, playground);
         this.add_check_menu(section, playground);
+        this.add_color_theme_menu(section, playground);
         this.add_clean_storage_menu(section, playground);
         menu.appendChild(section);
         modal_content.appendChild(menu);

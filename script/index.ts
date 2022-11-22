@@ -10,7 +10,7 @@ import { erg_syntax_def } from './syntax';
 import { escape_ansi } from './escape';
 import { validate } from './check';
 import { suggest } from './complete';
-import { ConfigModal } from './config';
+import { ConfigModal, set_dark } from './config';
 import { FileTree } from './file_tree';
 import { replace_import } from './importer';
 // import { escape_ansi } from './escape';
@@ -84,7 +84,7 @@ class PyCodeArea {
         this.area.appendChild(py_code_editor);
         this.display = monaco.editor.create(document.getElementById("py-code-editor"), {
             language: 'erg',
-            theme: 'vs-dark',
+            theme: 'vs',
             model: py_model,
             readOnly: true,
             scrollbar: {
@@ -270,7 +270,7 @@ export class Playground {
         const model = monaco.editor.createModel(init_code, 'erg', uri);
         this.editor = monaco.editor.create(document.getElementById("editor"), {
             language: 'erg',
-            theme: 'vs-dark',
+            theme: 'vs',
             model: model,
             scrollbar: {
                 handleMouseWheel: false,
@@ -323,7 +323,12 @@ export class Playground {
 
         var footer = document.createElement('div');
         footer.className = 'box';
+        footer.id = 'foot';
         document.body.appendChild(footer);
+
+        if (localStorage.getItem('.config:color-theme') == 'dark') {
+            set_dark(this);
+        }
 
         let _this = this;
         this.run_btn.addEventListener('click', function(_event) {

@@ -10,6 +10,9 @@ export class FileTree {
     load_files(this: this) {
         for (let i = 0; i < localStorage.length; i++) {
             let key = localStorage.key(i);
+            if (key.startsWith('.config')) {
+                continue;
+            }
             this.create_tree_entry(key);
         }
         if (this.tree.children.length == 0) {
@@ -67,7 +70,7 @@ export class FileTree {
             current_file.classList.remove("is-active");
         }
         this.current_file = filename;
-        new_current.className = 'panel-block is-active';
+        new_current.classList.add('is-active');
     }
 
     gen_dropdown(filename: string) {
@@ -97,7 +100,8 @@ export class FileTree {
         file.appendChild(file_icon);
         file.appendChild(this.gen_dropdown(filename));
         file.oncontextmenu = (_event) => {
-            file.className = "panel-block dropdown is-active";
+            file.classList.add("dropdown");
+            file.classList.add("is-active");
             return false;
         };
         file.onclick = (_event) => {
