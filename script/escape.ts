@@ -29,33 +29,33 @@ const GRAY = /\x1b\[37m/g;
 const WHITE = /\x1b\[97m/g;
 
 export function escape_ansi(text: string) {
-    return text
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/ /g, "&nbsp;")
-        .replace(/\n/g, "<br>")
-        .replace(RED, '<span style="color:#aa2222">')
-        .replace(YELLOW, '<span style="color:#aa8822">')
-        .replace(GREEN, '<span style="color:#22aa22">')
-        .replace(CYAN, '<span style="color:#22aaaa">')
-        .replace(GRAY, '<span style="color:#aaa">')
-        .replace(WHITE, '<span style="color:#eee">')
-        .replace(BOLD, "<span style='font-weight:bold'>")
-        .replace(UNDERLINE, "<span style='text-decoration:underline'>")
-        .replace(RESET, "</span>")
-        .replace(ATTR_RESET, "</span>");
+	return text
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/ /g, "&nbsp;")
+		.replace(/\n/g, "<br>")
+		.replace(RED, '<span style="color:#aa2222">')
+		.replace(YELLOW, '<span style="color:#aa8822">')
+		.replace(GREEN, '<span style="color:#22aa22">')
+		.replace(CYAN, '<span style="color:#22aaaa">')
+		.replace(GRAY, '<span style="color:#aaa">')
+		.replace(WHITE, '<span style="color:#eee">')
+		.replace(BOLD, "<span style='font-weight:bold'>")
+		.replace(UNDERLINE, "<span style='text-decoration:underline'>")
+		.replace(RESET, "</span>")
+		.replace(ATTR_RESET, "</span>");
 }
 
 export function remove_ansi(text: string) {
-    return text
-        .replace(RED, '')
-        .replace(YELLOW, '')
-        .replace(GREEN, '')
-        .replace(CYAN, '')
-        .replace(GRAY, '')
-        .replace(WHITE, '')
-        .replace(BOLD, "")
-        .replace(UNDERLINE, "")
-        .replace(RESET, "")
-        .replace(ATTR_RESET, "");
+	return text
+		.replace(RED, "")
+		.replace(YELLOW, "")
+		.replace(GREEN, "")
+		.replace(CYAN, "")
+		.replace(GRAY, "")
+		.replace(WHITE, "")
+		.replace(BOLD, "")
+		.replace(UNDERLINE, "")
+		.replace(RESET, "")
+		.replace(ATTR_RESET, "");
 }

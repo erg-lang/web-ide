@@ -1,8 +1,11 @@
-import * as monaco from 'monaco-editor';
-import * as wasm from 'erg-playground';
+import * as monaco from "monaco-editor";
+import * as wasm from "erg-playground";
 
-export function dir(playground: wasm.Playground, range: monaco.IRange): monaco.languages.CompletionItem[] {
-    let vars: wasm.ErgVarEntry[] = playground.dir();
+export function dir(
+	playground: wasm.Playground,
+	range: monaco.IRange,
+): monaco.languages.CompletionItem[] {
+	let vars: wasm.ErgVarEntry[] = playground.dir();
 	return vars.map((ent) => {
 		return {
 			label: ent.name(),
@@ -13,14 +16,18 @@ export function dir(playground: wasm.Playground, range: monaco.IRange): monaco.l
 	});
 }
 
-export function suggest(playground: wasm.Playground, model: monaco.editor.ITextModel, position: monaco.IPosition) {
+export function suggest(
+	playground: wasm.Playground,
+	model: monaco.editor.ITextModel,
+	position: monaco.IPosition,
+) {
 	playground.check(model.getValue());
 	var word = model.getWordUntilPosition(position);
 	var range = {
 		startLineNumber: position.lineNumber,
 		endLineNumber: position.lineNumber,
 		startColumn: word.startColumn,
-		endColumn: word.endColumn
+		endColumn: word.endColumn,
 	};
 	let suggestions = dir(playground, range);
 	return { suggestions };
