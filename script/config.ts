@@ -6,17 +6,19 @@ export function set_dark(playground: Playground) {
 		theme: "vs-dark",
 	});
 	document.body.classList.add("has-background-dark");
-	document.getElementById("hero").classList.add("has-background-black-ter");
-	document.getElementById("result").classList.add("has-text-light");
-	document.getElementById("result").classList.add("has-background-black-ter");
-	document.getElementById("foot").classList.add("has-background-dark");
-	document.getElementById("transpile-button").classList.remove("is-light");
-	document.getElementById("transpile-button").classList.add("is-dark");
-	document.getElementById("share-button").classList.remove("is-light");
-	document.getElementById("share-button").classList.add("is-dark");
-	document.getElementById("config-button").classList.add("has-background-grey");
+	document.getElementById("hero")!.classList.add("has-background-black-ter");
+	document.getElementById("result")!.classList.add("has-text-light");
+	document.getElementById("result")!.classList.add("has-background-black-ter");
+	document.getElementById("foot")!.classList.add("has-background-dark");
+	document.getElementById("transpile-button")!.classList.remove("is-light");
+	document.getElementById("transpile-button")!.classList.add("is-dark");
+	document.getElementById("share-button")!.classList.remove("is-light");
+	document.getElementById("share-button")!.classList.add("is-dark");
 	document
-		.getElementById("file-tree")
+		.getElementById("config-button")!
+		.classList.add("has-background-grey");
+	document
+		.getElementById("file-tree")!
 		.classList.add("has-background-black-ter");
 	var panes = document.body.getElementsByClassName("panel-block");
 	for (var i = 0; i < panes.length; i++) {
@@ -29,21 +31,21 @@ export function set_light(playground: Playground) {
 		theme: "vs",
 	});
 	document.body.classList.remove("has-background-dark");
-	document.getElementById("hero").classList.remove("has-background-black-ter");
-	document.getElementById("result").classList.remove("has-text-light");
+	document.getElementById("hero")!.classList.remove("has-background-black-ter");
+	document.getElementById("result")!.classList.remove("has-text-light");
 	document
-		.getElementById("result")
+		.getElementById("result")!
 		.classList.remove("has-background-black-ter");
-	document.getElementById("foot").classList.remove("has-background-dark");
-	document.getElementById("transpile-button").classList.add("is-light");
-	document.getElementById("transpile-button").classList.remove("is-dark");
-	document.getElementById("share-button").classList.add("is-light");
-	document.getElementById("share-button").classList.remove("is-dark");
+	document.getElementById("foot")!.classList.remove("has-background-dark");
+	document.getElementById("transpile-button")!.classList.add("is-light");
+	document.getElementById("transpile-button")!.classList.remove("is-dark");
+	document.getElementById("share-button")!.classList.add("is-light");
+	document.getElementById("share-button")!.classList.remove("is-dark");
 	document
-		.getElementById("config-button")
+		.getElementById("config-button")!
 		.classList.remove("has-background-grey");
 	document
-		.getElementById("file-tree")
+		.getElementById("file-tree")!
 		.classList.remove("has-background-black-ter");
 	var panes = document.body.getElementsByClassName("panel-block");
 	for (var i = 0; i < panes.length; i++) {
@@ -72,7 +74,7 @@ export class ConfigModal {
 		menu.appendChild(menu_heading);
 	}
 
-	add_complete_menu(section, playground: Playground) {
+	add_complete_menu(section: HTMLElement, playground: Playground) {
 		var completion = document.createElement("div");
 		completion.className = "panel-block columns config-item";
 		var label = document.createElement("div");
@@ -103,7 +105,7 @@ export class ConfigModal {
 		section.appendChild(completion);
 	}
 
-	add_check_menu(section, playground: Playground) {
+	add_check_menu(section: HTMLElement, playground: Playground) {
 		var checking = document.createElement("div");
 		checking.className = "panel-block columns config-item";
 		var label = document.createElement("div");
@@ -117,7 +119,13 @@ export class ConfigModal {
 		on_btn.innerHTML = "On";
 		on_btn.onclick = function (_event) {
 			let model = playground.editor.getModel();
+			if (model === null) {
+				return;
+			}
 			playground.on_did_change_listener = model.onDidChangeContent(() => {
+				if (model === null) {
+					return;
+				}
 				validate(model);
 			});
 			on_btn.className = "button is-small is-success is-selected";
@@ -137,7 +145,7 @@ export class ConfigModal {
 		section.appendChild(checking);
 	}
 
-	add_color_theme_menu(section, playground: Playground) {
+	add_color_theme_menu(section: HTMLElement, playground: Playground) {
 		var checking = document.createElement("div");
 		checking.className = "panel-block columns config-item";
 		var label = document.createElement("div");
@@ -178,7 +186,7 @@ export class ConfigModal {
 		section.appendChild(checking);
 	}
 
-	add_clean_storage_menu(section, _playground: Playground) {
+	add_clean_storage_menu(section: HTMLElement, _playground: Playground) {
 		var clean = document.createElement("div");
 		clean.className = "panel-block columns config-item";
 		var label = document.createElement("div");
@@ -201,7 +209,7 @@ export class ConfigModal {
 		section.appendChild(clean);
 	}
 
-	constructor(playground: Playground, palette) {
+	constructor(playground: Playground, palette: HTMLElement) {
 		var modal = document.createElement("div");
 		modal.className = "modal";
 		modal.id = "config-modal";

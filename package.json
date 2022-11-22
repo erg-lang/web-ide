@@ -12,6 +12,7 @@
 		"format:fix": "rome format --write ."
 	},
 	"devDependencies": {
+		"@types/lz-string": "^1.3.34",
 		"css-loader": "^5.2.7",
 		"erg-playground": "file:pkg",
 		"file-loader": "^6.2.0",

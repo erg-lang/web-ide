@@ -10,7 +10,7 @@ export class FileTree {
 	load_files(this: this) {
 		for (let i = 0; i < localStorage.length; i++) {
 			let key = localStorage.key(i);
-			if (key.startsWith(".config")) {
+			if (key === null || key.startsWith(".config")) {
 				continue;
 			}
 			this.create_tree_entry(key);
@@ -36,9 +36,16 @@ export class FileTree {
 		}
 		// load first child file
 		if (this.tree.children.length > 0) {
-			let first = localStorage.getItem(localStorage.key(0));
-			this.playground.editor.setValue(first);
-			this.set_current(localStorage.key(0));
+			const firstKey = localStorage.key(0);
+			if (firstKey === null) {
+				return;
+			}
+			let firstItem = localStorage.getItem(firstKey);
+			if (firstItem === null) {
+				return;
+			}
+			this.playground.editor.setValue(firstItem);
+			this.set_current(firstKey);
 		}
 	}
 
@@ -108,12 +115,12 @@ export class FileTree {
 			if (_event.button === 0) {
 				this.save_code();
 				this.set_current(filename);
-				this.playground.editor.setValue(localStorage.getItem(filename));
+				this.playground.editor.setValue(localStorage.getItem(filename) ?? "");
 			}
 		};
 		file.appendChild(document.createTextNode(filename));
 		if (this.tree.childNodes.length > 0) {
-			let add_file_btn = this.tree.removeChild(this.tree.lastChild);
+			let add_file_btn = this.tree.removeChild(this.tree.lastChild!);
 			this.tree.appendChild(file);
 			this.tree.appendChild(add_file_btn);
 		} else {

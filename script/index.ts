@@ -36,7 +36,7 @@ function get_init_code() {
 	var value = 'print! "Hello, world!"';
 	// load code from local storage (if exists)
 	let cached = localStorage.getItem("playground.er");
-	if (cached != null && cached.length !== 0) {
+	if (cached !== null && cached.length !== 0) {
 		value = cached;
 	}
 	// load code from URL (if specified)
@@ -44,7 +44,10 @@ function get_init_code() {
 	query.split("&").forEach(function (part) {
 		var item = part.split("=");
 		if (item[0] === "code") {
-			value = decompressFromEncodedURIComponent(item.slice(1).join("="));
+			const _value = decompressFromEncodedURIComponent(item.slice(1).join("="));
+			if (_value !== null) {
+				value = _value;
+			}
 		}
 	});
 	return value;
@@ -56,7 +59,7 @@ monaco.languages.registerCompletionItemProvider("erg", erg_completion_provider);
 
 // @ts-ignore
 self.MonacoEnvironment = {
-	getWorkerUrl: function (moduleId, label) {
+	getWorkerUrl: function (moduleId: string, label: string) {
 		if (label === "typescript" || label === "javascript") {
 			return "./ts.worker.bundle.js";
 		}
@@ -86,7 +89,7 @@ class PyCodeArea {
 		py_code_editor.className = "block";
 		this.area.appendChild(py_code_editor);
 		this.display = monaco.editor.create(
-			document.getElementById("py-code-editor"),
+			document.getElementById("py-code-editor")!,
 			{
 				language: "erg",
 				theme: "vs",
@@ -114,7 +117,7 @@ class OutputArea {
 	}
 	select(this: this) {
 		this.output.focus();
-		window.getSelection().selectAllChildren(this.output);
+		window.getSelection()?.selectAllChildren(this.output);
 	}
 
 	constructor() {
@@ -133,15 +136,15 @@ class OutputArea {
 }
 
 export class Playground {
-	file_tree: FileTree;
-	editor: monaco.editor.IStandaloneCodeEditor;
-	on_did_change_listener: monaco.IDisposable;
-	py_code_area: PyCodeArea;
-	output: OutputArea;
-	run_btn: HTMLButtonElement;
-	transpile_btn: HTMLButtonElement;
-	share_btn: HTMLButtonElement;
-	config_modal: ConfigModal;
+	file_tree!: FileTree;
+	editor!: monaco.editor.IStandaloneCodeEditor;
+	on_did_change_listener!: monaco.IDisposable;
+	py_code_area!: PyCodeArea;
+	output!: OutputArea;
+	run_btn!: HTMLButtonElement;
+	transpile_btn!: HTMLButtonElement;
+	share_btn!: HTMLButtonElement;
+	config_modal!: ConfigModal;
 
 	render_py_code(this: this, code: string) {
 		this.py_code_area.area.hidden = false;
@@ -166,11 +169,11 @@ export class Playground {
 			this.output.dump(result);
 		}
 	}
-	close_py_code_area(this: this, _event) {
+	close_py_code_area(this: this, _event: Event) {
 		this.py_code_area.area.hidden = true;
 	}
 
-	async run(this: this, _event) {
+	async run(this: this, _event: Event) {
 		this.run_btn.className = "button is-primary is-medium is-loading";
 		await sleep(WAIT_FOR);
 		this.output.clear();
@@ -178,7 +181,7 @@ export class Playground {
 		let code = this.editor.getValue();
 		let replaced_code = replace_import(code);
 		let _this = this;
-		playground.set_stdout(function (data) {
+		playground.set_stdout(function (data: string) {
 			_this.output.dump(data);
 		});
 		let result = playground.exec(replaced_code);
@@ -187,7 +190,7 @@ export class Playground {
 		this.run_btn.className = "button is-primary is-medium";
 	}
 
-	async transpile(this: this, _event) {
+	async transpile(this: this, _event: Event) {
 		this.transpile_btn.className = "button is-warning is-light is-loading";
 		await sleep(WAIT_FOR);
 		this.output.clear();
@@ -195,7 +198,7 @@ export class Playground {
 		let code = this.editor.getValue();
 		let replaced_code = replace_import(code);
 		let _this = this;
-		playground.set_stdout(function (data) {
+		playground.set_stdout(function (data: string) {
 			_this.output.dump(data);
 		});
 		let opt_code = playground.transpile(replaced_code);
@@ -208,7 +211,7 @@ export class Playground {
 		this.transpile_btn.className = "button is-warning is-light";
 	}
 
-	async share_url(this: this, _event) {
+	async share_url(this: this, _event: Event) {
 		this.share_btn.className = "button is-link is-light is-loading";
 		// await sleep(WAIT_FOR);
 		let code = this.editor.getValue();
@@ -275,7 +278,7 @@ export class Playground {
 		let init_code = get_init_code();
 		const uri = monaco.Uri.parse("inmemory://playground.er");
 		const model = monaco.editor.createModel(init_code, "erg", uri);
-		this.editor = monaco.editor.create(document.getElementById("editor"), {
+		this.editor = monaco.editor.create(document.getElementById("editor")!, {
 			language: "erg",
 			theme: "vs",
 			model: model,
