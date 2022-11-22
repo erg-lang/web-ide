@@ -4,6 +4,8 @@ Erg Web IDE
 
 [Try now](https://erg-lang.org/web-ide)
 
+![screenshot](./screenshot.png)
+
 ## features
 
 - [x] editor
