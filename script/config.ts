@@ -1,8 +1,26 @@
-import { Playground } from './index';
+import { Playground, sleep } from './index';
 import { validate } from './check';
 
 export class ConfigModal {
     config_btn: HTMLButtonElement;
+
+    add_modal_header(menu: HTMLElement, modal: HTMLDivElement) {
+        var menu_heading = document.createElement('header');
+        menu_heading.className = 'modal-card-head';
+        menu.appendChild(menu_heading);
+        var menu_title = document.createElement('p');
+        menu_title.className = 'modal-card-title';
+        menu_title.innerHTML = 'Configuration';
+        menu_heading.appendChild(menu_title);
+        var close_btn = document.createElement('button');
+        close_btn.className = 'delete';
+        close_btn.ariaLabel = 'close';
+        close_btn.addEventListener('click', function () {
+            modal.classList.remove('is-active');
+        });
+        menu_heading.appendChild(close_btn);
+        menu.appendChild(menu_heading);
+    }
 
     add_complete_menu(section, playground: Playground) {
         var completion = document.createElement('div');
@@ -73,6 +91,29 @@ export class ConfigModal {
         section.appendChild(checking);
     }
 
+    add_clean_storage_menu(section, _playground: Playground) {
+        var clean = document.createElement('div');
+        clean.className = 'panel-block columns config-item';
+        var label = document.createElement('div');
+        label.className = 'column';
+        label.innerHTML = 'Clean local storage';
+        clean.appendChild(label);
+        var clean_btn = document.createElement('div');
+        clean_btn.className = 'column';
+        var button = document.createElement('button');
+        button.className = 'button is-danger is-small';
+        button.innerHTML = 'Clean';
+        button.onclick = async function (_event) {
+            button.classList.add('is-loading');
+            localStorage.clear();
+            await sleep(300); // fake delay
+            button.classList.remove('is-loading');
+        };
+        clean_btn.appendChild(button);
+        clean.appendChild(clean_btn);
+        section.appendChild(clean);
+    }
+
     constructor(playground: Playground, palette) {
         var modal = document.createElement('div');
         modal.className = 'modal';
@@ -86,18 +127,12 @@ export class ConfigModal {
         modal_content.id = 'config-modal-content';
         var menu = document.createElement('nav');
         menu.className = 'panel';
-        var menu_heading = document.createElement('header');
-        menu_heading.className = 'modal-card-head';
-        menu.appendChild(menu_heading);
-        var menu_title = document.createElement('p');
-        menu_title.className = 'modal-card-title';
-        menu_title.innerHTML = 'Configuration';
-        menu_heading.appendChild(menu_title);
-        menu.appendChild(menu_heading);
+        this.add_modal_header(menu, modal);
         var section = document.createElement('section');
         section.className = 'modal-card-body';
         this.add_complete_menu(section, playground);
         this.add_check_menu(section, playground);
+        this.add_clean_storage_menu(section, playground);
         menu.appendChild(section);
         modal_content.appendChild(menu);
         modal.appendChild(modal_content);
@@ -114,13 +149,6 @@ export class ConfigModal {
         this.config_btn.addEventListener('click', function () {
             modal.classList.add('is-active');
         });
-        var close_btn = document.createElement('button');
-        close_btn.className = 'modal-close is-large';
-        close_btn.ariaLabel = 'close';
-        close_btn.addEventListener('click', function () {
-            modal.classList.remove('is-active');
-        });
-        modal.appendChild(close_btn);
         palette.appendChild(this.config_btn);
     }
 }

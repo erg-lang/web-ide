@@ -11,6 +11,8 @@ import { escape_ansi } from './escape';
 import { validate } from './check';
 import { suggest } from './complete';
 import { ConfigModal } from './config';
+import { FileTree } from './file_tree';
+import { replace_import } from './importer';
 // import { escape_ansi } from './escape';
 
 var playground = wasm.Playground.new();
@@ -23,15 +25,15 @@ const erg_completion_provider = {
 
 const WAIT_FOR = 50;
 
-function sleep(ms: number) {
+export function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function get_init_code() {
     var value = 'print! "Hello, world!"';
     // load code from local storage (if exists)
-    let cached = localStorage.getItem("saved_code");
-    if (cached != null) {
+    let cached = localStorage.getItem("playground.er");
+    if (cached != null && cached.length != 0) {
         value = cached;
     }
     // load code from URL (if specified)
@@ -125,6 +127,7 @@ class OutputArea {
 }
 
 export class Playground {
+    file_tree: FileTree;
     editor: monaco.editor.IStandaloneCodeEditor;
     on_did_change_listener: monaco.IDisposable;
     py_code_area: PyCodeArea;
@@ -167,13 +170,14 @@ export class Playground {
         this.output.clear();
         playground = wasm.Playground.new();
         let code = this.editor.getValue();
+        let replaced_code = replace_import(code);
         let _this = this;
         playground.set_stdout(function(data) {
             _this.output.dump(data);
         });
-        let result = playground.exec(code);
+        let result = playground.exec(replaced_code);
         this.handle_result(result, code);
-        localStorage.setItem("saved_code", code);
+        localStorage.setItem(this.file_tree.current_file, code);
         this.run_btn.className = 'button is-primary is-medium';
     };
 
@@ -183,14 +187,15 @@ export class Playground {
         this.output.clear();
         playground = wasm.Playground.new();
         let code = this.editor.getValue();
+        let replaced_code = replace_import(code);;
         let _this = this;
         playground.set_stdout(function(data) {
             _this.output.dump(data);
         });
-        let opt_code = playground.transpile(code);
+        let opt_code = playground.transpile(replaced_code);
         if (opt_code != null) {
             this.render_py_code(opt_code);
-            localStorage.setItem("saved_code", code);
+            localStorage.setItem(this.file_tree.current_file, code);
         } else {
             this.output.dump("transpilation failed");
         }
@@ -205,7 +210,7 @@ export class Playground {
         let url = `https://erg-lang.org/web-ide/?code=${compressed}`;
         this.output.clear();
         this.output.dump(url);
-        localStorage.setItem("saved_code", code);
+        localStorage.setItem(this.file_tree.current_file, code);
         this.share_btn.className = 'button is-link is-light';
         this.output.select();
     };
@@ -234,10 +239,24 @@ export class Playground {
         note.appendChild(close_btn);
     }
 
-    init_editor(this: this) {
+    init_main_area(this: this) {
+        var main_area = document.createElement('div');
+        main_area.className = 'block columns container';
+        main_area.id = 'main-area';
+        document.body.appendChild(main_area);
+        this.init_file_tree(main_area);
+        this.init_editor_area(main_area);
+    }
+
+    init_file_tree(this: this, main_area: HTMLElement) {
+        this.file_tree = new FileTree(this);
+        main_area.appendChild(this.file_tree.tree_area);
+    }
+
+    init_editor_area(this: this, main_area: HTMLDivElement) {
         var code_area = document.createElement('div');
-        code_area.className = 'container block is-fluid';
-        document.body.appendChild(code_area);
+        code_area.className = 'column';
+        main_area.appendChild(code_area);
 
         var editor_area = document.createElement('div');
         editor_area.id = 'editor';
@@ -298,7 +317,7 @@ export class Playground {
 
     constructor() {
         this.init_header();
-        this.init_editor();
+        this.init_main_area();
         this.init_palette();
         this.init_output();
 
@@ -322,4 +341,4 @@ export class Playground {
     }
 }
 
-const _playground = new Playground();
+(window as any).playground = new Playground();
