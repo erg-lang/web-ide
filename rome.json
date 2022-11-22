@@ -1,0 +1,11 @@
+{
+	"linter": {
+		"rules": {
+			"recommended": true
+		},
+		"ignore": ["/pkg/", "/dist/", "/docs/"]
+	},
+	"formatter": {
+		"ignore": ["/pkg/", "/dist/", "/docs/"]
+	}
+}
