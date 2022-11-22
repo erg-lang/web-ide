@@ -147,7 +147,7 @@ export class ConfigModal {
 		var toggle_btn = document.createElement("div");
 		toggle_btn.className = "column buttons has-addons";
 		var dark_btn = document.createElement("button");
-		if (localStorage.getItem(".config:color-theme") == "dark") {
+		if (localStorage.getItem(".config:color-theme") === "dark") {
 			dark_btn.className = "button is-small is-dark is-selected";
 		} else {
 			dark_btn.className = "button is-small is-light";
@@ -160,7 +160,7 @@ export class ConfigModal {
 			light_btn.className = "button is-light is-small";
 		};
 		var light_btn = document.createElement("button");
-		if (localStorage.getItem(".config:color-theme") == "dark") {
+		if (localStorage.getItem(".config:color-theme") === "dark") {
 			light_btn.className = "button is-small is-light";
 		} else {
 			light_btn.className = "button is-small is-selected";

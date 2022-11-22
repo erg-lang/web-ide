@@ -8,7 +8,7 @@ export function replace_import(code: string) {
 		mod_ident: string,
 		mod_name: string,
 	) {
-		let code = localStorage.getItem(mod_name + ".er");
+		let code = localStorage.getItem(`${mod_name}.er`);
 		if (code != null) {
 			return transpile_import(code, mod_name, mod_ident);
 		} else {

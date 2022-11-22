@@ -36,7 +36,7 @@ function get_init_code() {
 	var value = 'print! "Hello, world!"';
 	// load code from local storage (if exists)
 	let cached = localStorage.getItem("playground.er");
-	if (cached != null && cached.length != 0) {
+	if (cached != null && cached.length !== 0) {
 		value = cached;
 	}
 	// load code from URL (if specified)
@@ -333,7 +333,7 @@ export class Playground {
 		footer.id = "foot";
 		document.body.appendChild(footer);
 
-		if (localStorage.getItem(".config:color-theme") == "dark") {
+		if (localStorage.getItem(".config:color-theme") === "dark") {
 			set_dark(this);
 		}
 

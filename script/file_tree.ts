@@ -15,7 +15,7 @@ export class FileTree {
 			}
 			this.create_tree_entry(key);
 		}
-		if (this.tree.children.length == 0) {
+		if (this.tree.children.length === 0) {
 			this.create_file("playground.er");
 		}
 		let main_file = this.tree.children.namedItem("playground-file-playground");
@@ -26,13 +26,13 @@ export class FileTree {
 	}
 
 	remove_file(this: this, filename: string) {
-		let id = "playground-file-" + filename.split(".")[0];
+		let id = `playground-file-${filename.split(".")[0]}`;
 		let file = this.tree.children.namedItem(id);
 		if (file != null) {
 			this.tree.removeChild(file);
 			localStorage.removeItem(filename);
 		} else {
-			console.log("Could not find file: " + filename);
+			console.log(`Could not find file: ${filename}`);
 		}
 		// load first child file
 		if (this.tree.children.length > 0) {
@@ -59,12 +59,12 @@ export class FileTree {
 	}
 
 	set_current(this: this, filename: string) {
-		let new_id = "playground-file-" + filename.split(".")[0];
+		let new_id = `playground-file-${filename.split(".")[0]}`;
 		let new_current = this.tree.children.namedItem(new_id);
 		if (new_current == null) {
 			return;
 		}
-		let id = "playground-file-" + this.current_file.split(".")[0];
+		let id = `playground-file-${this.current_file.split(".")[0]}`;
 		let current_file = this.tree.children.namedItem(id);
 		if (current_file != null) {
 			current_file.classList.remove("is-active");
@@ -93,7 +93,7 @@ export class FileTree {
 	create_tree_entry(this: this, filename: string) {
 		let file = document.createElement("a");
 		file.className = "panel-block";
-		file.id = "playground-file-" + filename.split(".")[0];
+		file.id = `playground-file-${filename.split(".")[0]}`;
 		let file_icon = document.createElement("span");
 		file_icon.className = "panel-icon";
 		file_icon.innerHTML = '<i class="fas fa-file" aria-hidden="true"></i>';
@@ -105,7 +105,7 @@ export class FileTree {
 			return false;
 		};
 		file.onclick = (_event) => {
-			if (_event.button == 0) {
+			if (_event.button === 0) {
 				this.save_code();
 				this.set_current(filename);
 				this.playground.editor.setValue(localStorage.getItem(filename));
