@@ -20,8 +20,8 @@ export function set_dark(playground: Playground) {
 	document
 		.getElementById("file-tree")!
 		.classList.add("has-background-black-ter");
-	var panes = document.body.getElementsByClassName("panel-block");
-	for (var i = 0; i < panes.length; i++) {
+	const panes = document.body.getElementsByClassName("panel-block");
+	for (let i = 0; i < panes.length; i++) {
 		panes[i].classList.add("has-text-grey-lighter");
 	}
 }
@@ -47,8 +47,8 @@ export function set_light(playground: Playground) {
 	document
 		.getElementById("file-tree")!
 		.classList.remove("has-background-black-ter");
-	var panes = document.body.getElementsByClassName("panel-block");
-	for (var i = 0; i < panes.length; i++) {
+	const panes = document.body.getElementsByClassName("panel-block");
+	for (let i = 0; i < panes.length; i++) {
 		panes[i].classList.remove("has-text-grey-lighter");
 	}
 }
@@ -57,14 +57,14 @@ export class ConfigModal {
 	config_btn: HTMLButtonElement;
 
 	add_modal_header(menu: HTMLElement, modal: HTMLDivElement) {
-		var menu_heading = document.createElement("header");
+		const menu_heading = document.createElement("header");
 		menu_heading.className = "modal-card-head";
 		menu.appendChild(menu_heading);
-		var menu_title = document.createElement("p");
+		const menu_title = document.createElement("p");
 		menu_title.className = "modal-card-title";
 		menu_title.innerHTML = "Configuration";
 		menu_heading.appendChild(menu_title);
-		var close_btn = document.createElement("button");
+		const close_btn = document.createElement("button");
 		close_btn.className = "delete";
 		close_btn.ariaLabel = "close";
 		close_btn.addEventListener("click", function () {
@@ -75,15 +75,15 @@ export class ConfigModal {
 	}
 
 	add_complete_menu(section: HTMLElement, playground: Playground) {
-		var completion = document.createElement("div");
+		const completion = document.createElement("div");
 		completion.className = "panel-block columns config-item";
-		var label = document.createElement("div");
+		const label = document.createElement("div");
 		label.className = "column";
 		label.innerHTML = "Completion";
 		completion.appendChild(label);
-		var toggle_btn = document.createElement("div");
+		const toggle_btn = document.createElement("div");
 		toggle_btn.className = "column buttons has-addons";
-		var on_btn = document.createElement("button");
+		const on_btn = document.createElement("button");
 		on_btn.className = "button is-small is-success is-selected";
 		on_btn.innerHTML = "On";
 		on_btn.onclick = function (_event) {
@@ -91,7 +91,7 @@ export class ConfigModal {
 			on_btn.className = "button is-small is-success is-selected";
 			off_btn.className = "button is-small";
 		};
-		var off_btn = document.createElement("button");
+		const off_btn = document.createElement("button");
 		off_btn.className = "button is-small";
 		off_btn.innerHTML = "Off";
 		off_btn.onclick = function (_event) {
@@ -106,15 +106,15 @@ export class ConfigModal {
 	}
 
 	add_check_menu(section: HTMLElement, playground: Playground) {
-		var checking = document.createElement("div");
+		const checking = document.createElement("div");
 		checking.className = "panel-block columns config-item";
-		var label = document.createElement("div");
+		const label = document.createElement("div");
 		label.className = "column";
 		label.innerHTML = "Code check";
 		checking.appendChild(label);
-		var toggle_btn = document.createElement("div");
+		const toggle_btn = document.createElement("div");
 		toggle_btn.className = "column buttons has-addons";
-		var on_btn = document.createElement("button");
+		const on_btn = document.createElement("button");
 		on_btn.className = "button is-small is-success is-selected";
 		on_btn.innerHTML = "On";
 		on_btn.onclick = function (_event) {
@@ -131,7 +131,7 @@ export class ConfigModal {
 			on_btn.className = "button is-small is-success is-selected";
 			off_btn.className = "button is-small";
 		};
-		var off_btn = document.createElement("button");
+		const off_btn = document.createElement("button");
 		off_btn.className = "button is-small";
 		off_btn.innerHTML = "Off";
 		off_btn.onclick = function (_event) {
@@ -146,15 +146,15 @@ export class ConfigModal {
 	}
 
 	add_color_theme_menu(section: HTMLElement, playground: Playground) {
-		var checking = document.createElement("div");
+		const checking = document.createElement("div");
 		checking.className = "panel-block columns config-item";
-		var label = document.createElement("div");
+		const label = document.createElement("div");
 		label.className = "column";
 		label.innerHTML = "Color theme";
 		checking.appendChild(label);
-		var toggle_btn = document.createElement("div");
+		const toggle_btn = document.createElement("div");
 		toggle_btn.className = "column buttons has-addons";
-		var dark_btn = document.createElement("button");
+		const dark_btn = document.createElement("button");
 		if (localStorage.getItem(".config:color-theme") === "dark") {
 			dark_btn.className = "button is-small is-dark is-selected";
 		} else {
@@ -167,7 +167,7 @@ export class ConfigModal {
 			dark_btn.className = "button is-small is-dark is-selected";
 			light_btn.className = "button is-light is-small";
 		};
-		var light_btn = document.createElement("button");
+		const light_btn = document.createElement("button");
 		if (localStorage.getItem(".config:color-theme") === "dark") {
 			light_btn.className = "button is-small is-light";
 		} else {
@@ -187,15 +187,15 @@ export class ConfigModal {
 	}
 
 	add_clean_storage_menu(section: HTMLElement, _playground: Playground) {
-		var clean = document.createElement("div");
+		const clean = document.createElement("div");
 		clean.className = "panel-block columns config-item";
-		var label = document.createElement("div");
+		const label = document.createElement("div");
 		label.className = "column";
 		label.innerHTML = "Clean local storage";
 		clean.appendChild(label);
-		var clean_btn = document.createElement("div");
+		const clean_btn = document.createElement("div");
 		clean_btn.className = "column";
-		var button = document.createElement("button");
+		const button = document.createElement("button");
 		button.className = "button is-danger is-small";
 		button.innerHTML = "Clean";
 		button.onclick = async function (_event) {
@@ -210,20 +210,20 @@ export class ConfigModal {
 	}
 
 	constructor(playground: Playground, palette: HTMLElement) {
-		var modal = document.createElement("div");
+		const modal = document.createElement("div");
 		modal.className = "modal";
 		modal.id = "config-modal";
 		document.body.appendChild(modal);
-		var modal_background = document.createElement("div");
+		const modal_background = document.createElement("div");
 		modal_background.className = "modal-background";
 		modal.appendChild(modal_background);
-		var modal_content = document.createElement("div");
+		const modal_content = document.createElement("div");
 		modal_content.className = "modal-card";
 		modal_content.id = "config-modal-content";
-		var menu = document.createElement("nav");
+		const menu = document.createElement("nav");
 		menu.className = "panel";
 		this.add_modal_header(menu, modal);
-		var section = document.createElement("section");
+		const section = document.createElement("section");
 		section.className = "modal-card-body";
 		this.add_complete_menu(section, playground);
 		this.add_check_menu(section, playground);
@@ -236,9 +236,9 @@ export class ConfigModal {
 		this.config_btn.id = "config-button";
 		this.config_btn.className = "button modal-button";
 		this.config_btn.ariaHasPopup = "true";
-		var span = document.createElement("span");
+		const span = document.createElement("span");
 		span.className = "icon";
-		var icon = document.createElement("i");
+		const icon = document.createElement("i");
 		icon.className = "fas fa-cog";
 		span.appendChild(icon);
 		this.config_btn.appendChild(span);

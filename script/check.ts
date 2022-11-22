@@ -6,7 +6,7 @@ export function validate(model: monaco.editor.ITextModel) {
 	let playground = wasm.Playground.new();
 	let code = model.getValue();
 	let errors: wasm.ErgError[] = playground.check(code);
-	var markers: monaco.editor.IMarkerData[] = [];
+	const markers: monaco.editor.IMarkerData[] = [];
 	errors.forEach((err) => {
 		console.log(err.desc);
 		markers.push({

@@ -15,7 +15,7 @@ import { FileTree } from "./file_tree";
 import { replace_import } from "./importer";
 // import { escape_ansi } from './escape';
 
-var playground = wasm.Playground.new();
+let playground = wasm.Playground.new();
 
 const erg_completion_provider = {
 	provideCompletionItems: function (
@@ -33,7 +33,7 @@ export function sleep(ms: number) {
 }
 
 function get_init_code() {
-	var value = 'print! "Hello, world!"';
+	let value = 'print! "Hello, world!"';
 	// load code from local storage (if exists)
 	let cached = localStorage.getItem("playground.er");
 	if (cached !== null && cached.length !== 0) {
@@ -42,7 +42,7 @@ function get_init_code() {
 	// load code from URL (if specified)
 	let query = window.location.search.slice(1); // ?code=
 	query.split("&").forEach(function (part) {
-		var item = part.split("=");
+		const item = part.split("=");
 		if (item[0] === "code") {
 			const _value = decompressFromEncodedURIComponent(item.slice(1).join("="));
 			if (_value !== null) {
@@ -121,7 +121,7 @@ class OutputArea {
 	}
 
 	constructor() {
-		var output_area = document.createElement("div");
+		const output_area = document.createElement("div");
 		output_area.className = "block container is-fluid";
 		document.body.appendChild(output_area);
 		this.output = document.createElement("div");
@@ -225,23 +225,23 @@ export class Playground {
 	}
 
 	init_header(this: this) {
-		var hero = document.createElement("section");
+		const hero = document.createElement("section");
 		hero.id = "hero";
 		hero.className = "hero block is-info";
 		document.body.appendChild(hero);
-		var hero_body = document.createElement("div");
+		const hero_body = document.createElement("div");
 		hero_body.className = "hero-body";
 		hero.appendChild(hero_body);
-		var title = document.createElement("p");
+		const title = document.createElement("p");
 		title.className = "title";
 		title.innerHTML = "Erg Playground";
 		hero_body.appendChild(title);
-		var note = document.createElement("div");
+		const note = document.createElement("div");
 		note.className = "notification is-small has-text-grey-dark";
 		note.innerHTML =
 			'Web-REPL is here: <a href="https://erg-lang.org/web-repl/">https://erg-lang.org/web-repl</a>';
 		hero_body.appendChild(note);
-		var close_btn = document.createElement("button");
+		const close_btn = document.createElement("button");
 		close_btn.className = "delete";
 		close_btn.onclick = function (_event) {
 			hero_body.removeChild(note);
@@ -250,7 +250,7 @@ export class Playground {
 	}
 
 	init_main_area(this: this) {
-		var main_area = document.createElement("div");
+		const main_area = document.createElement("div");
 		main_area.className = "block columns container";
 		main_area.id = "main-area";
 		document.body.appendChild(main_area);
@@ -264,11 +264,11 @@ export class Playground {
 	}
 
 	init_editor_area(this: this, main_area: HTMLDivElement) {
-		var code_area = document.createElement("div");
+		const code_area = document.createElement("div");
 		code_area.className = "column";
 		main_area.appendChild(code_area);
 
-		var editor_area = document.createElement("div");
+		const editor_area = document.createElement("div");
 		editor_area.id = "editor";
 		editor_area.className = "block";
 		code_area.appendChild(editor_area);
@@ -296,7 +296,7 @@ export class Playground {
 		let palette_area = document.createElement("div");
 		palette_area.className = "container block is-fluid";
 		document.body.appendChild(palette_area);
-		var palette = document.createElement("div");
+		const palette = document.createElement("div");
 		palette.className = "buttons block";
 		palette_area.appendChild(palette);
 
@@ -331,7 +331,7 @@ export class Playground {
 		this.init_palette();
 		this.init_output();
 
-		var footer = document.createElement("div");
+		const footer = document.createElement("div");
 		footer.className = "box";
 		footer.id = "foot";
 		document.body.appendChild(footer);

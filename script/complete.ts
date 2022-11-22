@@ -22,8 +22,8 @@ export function suggest(
 	position: monaco.IPosition,
 ) {
 	playground.check(model.getValue());
-	var word = model.getWordUntilPosition(position);
-	var range = {
+	const word = model.getWordUntilPosition(position);
+	const range = {
 		startLineNumber: position.lineNumber,
 		endLineNumber: position.lineNumber,
 		startColumn: word.startColumn,

@@ -145,7 +145,7 @@ export class FileTree {
 		add_file_btn.className = "button is-link is-outlined is-small is-fullwidth";
 		add_file_btn.innerHTML = "Create a File";
 		add_file_btn.onclick = (_event) => {
-			var file = `file${this.file_count}.er`;
+			let file = `file${this.file_count}.er`;
 			while (localStorage.getItem(file) != null) {
 				this.file_count += 1;
 				file = `file${this.file_count}.er`;
