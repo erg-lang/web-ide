@@ -10,6 +10,7 @@ import { erg_syntax_def } from './syntax';
 import { escape_ansi } from './escape';
 import { validate } from './check';
 import { suggest } from './complete';
+import { ConfigModal } from './config';
 // import { escape_ansi } from './escape';
 
 var playground = wasm.Playground.new();
@@ -123,13 +124,15 @@ class OutputArea {
     }
 }
 
-class Playground {
+export class Playground {
     editor: monaco.editor.IStandaloneCodeEditor;
+    on_did_change_listener: monaco.IDisposable;
     py_code_area: PyCodeArea;
     output: OutputArea;
     run_btn: HTMLButtonElement;
     transpile_btn: HTMLButtonElement;
     share_btn: HTMLButtonElement;
+    config_modal: ConfigModal;
 
     render_py_code(this: this, code: string) {
         this.py_code_area.area.hidden = false;
@@ -254,7 +257,7 @@ class Playground {
                 handleMouseWheel: false,
             },
         });
-        model.onDidChangeContent(() => {
+        this.on_did_change_listener = model.onDidChangeContent(() => {
             validate(model);
         });
         validate(model);
@@ -285,6 +288,8 @@ class Playground {
         this.share_btn.className = 'button is-link is-light';
         this.share_btn.innerHTML = 'Share';
         palette.appendChild(this.share_btn);
+
+        this.config_modal = new ConfigModal(this, palette);
     }
 
     init_output() {
