@@ -6,3 +6,4 @@ pkg/
 node_modules/
 dist/
 wasm-pack.log
+pre-commit.pyz
