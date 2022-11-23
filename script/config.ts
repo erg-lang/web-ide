@@ -1,5 +1,6 @@
 import { Playground, sleep } from "./index";
 import { validate } from "./check";
+import * as wasm from "erg-playground";
 
 export function set_dark(playground: Playground) {
 	playground.editor.updateOptions({
@@ -164,7 +165,7 @@ export class ConfigModal {
 		toggle_btn.className = "column buttons has-addons";
 		const dark_btn = document.createElement("button");
 		if (localStorage.getItem(".config:color-theme") === "dark") {
-			dark_btn.className = "button is-small is-dark is-selected";
+			dark_btn.className = "button is-small is-dark is-active";
 		} else {
 			dark_btn.className = "button is-small is-light";
 		}
@@ -172,20 +173,20 @@ export class ConfigModal {
 		dark_btn.onclick = function (_event) {
 			set_dark(playground);
 			localStorage.setItem(".config:color-theme", "dark");
-			dark_btn.className = "button is-small is-dark is-selected";
+			dark_btn.className = "button is-small is-dark is-active";
 			light_btn.className = "button is-light is-small";
 		};
 		const light_btn = document.createElement("button");
 		if (localStorage.getItem(".config:color-theme") === "dark") {
 			light_btn.className = "button is-small is-light";
 		} else {
-			light_btn.className = "button is-small is-selected";
+			light_btn.className = "button is-small is-active";
 		}
 		light_btn.innerHTML = "Light";
 		light_btn.onclick = function (_event) {
 			set_light(playground);
 			localStorage.setItem(".config:color-theme", "light");
-			light_btn.className = "button is-small is-selected";
+			light_btn.className = "button is-small is-active";
 			dark_btn.className = "button is-light is-small";
 		};
 		toggle_btn.appendChild(dark_btn);
@@ -217,6 +218,20 @@ export class ConfigModal {
 		section.appendChild(clean);
 	}
 
+	add_version_display(section: HTMLElement, playground: Playground) {
+		const version = document.createElement("div");
+		version.className = "panel-block columns config-item";
+		const label = document.createElement("div");
+		label.className = "column";
+		label.innerHTML = "Version";
+		version.appendChild(label);
+		const version_display = document.createElement("div");
+		version_display.className = "column";
+		version_display.innerHTML = wasm.Playground.new().start_message();
+		version.appendChild(version_display);
+		section.appendChild(version);
+	}
+
 	constructor(playground: Playground, palette: HTMLElement) {
 		const modal = document.createElement("div");
 		modal.className = "modal";
@@ -237,6 +252,7 @@ export class ConfigModal {
 		this.add_check_menu(section, playground);
 		this.add_color_theme_menu(section, playground);
 		this.add_clean_storage_menu(section, playground);
+		this.add_version_display(section, playground);
 		menu.appendChild(section);
 		modal_content.appendChild(menu);
 		modal.appendChild(modal_content);

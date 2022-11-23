@@ -13,7 +13,11 @@ body {
 }
 
 .button {
-	font-family: 'Ubuntu', monospace;;
+	font-family: 'Ubuntu', monospace;
+}
+
+.button.is-dark.is-active {
+    border-color: #48c78e;
 }
 
 #erg-logo {
