@@ -226,15 +226,24 @@ export class Playground {
 	init_header(this: this) {
 		const hero = document.createElement("section");
 		hero.id = "hero";
-		hero.className = "hero block is-info";
+		hero.className = "hero block is-info is-small";
 		document.body.appendChild(hero);
 		const hero_body = document.createElement("div");
 		hero_body.className = "hero-body";
 		hero.appendChild(hero_body);
+		let logo = document.createElement("div");
+		logo.className = "container columns";
+		hero_body.appendChild(logo);
+		const logo_img = document.createElement("img");
+		logo_img.src = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJf44Kk44Ok44O8XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDk0NS4zNiA4MDguNTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojMWMxZDFkO308L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05MjcuODQsLjFoLTIwOS40OXYtLjAzYy0xNTQuNTMsLjM5LTM0NS40Ny0uMjgtNDk4LjY4LDAtMTMuNjQsMC0yNS42MSwxMC4xNC0yOS4yNywyNC44Mkw5OC42MywzOTEuOGwtNi4yMiwyNC44NkwuNjYsNzgzLjU0Yy0zLjEyLDEyLjQ5LDUuMjgsMjQuODYsMTYuODksMjQuODYsNDEuMiwuMzQsMTI4LjgyLS4yNCwxNzAuNTEsMHYuMDNjMTYwLjg4LS4xNywzNzguMzksLjEyLDUzNy42MSwwLDEzLjY0LDAsMjUuNjEtMTAuMTUsMjkuMjgtMjQuODIsNDcuMTgtMTg5LjAxLDE0Mi42OC01NzAuMiwxODkuNzUtNzU4LjY5aDBjMy4xMi0xMi40Ny01LjI3LTI0LjgyLTE2Ljg2LTI0LjgyWk0yODcuMzUsMjQuODloNjUuMjN2LjAzaDI3My4zN2wtOTEuNzcsMzY2LjkyaC0xMTUuMDZ2LS4wM0gxOTUuNThMMjg3LjM1LDI0Ljg5Wm0tOTcuOTksMzkxLjc4aDEyNi41NGwtOTEuNzUsMzY2Ljg3SDk3LjYxbDkxLjc1LTM2Ni44N1ptNDY4LjY2LDM2Ni45aC0yMjEuODF2LjAyaC0xMTUuMDZzOTEuNzYtMzY2Ljg4LDkxLjc2LTM2Ni44OWgzMzYuODdsLTkxLjc1LDM2Ni44N1ptOTcuOTctMzkxLjczaC0xMjQuODZMNzIyLjksMjQuOTJoMTI0Ljg2bC05MS43NywzNjYuOTJaIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxNDAuNDUiIHk9IjM2MC40NSIgd2lkdGg9IjY2NC40NiIgaGVpZ2h0PSI4Ny42Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIyMjIuMzgiIHk9Ii4wNyIgd2lkdGg9IjY2NC40NiIgaGVpZ2h0PSI4Ny42Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSI2Mi43OSIgeT0iNzIwLjgzIiB3aWR0aD0iNjY0LjQ2IiBoZWlnaHQ9Ijg3LjYiLz48L3N2Zz4=";
+		logo_img.alt = "erg logo";
+		logo_img.className = "column is-narrow logo";
+		logo_img.id = "erg-logo";
+		logo.appendChild(logo_img);
 		const title = document.createElement("p");
-		title.className = "title";
+		title.className = "title column";
 		title.innerHTML = "Erg Playground";
-		hero_body.appendChild(title);
+		logo.appendChild(title);
 		const note = document.createElement("div");
 		note.className = "notification is-small has-text-grey-dark";
 		note.innerHTML =

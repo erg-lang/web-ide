@@ -10,6 +10,11 @@ body {
 	background: #fff;
 }
 
+#erg-logo {
+	width: 70px;
+	height: 70px;
+}
+
 #main-area {
 	max-width: none!important;
     padding-left: 16px;
@@ -58,7 +63,7 @@ body {
 
 #result {
 	border-radius: 2px;
-	height: 10vh;
+	height: 15vh;
 	resize: both;
     overflow: auto;
 	font-family: monospace;
