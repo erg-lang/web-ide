@@ -14,14 +14,14 @@ import { ConfigModal, set_dark, set_light } from "./config";
 import { FileTree } from "./file_tree";
 import { replace_import } from "./importer";
 
-let playground = wasm.Playground.new();
+const vm = wasm.Playground.new(); // ~9ms
 
 const erg_completion_provider = {
 	provideCompletionItems: function (
 		model: monaco.editor.ITextModel,
 		position: monaco.IPosition,
 	) {
-		return suggest(playground, model, position);
+		return suggest(model, position);
 	},
 };
 
@@ -134,7 +134,7 @@ class OutputArea {
 	}
 }
 
-export class Playground {
+export class Application {
 	file_tree!: FileTree;
 	editor!: monaco.editor.IStandaloneCodeEditor;
 	on_did_change_listener!: monaco.IDisposable;
@@ -176,16 +176,16 @@ export class Playground {
 		this.run_btn.classList.add("is-loading");
 		await sleep(WAIT_FOR);
 		this.output.clear();
-		playground = wasm.Playground.new();
 		let code = this.editor.getValue();
 		let replaced_code = replace_import(code);
 		let _this = this;
-		playground.set_stdout(function (data: string) {
+		vm.set_stdout(function (data: string) {
 			_this.output.dump(data);
 		});
-		let result = playground.exec(replaced_code);
+		let result = vm.exec(replaced_code);
 		this.handle_result(result, code);
 		localStorage.setItem(this.file_tree.current_file, code);
+		vm.clear();
 		this.run_btn.classList.remove("is-loading");
 	}
 
@@ -193,20 +193,20 @@ export class Playground {
 		this.transpile_btn.classList.add("is-loading");
 		await sleep(WAIT_FOR);
 		this.output.clear();
-		playground = wasm.Playground.new();
 		let code = this.editor.getValue();
 		let replaced_code = replace_import(code);
 		let _this = this;
-		playground.set_stdout(function (data: string) {
+		vm.set_stdout(function (data: string) {
 			_this.output.dump(data);
 		});
-		let opt_code = playground.transpile(replaced_code);
+		let opt_code = vm.transpile(replaced_code);
 		if (opt_code != null) {
 			this.render_py_code(opt_code);
 			localStorage.setItem(this.file_tree.current_file, code);
 		} else {
 			this.output.dump("transpilation failed");
 		}
+		vm.clear();
 		this.transpile_btn.classList.remove("is-loading");
 	}
 
@@ -294,7 +294,8 @@ export class Playground {
 				handleMouseWheel: false,
 			},
 		});
-		this.on_did_change_listener = model.onDidChangeContent(() => {
+		this.on_did_change_listener = model.onDidChangeContent(async () => {
+			await sleep(50);
 			validate(model);
 		});
 		validate(model);
@@ -366,4 +367,4 @@ export class Playground {
 	}
 }
 
-(window as any).playground = new Playground();
+(window as any).app = new Application();

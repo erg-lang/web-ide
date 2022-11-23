@@ -140,8 +140,8 @@ impl From<CompileError> for ErgError {
             errno: err.core().errno,
             // kind: err.kind(),
             loc: ErgErrorLoc(err.core().loc),
-            desc: err.core.desc,
-            hint: err.core.hint,
+            desc: err.core.main_message,
+            hint: err.core.sub_messages.get(0).and_then(|sub| sub.clone().get_hint()),
         }
     }
 }
@@ -183,9 +183,13 @@ impl Playground {
         }
     }
 
-    pub fn initialize(&mut self) {
+    fn initialize(&mut self) {
         self.vm.exec_single("from collections import namedtuple as NamedTuple__", None).unwrap();
         self.inited = true;
+    }
+
+    pub fn clear(&mut self) {
+        self.transpiler.initialize();
     }
 
     pub fn set_stdout(&mut self, stdout: JsValue) {

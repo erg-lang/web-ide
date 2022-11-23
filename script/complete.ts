@@ -1,11 +1,15 @@
 import * as monaco from "monaco-editor";
 import * as wasm from "erg-playground";
+import { sleep } from ".";
+
+var completer = wasm.Playground.new(); // ~9ms
+// To keep the load down. If the inspection has already been turned around, it will be finished.
+var suggest_on_running = false;
 
 export function dir(
-	playground: wasm.Playground,
 	range: monaco.IRange,
 ): monaco.languages.CompletionItem[] {
-	let vars: wasm.ErgVarEntry[] = playground.dir();
+	let vars: wasm.ErgVarEntry[] = completer.dir();
 	return vars.map((ent) => {
 		return {
 			label: ent.name(),
@@ -16,12 +20,17 @@ export function dir(
 	});
 }
 
-export function suggest(
-	playground: wasm.Playground,
+export async function suggest(
 	model: monaco.editor.ITextModel,
 	position: monaco.IPosition,
 ) {
-	playground.check(model.getValue());
+	if (suggest_on_running) {
+		await sleep(100);
+		return { suggestions: [] };
+	} else {
+		suggest_on_running = true;
+	}
+	completer.check(model.getValue());
 	const word = model.getWordUntilPosition(position);
 	const range = {
 		startLineNumber: position.lineNumber,
@@ -29,6 +38,8 @@ export function suggest(
 		startColumn: word.startColumn,
 		endColumn: word.endColumn,
 	};
-	let suggestions = dir(playground, range);
+	let suggestions = dir(range);
+	completer.clear();
+	suggest_on_running = false;
 	return { suggestions };
 }

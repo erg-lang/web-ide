@@ -1,8 +1,8 @@
-import { Playground, sleep } from "./index";
+import { Application, sleep } from "./index";
 import { validate } from "./check";
 import * as wasm from "erg-playground";
 
-export function set_dark(playground: Playground) {
+export function set_dark(playground: Application) {
 	playground.editor.updateOptions({
 		theme: "vs-dark",
 	});
@@ -37,7 +37,7 @@ export function set_dark(playground: Playground) {
 	document.body.appendChild(css);
 }
 
-export function set_light(playground: Playground) {
+export function set_light(playground: Application) {
 	playground.editor.updateOptions({
 		theme: "vs",
 	});
@@ -83,7 +83,7 @@ export class ConfigModal {
 		menu.appendChild(menu_heading);
 	}
 
-	add_complete_menu(section: HTMLElement, playground: Playground) {
+	add_complete_menu(section: HTMLElement, playground: Application) {
 		const completion = document.createElement("div");
 		completion.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -114,7 +114,7 @@ export class ConfigModal {
 		section.appendChild(completion);
 	}
 
-	add_check_menu(section: HTMLElement, playground: Playground) {
+	add_check_menu(section: HTMLElement, playground: Application) {
 		const checking = document.createElement("div");
 		checking.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -154,7 +154,7 @@ export class ConfigModal {
 		section.appendChild(checking);
 	}
 
-	add_color_theme_menu(section: HTMLElement, playground: Playground) {
+	add_color_theme_menu(section: HTMLElement, playground: Application) {
 		const checking = document.createElement("div");
 		checking.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -195,7 +195,7 @@ export class ConfigModal {
 		section.appendChild(checking);
 	}
 
-	add_clean_storage_menu(section: HTMLElement, _playground: Playground) {
+	add_clean_storage_menu(section: HTMLElement, _playground: Application) {
 		const clean = document.createElement("div");
 		clean.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -207,10 +207,10 @@ export class ConfigModal {
 		const button = document.createElement("button");
 		button.className = "button is-danger is-small";
 		button.innerHTML = "Clean";
-		button.onclick = async function (_event) {
+		button.onclick = function (_event) {
 			button.classList.add("is-loading");
 			localStorage.clear();
-			await sleep(300); // fake delay
+			sleep(300); // fake delay
 			button.classList.remove("is-loading");
 		};
 		clean_btn.appendChild(button);
@@ -218,7 +218,7 @@ export class ConfigModal {
 		section.appendChild(clean);
 	}
 
-	add_version_display(section: HTMLElement, playground: Playground) {
+	add_version_display(section: HTMLElement, playground: Application) {
 		const version = document.createElement("div");
 		version.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -232,7 +232,7 @@ export class ConfigModal {
 		section.appendChild(version);
 	}
 
-	constructor(playground: Playground, palette: HTMLElement) {
+	constructor(playground: Application, palette: HTMLElement) {
 		const modal = document.createElement("div");
 		modal.className = "modal";
 		modal.id = "config-modal";

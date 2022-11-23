@@ -1,7 +1,7 @@
-import { Playground } from "./index";
+import { Application } from "./index";
 
 export class FileTree {
-	playground: Playground;
+	playground: Application;
 	current_file: string;
 	tree_area: HTMLDivElement;
 	tree: HTMLElement;
@@ -128,7 +128,7 @@ export class FileTree {
 		}
 	}
 
-	constructor(playground: Playground) {
+	constructor(playground: Application) {
 		this.playground = playground;
 		this.current_file = "playground.er";
 		this.tree_area = document.createElement("div");

@@ -1,11 +1,22 @@
 import * as monaco from "monaco-editor";
 import * as wasm from "erg-playground";
 import { remove_ansi } from "./escape";
+import { sleep } from ".";
 
-export function validate(model: monaco.editor.ITextModel) {
-	let playground = wasm.Playground.new();
+var validator = wasm.Playground.new(); // ~9ms
+// To keep the load down. If the inspection has already been turned around, it will be finished.
+var validate_on_running = false;
+
+export async function validate(model: monaco.editor.ITextModel) {
+	if (validate_on_running) {
+		await sleep(100);
+		return;
+	} else {
+		validate_on_running = true;
+	}
 	let code = model.getValue();
-	let errors: wasm.ErgError[] = playground.check(code);
+	let errors: wasm.ErgError[] = validator.check(code);
+	validator.clear();
 	const markers: monaco.editor.IMarkerData[] = [];
 	errors.forEach((err) => {
 		console.log(err.desc);
@@ -19,4 +30,5 @@ export function validate(model: monaco.editor.ITextModel) {
 		});
 	});
 	monaco.editor.setModelMarkers(model, "owner", markers);
+	validate_on_running = false;
 }
