@@ -18,7 +18,6 @@
 		"erg-playground": "file:pkg",
 		"file-loader": "^6.2.0",
 		"html-webpack-plugin": "^5.5.0",
-		"husky": "^8.0.2",
 		"lint-staged": "^13.0.3",
 		"lz-string": "^1.4.4",
 		"monaco-editor": "^0.32.1",

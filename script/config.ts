@@ -10,20 +10,30 @@ export function set_dark(playground: Playground) {
 	document.getElementById("result")!.classList.add("has-text-light");
 	document.getElementById("result")!.classList.add("has-background-black-ter");
 	document.getElementById("foot")!.classList.add("has-background-dark");
-	document.getElementById("transpile-button")!.classList.remove("is-light");
-	document.getElementById("transpile-button")!.classList.add("is-dark");
-	document.getElementById("share-button")!.classList.remove("is-light");
-	document.getElementById("share-button")!.classList.add("is-dark");
+	// document.getElementById("run-button")!.classList.remove("is-primary");
+	// document.getElementById("run-button")!.classList.add("has-background-danger-dark");
+	document.getElementById("transpile-button")!.classList.remove("is-warning");
+	document.getElementById("share-button")!.classList.remove("is-link");
 	document
 		.getElementById("config-button")!
 		.classList.add("has-background-grey");
 	document
 		.getElementById("file-tree")!
 		.classList.add("has-background-black-ter");
-	const panes = document.body.getElementsByClassName("panel-block");
-	for (let i = 0; i < panes.length; i++) {
-		panes[i].classList.add("has-text-grey-lighter");
-	}
+	let css = document.createElement("style");
+	css.id = "dark-css";
+	css.appendChild(document.createTextNode(`
+.tree-entry {
+	color: #dbdbdb!important;
+}
+.tree-entry:hover {
+	background-color: #343434;
+}
+.tree-entry:not(:last-child) {
+    border-bottom: 1px solid #343434;
+}
+`));
+	document.body.appendChild(css);
 }
 
 export function set_light(playground: Playground) {
@@ -37,20 +47,17 @@ export function set_light(playground: Playground) {
 		.getElementById("result")!
 		.classList.remove("has-background-black-ter");
 	document.getElementById("foot")!.classList.remove("has-background-dark");
-	document.getElementById("transpile-button")!.classList.add("is-light");
-	document.getElementById("transpile-button")!.classList.remove("is-dark");
-	document.getElementById("share-button")!.classList.add("is-light");
-	document.getElementById("share-button")!.classList.remove("is-dark");
+	// document.getElementById("run-button")!.classList.add("is-primary");
+	// document.getElementById("run-button")!.classList.remove("has-background-danger-dark");
+	document.getElementById("transpile-button")!.classList.add("is-warning");
+	document.getElementById("share-button")!.classList.add("is-link");
 	document
 		.getElementById("config-button")!
 		.classList.remove("has-background-grey");
 	document
 		.getElementById("file-tree")!
 		.classList.remove("has-background-black-ter");
-	const panes = document.body.getElementsByClassName("panel-block");
-	for (let i = 0; i < panes.length; i++) {
-		panes[i].classList.remove("has-text-grey-lighter");
-	}
+	document.body.removeChild(document.getElementById("dark-css")!);
 }
 
 export class ConfigModal {

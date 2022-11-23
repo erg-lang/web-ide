@@ -99,7 +99,7 @@ export class FileTree {
 
 	create_tree_entry(this: this, filename: string) {
 		let file = document.createElement("a");
-		file.className = "panel-block";
+		file.className = "panel-block tree-entry";
 		file.id = `playground-file-${filename.split(".")[0]}`;
 		let file_icon = document.createElement("span");
 		file_icon.className = "panel-icon";

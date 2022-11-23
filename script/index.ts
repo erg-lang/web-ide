@@ -10,10 +10,9 @@ import { erg_syntax_def } from "./syntax";
 import { escape_ansi } from "./escape";
 import { validate } from "./check";
 import { suggest } from "./complete";
-import { ConfigModal, set_dark } from "./config";
+import { ConfigModal, set_dark, set_light } from "./config";
 import { FileTree } from "./file_tree";
 import { replace_import } from "./importer";
-// import { escape_ansi } from './escape';
 
 let playground = wasm.Playground.new();
 
@@ -174,7 +173,7 @@ export class Playground {
 	}
 
 	async run(this: this, _event: Event) {
-		this.run_btn.className = "button is-primary is-medium is-loading";
+		this.run_btn.classList.add("is-loading");
 		await sleep(WAIT_FOR);
 		this.output.clear();
 		playground = wasm.Playground.new();
@@ -187,11 +186,11 @@ export class Playground {
 		let result = playground.exec(replaced_code);
 		this.handle_result(result, code);
 		localStorage.setItem(this.file_tree.current_file, code);
-		this.run_btn.className = "button is-primary is-medium";
+		this.run_btn.classList.remove("is-loading");
 	}
 
 	async transpile(this: this, _event: Event) {
-		this.transpile_btn.className = "button is-warning is-light is-loading";
+		this.transpile_btn.classList.add("is-loading");
 		await sleep(WAIT_FOR);
 		this.output.clear();
 		playground = wasm.Playground.new();
@@ -208,11 +207,11 @@ export class Playground {
 		} else {
 			this.output.dump("transpilation failed");
 		}
-		this.transpile_btn.className = "button is-warning is-light";
+		this.transpile_btn.classList.remove("is-loading");
 	}
 
 	async share_url(this: this, _event: Event) {
-		this.share_btn.className = "button is-link is-light is-loading";
+		this.share_btn.classList.add("is-loading");
 		// await sleep(WAIT_FOR);
 		let code = this.editor.getValue();
 		let compressed = compressToEncodedURIComponent(code);
@@ -220,7 +219,7 @@ export class Playground {
 		this.output.clear();
 		this.output.dump(url);
 		localStorage.setItem(this.file_tree.current_file, code);
-		this.share_btn.className = "button is-link is-light";
+		this.share_btn.classList.remove("is-loading");
 		this.output.select();
 	}
 
@@ -338,6 +337,8 @@ export class Playground {
 
 		if (localStorage.getItem(".config:color-theme") === "dark") {
 			set_dark(this);
+		} else {
+			set_light(this);
 		}
 
 		let _this = this;

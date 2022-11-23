@@ -12,15 +12,10 @@ export function validate(model: monaco.editor.ITextModel) {
 		markers.push({
 			message: remove_ansi(err.desc),
 			severity: monaco.MarkerSeverity.Error,
-			// TODO: Check to see if these types is right
-			// @ts-ignore
-			startLineNumber: err.loc.ln_begin(),
-			// @ts-ignore
-			startColumn: err.loc.col_begin() + 1,
-			// @ts-ignore
-			endLineNumber: err.loc.ln_end(),
-			// @ts-ignore
-			endColumn: err.loc.col_end() + 1,
+			startLineNumber: err.loc.ln_begin() ?? 0,
+			startColumn: err.loc.col_begin() ?? 0 + 1,
+			endLineNumber: err.loc.ln_end() ?? 0,
+			endColumn: err.loc.col_end() ?? 0 + 1,
 		});
 	});
 	monaco.editor.setModelMarkers(model, "owner", markers);
