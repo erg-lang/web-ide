@@ -241,7 +241,7 @@ export class Playground {
 		logo_img.id = "erg-logo";
 		logo.appendChild(logo_img);
 		const title = document.createElement("p");
-		title.className = "title column";
+		title.className = "subtitle column";
 		title.innerHTML = "Erg Playground";
 		logo.appendChild(title);
 		const note = document.createElement("div");
