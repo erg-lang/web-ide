@@ -57,7 +57,8 @@ export function set_light(playground: Playground) {
 	document
 		.getElementById("file-tree")!
 		.classList.remove("has-background-black-ter");
-	document.body.removeChild(document.getElementById("dark-css")!);
+	let dark_css = document.getElementById("dark-css");
+	if (dark_css != null) { document.body.removeChild(dark_css); }
 }
 
 export class ConfigModal {
