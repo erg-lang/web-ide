@@ -13,9 +13,9 @@ export function validate(model: monaco.editor.ITextModel) {
 			message: remove_ansi(err.desc),
 			severity: monaco.MarkerSeverity.Error,
 			startLineNumber: err.loc.ln_begin() ?? 0,
-			startColumn: err.loc.col_begin() ?? 0 + 1,
+			startColumn: (err.loc.col_begin() ?? 0) + 1,
 			endLineNumber: err.loc.ln_end() ?? 0,
-			endColumn: err.loc.col_end() ?? 0 + 1,
+			endColumn: (err.loc.col_end() ?? 0) + 1,
 		});
 	});
 	monaco.editor.setModelMarkers(model, "owner", markers);
