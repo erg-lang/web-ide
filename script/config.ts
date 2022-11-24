@@ -2,8 +2,8 @@ import { Application, sleep } from "./index";
 import { validate } from "./check";
 import * as wasm from "erg-playground";
 
-export function set_dark(playground: Application) {
-	playground.editor.updateOptions({
+export function set_dark(app: Application) {
+	app.editor.updateOptions({
 		theme: "vs-dark",
 	});
 	document.body.classList.add("has-background-dark");
@@ -21,9 +21,11 @@ export function set_dark(playground: Application) {
 	document
 		.getElementById("file-tree")!
 		.classList.add("has-background-black-ter");
-	let css = document.createElement("style");
-	css.id = "dark-css";
-	css.appendChild(document.createTextNode(`
+	let css = document.getElementById("dark-css");
+	if (css === null) {
+		let css = document.createElement("style");
+		css.id = "dark-css";
+		css.appendChild(document.createTextNode(`
 .tree-entry {
 	color: #dbdbdb!important;
 }
@@ -31,14 +33,15 @@ export function set_dark(playground: Application) {
 	background-color: #343434;
 }
 .tree-entry:not(:last-child) {
-    border-bottom: 1px solid #343434;
+	border-bottom: 1px solid #343434;
 }
 `));
-	document.body.appendChild(css);
+		document.body.appendChild(css);
+	}
 }
 
-export function set_light(playground: Application) {
-	playground.editor.updateOptions({
+export function set_light(app: Application) {
+	app.editor.updateOptions({
 		theme: "vs",
 	});
 	document.body.classList.remove("has-background-dark");
@@ -83,7 +86,7 @@ export class ConfigModal {
 		menu.appendChild(menu_heading);
 	}
 
-	add_complete_menu(section: HTMLElement, playground: Application) {
+	add_complete_menu(section: HTMLElement, app: Application) {
 		const completion = document.createElement("div");
 		completion.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -96,7 +99,7 @@ export class ConfigModal {
 		on_btn.className = "button is-small is-success is-selected";
 		on_btn.innerHTML = "On";
 		on_btn.onclick = function (_event) {
-			playground.editor.updateOptions({ quickSuggestions: true });
+			app.editor.updateOptions({ quickSuggestions: true });
 			on_btn.className = "button is-small is-success is-selected";
 			off_btn.className = "button is-small";
 		};
@@ -104,7 +107,7 @@ export class ConfigModal {
 		off_btn.className = "button is-small";
 		off_btn.innerHTML = "Off";
 		off_btn.onclick = function (_event) {
-			playground.editor.updateOptions({ quickSuggestions: false });
+			app.editor.updateOptions({ quickSuggestions: false });
 			off_btn.className = "button is-small is-danger is-selected";
 			on_btn.className = "button is-small";
 		};
@@ -114,7 +117,7 @@ export class ConfigModal {
 		section.appendChild(completion);
 	}
 
-	add_check_menu(section: HTMLElement, playground: Application) {
+	add_check_menu(section: HTMLElement, app: Application) {
 		const checking = document.createElement("div");
 		checking.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -127,11 +130,11 @@ export class ConfigModal {
 		on_btn.className = "button is-small is-success is-selected";
 		on_btn.innerHTML = "On";
 		on_btn.onclick = function (_event) {
-			let model = playground.editor.getModel();
+			let model = app.editor.getModel();
 			if (model === null) {
 				return;
 			}
-			playground.on_did_change_listener = model.onDidChangeContent(() => {
+			app.on_did_change_listener = model.onDidChangeContent(() => {
 				if (model === null) {
 					return;
 				}
@@ -144,7 +147,7 @@ export class ConfigModal {
 		off_btn.className = "button is-small";
 		off_btn.innerHTML = "Off";
 		off_btn.onclick = function (_event) {
-			playground.on_did_change_listener.dispose();
+			app.on_did_change_listener.dispose();
 			off_btn.className = "button is-small is-danger is-selected";
 			on_btn.className = "button is-small";
 		};
@@ -154,7 +157,7 @@ export class ConfigModal {
 		section.appendChild(checking);
 	}
 
-	add_color_theme_menu(section: HTMLElement, playground: Application) {
+	add_color_theme_menu(section: HTMLElement, app: Application) {
 		const checking = document.createElement("div");
 		checking.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -171,7 +174,7 @@ export class ConfigModal {
 		}
 		dark_btn.innerHTML = "Dark";
 		dark_btn.onclick = function (_event) {
-			set_dark(playground);
+			set_dark(app);
 			localStorage.setItem(".config:color-theme", "dark");
 			dark_btn.className = "button is-small is-dark is-active";
 			light_btn.className = "button is-light is-small";
@@ -184,7 +187,7 @@ export class ConfigModal {
 		}
 		light_btn.innerHTML = "Light";
 		light_btn.onclick = function (_event) {
-			set_light(playground);
+			set_light(app);
 			localStorage.setItem(".config:color-theme", "light");
 			light_btn.className = "button is-small is-active";
 			dark_btn.className = "button is-light is-small";
@@ -195,7 +198,7 @@ export class ConfigModal {
 		section.appendChild(checking);
 	}
 
-	add_clean_storage_menu(section: HTMLElement, _playground: Application) {
+	add_clean_storage_menu(section: HTMLElement, _app: Application) {
 		const clean = document.createElement("div");
 		clean.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -207,10 +210,10 @@ export class ConfigModal {
 		const button = document.createElement("button");
 		button.className = "button is-danger is-small";
 		button.innerHTML = "Clean";
-		button.onclick = function (_event) {
+		button.onclick = async function (_event) {
 			button.classList.add("is-loading");
 			localStorage.clear();
-			sleep(300); // fake delay
+			await sleep(300); // fake delay
 			button.classList.remove("is-loading");
 		};
 		clean_btn.appendChild(button);
@@ -218,7 +221,7 @@ export class ConfigModal {
 		section.appendChild(clean);
 	}
 
-	add_version_display(section: HTMLElement, playground: Application) {
+	add_version_display(section: HTMLElement, _app: Application) {
 		const version = document.createElement("div");
 		version.className = "panel-block columns config-item";
 		const label = document.createElement("div");
@@ -232,11 +235,8 @@ export class ConfigModal {
 		section.appendChild(version);
 	}
 
-	constructor(playground: Application, palette: HTMLElement) {
-		const modal = document.createElement("div");
-		modal.className = "modal";
-		modal.id = "config-modal";
-		document.body.appendChild(modal);
+	constructor(app: Application, palette: HTMLElement) {
+		const modal = document.getElementById("config-modal") as HTMLDivElement;
 		const modal_background = document.createElement("div");
 		modal_background.className = "modal-background";
 		modal.appendChild(modal_background);
@@ -248,24 +248,15 @@ export class ConfigModal {
 		this.add_modal_header(menu, modal);
 		const section = document.createElement("section");
 		section.className = "modal-card-body";
-		this.add_complete_menu(section, playground);
-		this.add_check_menu(section, playground);
-		this.add_color_theme_menu(section, playground);
-		this.add_clean_storage_menu(section, playground);
-		this.add_version_display(section, playground);
+		this.add_complete_menu(section, app);
+		this.add_check_menu(section, app);
+		this.add_color_theme_menu(section, app);
+		this.add_clean_storage_menu(section, app);
+		this.add_version_display(section, app);
 		menu.appendChild(section);
 		modal_content.appendChild(menu);
 		modal.appendChild(modal_content);
-		this.config_btn = document.createElement("button");
-		this.config_btn.id = "config-button";
-		this.config_btn.className = "button modal-button";
-		this.config_btn.ariaHasPopup = "true";
-		const span = document.createElement("span");
-		span.className = "icon";
-		const icon = document.createElement("i");
-		icon.className = "fas fa-cog";
-		span.appendChild(icon);
-		this.config_btn.appendChild(span);
+		this.config_btn = document.getElementById("config-button") as HTMLButtonElement;
 		this.config_btn.addEventListener("click", function () {
 			modal.classList.add("is-active");
 		});

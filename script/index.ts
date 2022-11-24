@@ -120,17 +120,11 @@ class OutputArea {
 	}
 
 	constructor() {
-		const output_area = document.createElement("div");
-		output_area.className = "block container is-fluid";
-		document.body.appendChild(output_area);
-		this.output = document.createElement("div");
-		this.output.id = "result";
-		this.output.className = "box content textarea block";
+		this.output = document.getElementById("result") as HTMLDivElement;
 		let _this = this;
 		this.output.onclick = function (_event) {
 			_this.select();
 		};
-		output_area.appendChild(this.output);
 	}
 }
 
@@ -224,16 +218,8 @@ export class Application {
 	}
 
 	init_header(this: this) {
-		const hero = document.createElement("section");
-		hero.id = "hero";
-		hero.className = "hero block is-info is-small";
-		document.body.appendChild(hero);
-		const hero_body = document.createElement("div");
-		hero_body.className = "hero-body";
-		hero.appendChild(hero_body);
-		let logo = document.createElement("div");
-		logo.className = "container columns";
-		hero_body.appendChild(logo);
+		const logo = document.getElementById("logo-container")!;
+		// The logo is too large before adjustment and should not be placed directly on the html.
 		const logo_img = document.createElement("img");
 		logo_img.src = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJf44Kk44Ok44O8XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDk0NS4zNiA4MDguNTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojMWMxZDFkO308L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05MjcuODQsLjFoLTIwOS40OXYtLjAzYy0xNTQuNTMsLjM5LTM0NS40Ny0uMjgtNDk4LjY4LDAtMTMuNjQsMC0yNS42MSwxMC4xNC0yOS4yNywyNC44Mkw5OC42MywzOTEuOGwtNi4yMiwyNC44NkwuNjYsNzgzLjU0Yy0zLjEyLDEyLjQ5LDUuMjgsMjQuODYsMTYuODksMjQuODYsNDEuMiwuMzQsMTI4LjgyLS4yNCwxNzAuNTEsMHYuMDNjMTYwLjg4LS4xNywzNzguMzksLjEyLDUzNy42MSwwLDEzLjY0LDAsMjUuNjEtMTAuMTUsMjkuMjgtMjQuODIsNDcuMTgtMTg5LjAxLDE0Mi42OC01NzAuMiwxODkuNzUtNzU4LjY5aDBjMy4xMi0xMi40Ny01LjI3LTI0LjgyLTE2Ljg2LTI0LjgyWk0yODcuMzUsMjQuODloNjUuMjN2LjAzaDI3My4zN2wtOTEuNzcsMzY2LjkyaC0xMTUuMDZ2LS4wM0gxOTUuNThMMjg3LjM1LDI0Ljg5Wm0tOTcuOTksMzkxLjc4aDEyNi41NGwtOTEuNzUsMzY2Ljg3SDk3LjYxbDkxLjc1LTM2Ni44N1ptNDY4LjY2LDM2Ni45aC0yMjEuODF2LjAyaC0xMTUuMDZzOTEuNzYtMzY2Ljg4LDkxLjc2LTM2Ni44OWgzMzYuODdsLTkxLjc1LDM2Ni44N1ptOTcuOTctMzkxLjczaC0xMjQuODZMNzIyLjksMjQuOTJoMTI0Ljg2bC05MS43NywzNjYuOTJaIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxNDAuNDUiIHk9IjM2MC40NSIgd2lkdGg9IjY2NC40NiIgaGVpZ2h0PSI4Ny42Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIyMjIuMzgiIHk9Ii4wNyIgd2lkdGg9IjY2NC40NiIgaGVpZ2h0PSI4Ny42Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSI2Mi43OSIgeT0iNzIwLjgzIiB3aWR0aD0iNjY0LjQ2IiBoZWlnaHQ9Ijg3LjYiLz48L3N2Zz4=";
 		logo_img.alt = "erg logo";
@@ -244,24 +230,17 @@ export class Application {
 		title.className = "subtitle column";
 		title.innerHTML = "Erg Playground";
 		logo.appendChild(title);
-		const note = document.createElement("div");
-		note.className = "notification is-small has-text-grey-dark";
-		note.innerHTML =
-			'Web-REPL is here: <a href="https://erg-lang.org/web-repl/">https://erg-lang.org/web-repl</a>';
-		hero_body.appendChild(note);
-		const close_btn = document.createElement("button");
+		const hero_body = document.getElementById("hero-playground")!;
+		const note = document.getElementById("hero-note")!;
+		const close_btn = document.getElementById("notif-delete-button") as HTMLButtonElement;
 		close_btn.className = "delete";
 		close_btn.onclick = function (_event) {
 			hero_body.removeChild(note);
 		};
-		note.appendChild(close_btn);
 	}
 
 	init_main_area(this: this) {
-		const main_area = document.createElement("div");
-		main_area.className = "block columns container";
-		main_area.id = "main-area";
-		document.body.appendChild(main_area);
+		const main_area = document.getElementById("main-area") as HTMLDivElement;
 		this.init_file_tree(main_area);
 		this.init_editor_area(main_area);
 	}
@@ -302,31 +281,10 @@ export class Application {
 	}
 
 	init_palette(this: this) {
-		let palette_area = document.createElement("div");
-		palette_area.className = "container block is-fluid";
-		document.body.appendChild(palette_area);
-		const palette = document.createElement("div");
-		palette.className = "buttons block";
-		palette_area.appendChild(palette);
-
-		this.run_btn = document.createElement("button");
-		this.run_btn.id = "run-button";
-		this.run_btn.className = "button is-primary is-medium";
-		this.run_btn.innerHTML = "Run";
-		palette.appendChild(this.run_btn);
-
-		this.transpile_btn = document.createElement("button");
-		this.transpile_btn.id = "transpile-button";
-		this.transpile_btn.className = "button is-warning is-light";
-		this.transpile_btn.innerHTML = "Transpile";
-		palette.appendChild(this.transpile_btn);
-
-		this.share_btn = document.createElement("button");
-		this.share_btn.id = "share-button";
-		this.share_btn.className = "button is-link is-light";
-		this.share_btn.innerHTML = "Share";
-		palette.appendChild(this.share_btn);
-
+		const palette = document.getElementById("palette-playground")!;
+		this.run_btn = document.getElementById("run-button") as HTMLButtonElement;
+		this.transpile_btn = document.getElementById("transpile-button") as HTMLButtonElement;
+		this.share_btn = document.getElementById("share-button") as HTMLButtonElement;
 		this.config_modal = new ConfigModal(this, palette);
 	}
 
@@ -335,15 +293,18 @@ export class Application {
 	}
 
 	constructor() {
+		document.body.querySelectorAll(".loading-before").forEach((elem) => {
+			(elem as HTMLElement).hidden = true;
+		});
+		if ((window as any).app != null) {
+			console.log("Application already exists");
+			return;
+		}
+		console.log("app init");
 		this.init_header();
 		this.init_main_area();
 		this.init_palette();
 		this.init_output();
-
-		const footer = document.createElement("div");
-		footer.className = "box";
-		footer.id = "foot";
-		document.body.appendChild(footer);
 
 		if (localStorage.getItem(".config:color-theme") === "dark") {
 			set_dark(this);

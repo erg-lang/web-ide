@@ -1,7 +1,7 @@
 import { Application } from "./index";
 
 export class FileTree {
-	playground: Application;
+	app: Application;
 	current_file: string;
 	tree_area: HTMLDivElement;
 	tree: HTMLElement;
@@ -44,7 +44,7 @@ export class FileTree {
 			if (firstItem === null) {
 				return;
 			}
-			this.playground.editor.setValue(firstItem);
+			this.app.editor.setValue(firstItem);
 			this.set_current(firstKey);
 		}
 	}
@@ -62,7 +62,7 @@ export class FileTree {
 	}
 
 	save_code(this: this) {
-		localStorage.setItem(this.current_file, this.playground.editor.getValue());
+		localStorage.setItem(this.current_file, this.app.editor.getValue());
 	}
 
 	set_current(this: this, filename: string) {
@@ -115,7 +115,7 @@ export class FileTree {
 			if (_event.button === 0) {
 				this.save_code();
 				this.set_current(filename);
-				this.playground.editor.setValue(localStorage.getItem(filename) ?? "");
+				this.app.editor.setValue(localStorage.getItem(filename) ?? "");
 			}
 		};
 		file.appendChild(document.createTextNode(filename));
@@ -128,8 +128,8 @@ export class FileTree {
 		}
 	}
 
-	constructor(playground: Application) {
-		this.playground = playground;
+	constructor(app: Application) {
+		this.app = app;
 		this.current_file = "playground.er";
 		this.tree_area = document.createElement("div");
 		this.tree_area.className = "column container is-one-fifth";

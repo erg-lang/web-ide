@@ -46,6 +46,7 @@ module.exports = {
 	plugins: [
 		new HtmlWebPackPlugin({
 			title: "Erg Web IDE",
+			template: 'script/index.html'
 		}),
 	],
 };
