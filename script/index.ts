@@ -233,10 +233,12 @@ export class Application {
 		const hero_body = document.getElementById("hero-playground")!;
 		const note = document.getElementById("hero-note")!;
 		const close_btn = document.getElementById("notif-delete-button") as HTMLButtonElement;
-		close_btn.className = "delete";
-		close_btn.onclick = function (_event) {
-			hero_body.removeChild(note);
-		};
+		if (close_btn != null) {
+			close_btn.className = "delete";
+			close_btn.onclick = function (_event) {
+				hero_body.removeChild(note);
+			};
+		}
 	}
 
 	init_main_area(this: this) {

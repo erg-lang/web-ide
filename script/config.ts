@@ -21,6 +21,7 @@ export function set_dark(app: Application) {
 	document
 		.getElementById("file-tree")!
 		.classList.add("has-background-black-ter");
+	document.getElementById("editor")!.style.border = "0px";
 	let css = document.getElementById("dark-css");
 	if (css === null) {
 		let css = document.createElement("style");
@@ -61,6 +62,7 @@ export function set_light(app: Application) {
 	document
 		.getElementById("file-tree")!
 		.classList.remove("has-background-black-ter");
+	document.getElementById("editor")!.style.border = "1px solid #ccc";
 	let dark_css = document.getElementById("dark-css");
 	if (dark_css != null) { document.body.removeChild(dark_css); }
 }
