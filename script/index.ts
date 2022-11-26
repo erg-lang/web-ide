@@ -296,7 +296,7 @@ export class Application {
 
 	constructor() {
 		document.body.querySelectorAll(".loading-before").forEach((elem) => {
-			(elem as HTMLElement).hidden = true;
+			(elem as HTMLElement).style.display = "none";
 		});
 		if ((window as any).app != null) {
 			console.log("Application already exists");
