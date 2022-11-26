@@ -3,14 +3,14 @@
 	"scripts": {
 		"start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
 		"copy": "xcopy /e /y pkg node_modules\\erg-playground",
-		"build": "node ./node_modules/webpack/bin/webpack.js --progress && move dist docs",
+		"full-build": "wasm-pack build && npm install && xcopy /e /y pkg node_modules\\erg-playground && rd /s /q docs && node ./node_modules/webpack/bin/webpack.js --progress && move dist docs",
+		"build": "rd /s /q docs && node ./node_modules/webpack/bin/webpack.js --progress && move dist docs",
 		"type-check": "tsc --noEmit",
 		"lint": "rome check .",
 		"format": "rome format .",
 		"lint:fix": "rome check --apply .",
 		"lint:fix-suggested": "rome check --apply-suggested .",
-		"format:fix": "rome format --write .",
-		"prepare": "husky install"
+		"format:fix": "rome format --write ."
 	},
 	"devDependencies": {
 		"@types/lz-string": "^1.3.34",
