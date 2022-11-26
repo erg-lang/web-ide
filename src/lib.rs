@@ -7,7 +7,7 @@ use once_cell::sync::Lazy;
 use erg_compiler::erg_parser::ast::VarName;
 use erg_compiler::error::CompileError;
 use erg_compiler::transpile::Transpiler;
-use erg_common::traits::{Stream, Runnable};
+use erg_common::traits::{Runnable};
 use erg_common::error::{Location, ErrorDisplay};
 use erg_compiler::ty::Type;
 use erg_compiler::varinfo::VarInfo;

@@ -12,8 +12,8 @@ default = ["console_error_panic_hook"]
 
 [dependencies]
 wasm-bindgen = "0.2.63"
-erg_common = { git = "https://github.com/erg-lang/erg", version = "0.5.12" }
-erg_compiler = { git = "https://github.com/erg-lang/erg", version = "0.5.12" }
+erg_common = { git = "https://github.com/erg-lang/erg", version = "0.5.13" }
+erg_compiler = { git = "https://github.com/erg-lang/erg", version = "0.5.13" }
 rustpython_wasm = { git = "https://github.com/rustpython/rustpython", version = "0.1.2" }
 once_cell = "1.16.0"
 
