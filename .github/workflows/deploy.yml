@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 22 * * *'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: Swatinem/rust-cache@v2
+    - name: Build
+      run: |
+        rustup update stable
+        # cargo install wasm-pack
+        curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+        npm run full-build
+
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add .
+        git diff-index --quiet HEAD || git commit -m "generated"
+        git push
+
+        echo done
