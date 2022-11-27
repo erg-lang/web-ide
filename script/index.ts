@@ -14,7 +14,7 @@ import { ConfigModal, set_dark, set_light } from "./config";
 import { FileTree } from "./file_tree";
 import { replace_import } from "./importer";
 
-const vm = wasm.Playground.new(); // ~9ms
+let vm = wasm.Playground.new(); // ~9ms
 
 const erg_completion_provider = {
 	provideCompletionItems: function (
@@ -176,7 +176,14 @@ export class Application {
 		vm.set_stdout(function (data: string) {
 			_this.output.dump(data);
 		});
-		let result = vm.exec(replaced_code);
+		let result: string;
+		try {
+			result = vm.exec(replaced_code);
+		} catch (_e) {
+			console.log(_e);
+			result = "compiler crashed";
+			vm = wasm.Playground.new();
+		}
 		this.handle_result(result, code);
 		localStorage.setItem(this.file_tree.current_file, code);
 		vm.clear();
@@ -193,8 +200,15 @@ export class Application {
 		vm.set_stdout(function (data: string) {
 			_this.output.dump(data);
 		});
-		let opt_code = vm.transpile(replaced_code);
-		if (opt_code != null) {
+		let opt_code: string | undefined;
+		try {
+			opt_code = vm.transpile(replaced_code);
+		} catch (_e) {
+			console.log(_e);
+			opt_code = "compiler crashed";
+			vm = wasm.Playground.new();
+		}
+		if (opt_code !== undefined) {
 			this.render_py_code(opt_code);
 			localStorage.setItem(this.file_tree.current_file, code);
 		} else {

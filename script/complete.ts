@@ -1,6 +1,5 @@
 import * as monaco from "monaco-editor";
 import * as wasm from "erg-playground";
-import { sleep } from ".";
 
 var completer = wasm.Playground.new(); // ~9ms
 // To keep the load down. If the inspection has already been turned around, it will be finished.
@@ -25,12 +24,15 @@ export async function suggest(
 	position: monaco.IPosition,
 ) {
 	if (suggest_on_running) {
-		await sleep(100);
 		return { suggestions: [] };
 	} else {
 		suggest_on_running = true;
 	}
-	completer.check(model.getValue());
+	try {
+		completer.check(model.getValue());
+	} catch (_e) {
+		completer = wasm.Playground.new();
+	}
 	const word = model.getWordUntilPosition(position);
 	const range = {
 		startLineNumber: position.lineNumber,
