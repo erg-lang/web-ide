@@ -7,7 +7,7 @@ use once_cell::sync::Lazy;
 use erg_compiler::erg_parser::ast::VarName;
 use erg_compiler::error::CompileError;
 use erg_compiler::transpile::Transpiler;
-use erg_common::traits::{Runnable};
+use erg_common::traits::{Runnable, Stream};
 use erg_common::error::{Location, ErrorDisplay};
 use erg_compiler::ty::Type;
 use erg_compiler::varinfo::VarInfo;
@@ -216,8 +216,9 @@ impl Playground {
     pub fn check(&mut self, input: &str) -> Box<[JsValue]> {
         match self.transpiler.transpile(input.to_string(), "exec") {
             Ok(artifact) => artifact.warns.into_iter().map(|err| ErgError::from(err).into()).collect::<Vec<_>>().into_boxed_slice(),
-            Err(errs) => {
-                let errs = errs.into_iter().map(|err| ErgError::from(err).into()).collect::<Vec<_>>();
+            Err(mut err_artifact) => {
+                err_artifact.errors.extend(err_artifact.warns);
+                let errs = err_artifact.errors.into_iter().map(|err| ErgError::from(err).into()).collect::<Vec<_>>();
                 errs.into_boxed_slice()
             }
         }
