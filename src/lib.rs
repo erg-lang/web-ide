@@ -128,6 +128,7 @@ impl ErgErrorLoc {
 #[wasm_bindgen(getter_with_clone)]
 pub struct ErgError {
     pub errno: usize,
+    pub is_warning: bool,
     // pub kind: ErrorKind,
     pub loc: ErgErrorLoc,
     pub desc: String,
@@ -138,6 +139,7 @@ impl From<CompileError> for ErgError {
     fn from(err: CompileError) -> Self {
         Self {
             errno: err.core().errno,
+            is_warning: err.core().kind.is_warning(),
             // kind: err.kind(),
             loc: ErgErrorLoc(err.core().loc),
             desc: err.core.main_message,
@@ -147,9 +149,10 @@ impl From<CompileError> for ErgError {
 }
 
 impl ErgError {
-    pub const fn new(errno: usize, loc: ErgErrorLoc, desc: String, hint: Option<String>) -> Self {
+    pub const fn new(errno: usize, is_warning: bool, loc: ErgErrorLoc, desc: String, hint: Option<String>) -> Self {
         Self {
             errno,
+            is_warning,
             loc,
             desc,
             hint,
@@ -212,7 +215,7 @@ impl Playground {
     /// returns `Box<[JsValue]>` instead of `Vec<ErgError>`
     pub fn check(&mut self, input: &str) -> Box<[JsValue]> {
         match self.transpiler.transpile(input.to_string(), "exec") {
-            Ok(_) => Box::new([]),
+            Ok(artifact) => artifact.warns.into_iter().map(|err| ErgError::from(err).into()).collect::<Vec<_>>().into_boxed_slice(),
             Err(errs) => {
                 let errs = errs.into_iter().map(|err| ErgError::from(err).into()).collect::<Vec<_>>();
                 errs.into_boxed_slice()
@@ -221,13 +224,13 @@ impl Playground {
     }
 
     pub fn transpile(&mut self, input: &str) -> Option<String> {
-        self.transpiler.transpile(input.to_string(), "exec").map(|script| script.code).ok()
+        self.transpiler.transpile(input.to_string(), "exec").map(|script| script.object.code).ok()
     }
 
     pub fn exec(&mut self, input: &str) -> String {
         match self.transpiler.transpile(input.to_string(), "exec") {
             Ok(script) => {
-                let code = script.code.replace("from collections import namedtuple as NamedTuple__\n", "");
+                let code = script.object.code.replace("from collections import namedtuple as NamedTuple__\n", "");
                 if !self.inited {
                     self.initialize();
                 }
