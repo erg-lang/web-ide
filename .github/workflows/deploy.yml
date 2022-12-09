@@ -20,7 +20,7 @@ jobs:
         rustup update stable
         # cargo install wasm-pack
         curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-        npm run full-build
+        npm run full-build || (cargo clean | npm run full-build)
 
         git config user.name github-actions
         git config user.email github-actions@github.com
