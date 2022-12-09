@@ -8,7 +8,7 @@ use erg_compiler::erg_parser::ast::VarName;
 use erg_compiler::error::CompileError;
 use erg_compiler::transpile::Transpiler;
 use erg_common::traits::{Runnable, Stream};
-use erg_common::error::{Location, ErrorDisplay};
+use erg_common::error::{Location, ErrorCore};
 use erg_compiler::ty::Type;
 use erg_compiler::varinfo::VarInfo;
 
@@ -135,15 +135,32 @@ pub struct ErgError {
     pub hint: Option<String>,
 }
 
+fn find_fallback_loc(err: &ErrorCore) -> Location {
+    if err.loc == Location::Unknown {
+        for sub in &err.sub_messages {
+            if sub.loc != Location::Unknown {
+                return sub.loc;
+            }
+        }
+        Location::Unknown
+    } else { err.loc }
+}
+
 impl From<CompileError> for ErgError {
     fn from(err: CompileError) -> Self {
+        let loc = ErgErrorLoc(find_fallback_loc(&err.core));
+        let sub_msg = err.core.sub_messages
+            .get(0)
+            .map(|sub| sub.msg.iter().fold("\n".to_string(), |acc, s| acc + s + "\n"))
+            .unwrap_or_default();
+        let desc = err.core.main_message + &sub_msg;
         Self {
-            errno: err.core().errno,
-            is_warning: err.core().kind.is_warning(),
+            errno: err.core.errno,
+            is_warning: err.core.kind.is_warning(),
             // kind: err.kind(),
-            loc: ErgErrorLoc(err.core().loc),
-            desc: err.core.main_message,
-            hint: err.core.sub_messages.get(0).and_then(|sub| sub.clone().get_hint()),
+            loc,
+            desc,
+            hint: err.core.sub_messages.get(0).and_then(|sub| sub.hint.clone()),
         }
     }
 }

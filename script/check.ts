@@ -30,8 +30,14 @@ export async function validate(model: monaco.editor.ITextModel) {
 		} else {
 			severity = monaco.MarkerSeverity.Error;
 		}
+		let msg: string;
+		if (err.hint !== undefined) {
+			msg = `${err.desc}\nhint: ${err.hint}`;
+		} else {
+			msg = err.desc;
+		}
 		markers.push({
-			message: remove_ansi(err.desc),
+			message: remove_ansi(msg),
 			severity,
 			startLineNumber: err.loc.ln_begin() ?? 0,
 			startColumn: (err.loc.col_begin() ?? 0) + 1,
