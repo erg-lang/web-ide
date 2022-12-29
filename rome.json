@@ -3,9 +3,9 @@
 		"rules": {
 			"recommended": true
 		},
-		"ignore": ["/pkg/", "/dist/", "/docs/"]
+		"ignore": ["/pkg/", "/dist/"]
 	},
 	"formatter": {
-		"ignore": ["/pkg/", "/dist/", "/docs/"]
+		"ignore": ["/pkg/", "/dist/"]
 	}
 }
