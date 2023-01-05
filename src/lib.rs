@@ -107,19 +107,19 @@ impl ErgVarEntry {
 
 #[wasm_bindgen]
 impl ErgErrorLoc {
-    pub fn ln_begin(&self) -> Option<usize> {
+    pub fn ln_begin(&self) -> Option<u32> {
         self.0.ln_begin()
     }
 
-    pub fn ln_end(&self) -> Option<usize> {
+    pub fn ln_end(&self) -> Option<u32> {
         self.0.ln_end()
     }
 
-    pub fn col_begin(&self) -> Option<usize> {
+    pub fn col_begin(&self) -> Option<u32> {
         self.0.col_begin()
     }
 
-    pub fn col_end(&self) -> Option<usize> {
+    pub fn col_end(&self) -> Option<u32> {
         self.0.col_end()
     }
 }
