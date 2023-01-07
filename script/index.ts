@@ -10,6 +10,7 @@ import { erg_syntax_def } from "./syntax";
 import { escape_ansi } from "./escape";
 import { validate } from "./check";
 import { suggest } from "./complete";
+import { hover } from "./hover";
 import { ConfigModal, set_dark, set_light } from "./config";
 import { FileTree } from "./file_tree";
 import { replace_import } from "./importer";
@@ -24,6 +25,14 @@ const erg_completion_provider = {
 		return suggest(model, position);
 	},
 };
+const erg_hover_provider = {
+	provideHover: function (
+        model: monaco.editor.ITextModel,
+		position: monaco.IPosition,
+	) {
+		return hover(model, position);
+	}
+}
 
 const WAIT_FOR = 50;
 
@@ -55,6 +64,7 @@ function get_init_code() {
 monaco.languages.register({ id: "erg" });
 monaco.languages.setMonarchTokensProvider("erg", erg_syntax_def);
 monaco.languages.registerCompletionItemProvider("erg", erg_completion_provider);
+monaco.languages.registerHoverProvider("erg", erg_hover_provider);
 
 // @ts-ignore
 self.MonacoEnvironment = {

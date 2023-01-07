@@ -178,6 +178,18 @@ impl ErgError {
 }
 
 #[wasm_bindgen]
+#[derive(Debug, Clone)]
+pub struct ErgHoverResult {
+    value: String,
+}
+
+impl ErgHoverResult {
+    pub fn new(value: String) -> Self {
+        Self { value }
+    }
+}
+
+#[wasm_bindgen]
 // #[derive()]
 pub struct Playground {
     transpiler: Transpiler,
@@ -239,6 +251,11 @@ impl Playground {
                 errs.into_boxed_slice()
             }
         }
+    }
+
+    /// returns `Box<[JsValue]>` instead of `Vec<HoverResult>`
+    pub fn hover(&mut self, _loc: ErgErrorLoc) -> Box<[JsValue]> {
+        Box::new([])
     }
 
     pub fn transpile(&mut self, input: &str) -> Option<String> {
