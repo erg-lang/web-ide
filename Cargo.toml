@@ -2,7 +2,9 @@
 name = "erg-web-ide"
 version = "0.1.0"
 authors = ["Shunsuke Shibayama <sbym1346@gmail.com>"]
-edition = "2018"
+license = "MIT OR Apache-2.0"
+homepage = "https://erg-lang.org/web-ide/"
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
