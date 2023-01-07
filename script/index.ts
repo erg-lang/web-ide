@@ -183,6 +183,7 @@ export class Application {
 			console.log(_e);
 			result = "compiler crashed";
 			vm = wasm.Playground.new();
+			this.run_btn.classList.remove("is-loading");
 		}
 		this.handle_result(result, code);
 		localStorage.setItem(this.file_tree.current_file, code);
@@ -207,6 +208,7 @@ export class Application {
 			console.log(_e);
 			opt_code = "compiler crashed";
 			vm = wasm.Playground.new();
+			this.transpile_btn.classList.remove("is-loading");
 		}
 		if (opt_code !== undefined) {
 			this.render_py_code(opt_code);
@@ -235,7 +237,8 @@ export class Application {
 		const logo = document.getElementById("logo-container")!;
 		// The logo is too large before adjustment and should not be placed directly on the html.
 		const logo_img = document.createElement("img");
-		logo_img.src = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJf44Kk44Ok44O8XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDk0NS4zNiA4MDguNTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojMWMxZDFkO308L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05MjcuODQsLjFoLTIwOS40OXYtLjAzYy0xNTQuNTMsLjM5LTM0NS40Ny0uMjgtNDk4LjY4LDAtMTMuNjQsMC0yNS42MSwxMC4xNC0yOS4yNywyNC44Mkw5OC42MywzOTEuOGwtNi4yMiwyNC44NkwuNjYsNzgzLjU0Yy0zLjEyLDEyLjQ5LDUuMjgsMjQuODYsMTYuODksMjQuODYsNDEuMiwuMzQsMTI4LjgyLS4yNCwxNzAuNTEsMHYuMDNjMTYwLjg4LS4xNywzNzguMzksLjEyLDUzNy42MSwwLDEzLjY0LDAsMjUuNjEtMTAuMTUsMjkuMjgtMjQuODIsNDcuMTgtMTg5LjAxLDE0Mi42OC01NzAuMiwxODkuNzUtNzU4LjY5aDBjMy4xMi0xMi40Ny01LjI3LTI0LjgyLTE2Ljg2LTI0LjgyWk0yODcuMzUsMjQuODloNjUuMjN2LjAzaDI3My4zN2wtOTEuNzcsMzY2LjkyaC0xMTUuMDZ2LS4wM0gxOTUuNThMMjg3LjM1LDI0Ljg5Wm0tOTcuOTksMzkxLjc4aDEyNi41NGwtOTEuNzUsMzY2Ljg3SDk3LjYxbDkxLjc1LTM2Ni44N1ptNDY4LjY2LDM2Ni45aC0yMjEuODF2LjAyaC0xMTUuMDZzOTEuNzYtMzY2Ljg4LDkxLjc2LTM2Ni44OWgzMzYuODdsLTkxLjc1LDM2Ni44N1ptOTcuOTctMzkxLjczaC0xMjQuODZMNzIyLjksMjQuOTJoMTI0Ljg2bC05MS43NywzNjYuOTJaIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxNDAuNDUiIHk9IjM2MC40NSIgd2lkdGg9IjY2NC40NiIgaGVpZ2h0PSI4Ny42Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIyMjIuMzgiIHk9Ii4wNyIgd2lkdGg9IjY2NC40NiIgaGVpZ2h0PSI4Ny42Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSI2Mi43OSIgeT0iNzIwLjgzIiB3aWR0aD0iNjY0LjQ2IiBoZWlnaHQ9Ijg3LjYiLz48L3N2Zz4=";
+		logo_img.src =
+			"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJf44Kk44Ok44O8XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDk0NS4zNiA4MDguNTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojMWMxZDFkO308L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05MjcuODQsLjFoLTIwOS40OXYtLjAzYy0xNTQuNTMsLjM5LTM0NS40Ny0uMjgtNDk4LjY4LDAtMTMuNjQsMC0yNS42MSwxMC4xNC0yOS4yNywyNC44Mkw5OC42MywzOTEuOGwtNi4yMiwyNC44NkwuNjYsNzgzLjU0Yy0zLjEyLDEyLjQ5LDUuMjgsMjQuODYsMTYuODksMjQuODYsNDEuMiwuMzQsMTI4LjgyLS4yNCwxNzAuNTEsMHYuMDNjMTYwLjg4LS4xNywzNzguMzksLjEyLDUzNy42MSwwLDEzLjY0LDAsMjUuNjEtMTAuMTUsMjkuMjgtMjQuODIsNDcuMTgtMTg5LjAxLDE0Mi42OC01NzAuMiwxODkuNzUtNzU4LjY5aDBjMy4xMi0xMi40Ny01LjI3LTI0LjgyLTE2Ljg2LTI0LjgyWk0yODcuMzUsMjQuODloNjUuMjN2LjAzaDI3My4zN2wtOTEuNzcsMzY2LjkyaC0xMTUuMDZ2LS4wM0gxOTUuNThMMjg3LjM1LDI0Ljg5Wm0tOTcuOTksMzkxLjc4aDEyNi41NGwtOTEuNzUsMzY2Ljg3SDk3LjYxbDkxLjc1LTM2Ni44N1ptNDY4LjY2LDM2Ni45aC0yMjEuODF2LjAyaC0xMTUuMDZzOTEuNzYtMzY2Ljg4LDkxLjc2LTM2Ni44OWgzMzYuODdsLTkxLjc1LDM2Ni44N1ptOTcuOTctMzkxLjczaC0xMjQuODZMNzIyLjksMjQuOTJoMTI0Ljg2bC05MS43NywzNjYuOTJaIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxNDAuNDUiIHk9IjM2MC40NSIgd2lkdGg9IjY2NC40NiIgaGVpZ2h0PSI4Ny42Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIyMjIuMzgiIHk9Ii4wNyIgd2lkdGg9IjY2NC40NiIgaGVpZ2h0PSI4Ny42Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSI2Mi43OSIgeT0iNzIwLjgzIiB3aWR0aD0iNjY0LjQ2IiBoZWlnaHQ9Ijg3LjYiLz48L3N2Zz4=";
 		logo_img.alt = "erg logo";
 		logo_img.className = "column is-narrow logo";
 		logo_img.id = "erg-logo";
@@ -246,7 +249,9 @@ export class Application {
 		logo.appendChild(title);
 		const hero_body = document.getElementById("hero-playground")!;
 		const note = document.getElementById("hero-note")!;
-		const close_btn = document.getElementById("notif-delete-button") as HTMLButtonElement;
+		const close_btn = document.getElementById(
+			"notif-delete-button",
+		) as HTMLButtonElement;
 		if (close_btn != null) {
 			close_btn.className = "delete";
 			close_btn.onclick = function (_event) {
@@ -299,8 +304,12 @@ export class Application {
 	init_palette(this: this) {
 		const palette = document.getElementById("palette-playground")!;
 		this.run_btn = document.getElementById("run-button") as HTMLButtonElement;
-		this.transpile_btn = document.getElementById("transpile-button") as HTMLButtonElement;
-		this.share_btn = document.getElementById("share-button") as HTMLButtonElement;
+		this.transpile_btn = document.getElementById(
+			"transpile-button",
+		) as HTMLButtonElement;
+		this.share_btn = document.getElementById(
+			"share-button",
+		) as HTMLButtonElement;
 		this.config_modal = new ConfigModal(this, palette);
 	}
 
