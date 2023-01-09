@@ -5,9 +5,7 @@ var completer = wasm.Playground.new(); // ~9ms
 // To keep the load down. If the inspection has already been turned around, it will be finished.
 var suggest_on_running = false;
 
-export function dir(
-	range: monaco.IRange,
-): monaco.languages.CompletionItem[] {
+export function dir(range: monaco.IRange): monaco.languages.CompletionItem[] {
 	let vars: wasm.ErgVarEntry[] = completer.dir();
 	return vars.map((ent) => {
 		return {

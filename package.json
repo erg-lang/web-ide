@@ -12,7 +12,8 @@
 		"format": "rome format .",
 		"lint:fix": "rome check --apply .",
 		"lint:fix-suggested": "rome check --apply-suggested .",
-		"format:fix": "rome format --write ."
+		"format:fix": "rome format --write .",
+		"rome-ci": "rome ci ."
 	},
 	"devDependencies": {
 		"@types/lz-string": "^1.3.34",

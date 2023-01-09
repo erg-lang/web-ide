@@ -26,7 +26,8 @@ export function set_dark(app: Application) {
 	if (css === null) {
 		let css = document.createElement("style");
 		css.id = "dark-css";
-		css.appendChild(document.createTextNode(`
+		css.appendChild(
+			document.createTextNode(`
 .tree-entry {
 	color: #dbdbdb!important;
 }
@@ -36,7 +37,8 @@ export function set_dark(app: Application) {
 .tree-entry:not(:last-child) {
 	border-bottom: 1px solid #343434;
 }
-`));
+`),
+		);
 		document.body.appendChild(css);
 	}
 }
@@ -64,7 +66,9 @@ export function set_light(app: Application) {
 		.classList.remove("has-background-black-ter");
 	document.getElementById("editor")!.style.border = "1px solid #ccc";
 	let dark_css = document.getElementById("dark-css");
-	if (dark_css != null) { document.body.removeChild(dark_css); }
+	if (dark_css != null) {
+		document.body.removeChild(dark_css);
+	}
 }
 
 export class ConfigModal {
@@ -258,7 +262,9 @@ export class ConfigModal {
 		menu.appendChild(section);
 		modal_content.appendChild(menu);
 		modal.appendChild(modal_content);
-		this.config_btn = document.getElementById("config-button") as HTMLButtonElement;
+		this.config_btn = document.getElementById(
+			"config-button",
+		) as HTMLButtonElement;
 		this.config_btn.addEventListener("click", function () {
 			modal.classList.add("is-active");
 		});
