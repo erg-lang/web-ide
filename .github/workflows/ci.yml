@@ -41,3 +41,5 @@ jobs:
         run: npm install
       - name: Lint & check formatting
         run: npm run rome-ci
+      # - name: test on Rust
+      #   run: wasm-pack test --node
