@@ -234,7 +234,7 @@ export class Application {
 	}
 
 	init_header(this: this) {
-		const logo = document.getElementById("logo-container")!;
+		const brand = document.getElementById("erg-brand")!;
 		// The logo is too large before adjustment and should not be placed directly on the html.
 		const logo_img = document.createElement("img");
 		logo_img.src =
@@ -242,11 +242,12 @@ export class Application {
 		logo_img.alt = "erg logo";
 		logo_img.className = "column is-narrow logo";
 		logo_img.id = "erg-logo";
-		logo.appendChild(logo_img);
+		brand.appendChild(logo_img);
 		const title = document.createElement("p");
 		title.className = "subtitle column";
 		title.innerHTML = "Erg Playground";
-		logo.appendChild(title);
+		title.style.whiteSpace = "nowrap";
+		brand.appendChild(title);
 		const hero_body = document.getElementById("hero-playground")!;
 		const note = document.getElementById("hero-note")!;
 		const close_btn = document.getElementById(
