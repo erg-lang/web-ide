@@ -13,6 +13,7 @@ export function dir(range: monaco.IRange): monaco.languages.CompletionItem[] {
 			kind: ent.item_kind(),
 			insertText: ent.name(),
 			range: range,
+			detail: ent.typ(),
 		};
 	});
 }

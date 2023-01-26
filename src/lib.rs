@@ -103,6 +103,9 @@ impl ErgVarEntry {
             _ => CompItemKind::Variable,
         }
     }
+    pub fn typ(&self) -> String {
+        self.vi.t.to_string()
+    }
 }
 
 #[wasm_bindgen]
