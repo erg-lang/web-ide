@@ -40,12 +40,9 @@ export class FileTree {
 			if (firstKey === null) {
 				return;
 			}
-			let firstItem = localStorage.getItem(firstKey);
-			if (firstItem === null) {
-				return;
-			}
-			this.app.editor.setValue(firstItem);
+			const code = localStorage.getItem(firstKey) ?? "";
 			this.set_current(firstKey);
+			this.app.editor.setValue(code);
 		}
 	}
 
@@ -54,7 +51,12 @@ export class FileTree {
 		this.create_tree_entry(filename);
 	}
 
-	create_file_if_not_exist(this: this, filename: string, content?: string, override: boolean = false) {
+	create_file_if_not_exist(
+		this: this,
+		filename: string,
+		content?: string,
+		override: boolean = false,
+	) {
 		const file_not_exist = localStorage.getItem(filename) == null;
 		if (override || file_not_exist) {
 			localStorage.setItem(filename, content ?? "");
@@ -83,7 +85,7 @@ export class FileTree {
 		new_current.classList.add("is-active");
 	}
 
-	gen_dropdown(filename: string) {
+	gen_dropdown(this: this, filename: string) {
 		let dropdown_menu = document.createElement("div");
 		dropdown_menu.className = "dropdown-menu";
 		dropdown_menu.ariaRoleDescription = "menu";
@@ -94,6 +96,7 @@ export class FileTree {
 		remove_btn.innerHTML = "Remove";
 		remove_btn.onclick = (_event) => {
 			this.remove_file(filename);
+			_event.stopPropagation();
 		};
 		dropdown_content.appendChild(remove_btn);
 		dropdown_menu.appendChild(dropdown_content);

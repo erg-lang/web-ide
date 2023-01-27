@@ -336,7 +336,7 @@ export class Application {
 		this.config_modal = new ConfigModal(this, palette);
 	}
 
-	init_output() {
+	init_output(this: this) {
 		this.output = new OutputArea();
 	}
 
