@@ -31,27 +31,6 @@ export function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function get_init_code() {
-	let value = 'print! "Hello, world!"';
-	// load code from local storage (if exists)
-	let cached = localStorage.getItem("playground.er");
-	if (cached !== null && cached.length !== 0) {
-		value = cached;
-	}
-	// load code from URL (if specified)
-	let query = window.location.search.slice(1); // ?code=
-	query.split("&").forEach(function (part) {
-		const item = part.split("=");
-		if (item[0] === "code") {
-			const _value = decompressFromEncodedURIComponent(item.slice(1).join("="));
-			if (_value !== null) {
-				value = _value;
-			}
-		}
-	});
-	return value;
-}
-
 monaco.languages.register({ id: "erg" });
 monaco.languages.setMonarchTokensProvider("erg", erg_syntax_def);
 monaco.languages.registerCompletionItemProvider("erg", erg_completion_provider);
@@ -222,13 +201,27 @@ export class Application {
 
 	async share_url(this: this, _event: Event) {
 		this.share_btn.classList.add("is-loading");
+		this.file_tree.save_code();
 		// await sleep(WAIT_FOR);
-		let code = this.editor.getValue();
-		let compressed = compressToEncodedURIComponent(code);
-		let url = `https://erg-lang.org/web-ide/?code=${compressed}`;
-		this.output.clear();
-		this.output.dump(url);
-		localStorage.setItem(this.file_tree.current_file, code);
+		if (this.file_tree.file_count === 1) {
+			let code = this.editor.getValue();
+			let compressed = compressToEncodedURIComponent(code);
+			let url = `https://erg-lang.org/web-ide/?code=${compressed}`;
+			this.output.clear();
+			this.output.dump(url);
+			localStorage.setItem(this.file_tree.current_file, code);
+		} else {
+			let url = "https://erg-lang.org/web-ide/?";
+			for (let i = 0; i < this.file_tree.file_count; i++) {
+				let filename = localStorage.key(i)!;
+				let code = localStorage.getItem(filename)!;
+				let compressed = compressToEncodedURIComponent(code);
+				url += `file=${filename}=${compressed}&`;
+			}
+			url = url.slice(0, -1);
+			this.output.clear();
+			this.output.dump(url);
+		}
 		this.share_btn.classList.remove("is-loading");
 		this.output.select();
 	}
@@ -272,6 +265,35 @@ export class Application {
 		main_area.appendChild(this.file_tree.tree_area);
 	}
 
+	get_init_code(this: this) {
+		const _this = this;
+		let value = 'print! "Hello, world!"';
+		// load code from local storage (if exists)
+		let cached = localStorage.getItem("playground.er");
+		if (cached !== null && cached.length !== 0) {
+			value = cached;
+		}
+		// load code from URL (if specified)
+		let query = window.location.search.slice(1); // ?code=
+		query.split("&").forEach(function (part) {
+			const item = part.split("=");
+			if (item[0] === "code") {
+				const _value = decompressFromEncodedURIComponent(item[1]);
+				if (_value !== null) {
+					value = _value;
+				}
+			} else if (item[0] === "file") {
+				const filename = item[1];
+				const code = item[2];
+				const _value = decompressFromEncodedURIComponent(code);
+				if (_value !== null) {
+					_this.file_tree.create_file_if_not_exist(filename, _value, true);
+				}
+			}
+		});
+		return value;
+	}
+
 	init_editor_area(this: this, main_area: HTMLDivElement) {
 		const code_area = document.createElement("div");
 		code_area.className = "column";
@@ -284,7 +306,7 @@ export class Application {
 
 		this.py_code_area = new PyCodeArea(code_area);
 
-		let init_code = get_init_code();
+		let init_code = this.get_init_code();
 		const uri = monaco.Uri.parse("inmemory://playground.er");
 		const model = monaco.editor.createModel(init_code, "erg", uri);
 		this.editor = monaco.editor.create(document.getElementById("editor")!, {

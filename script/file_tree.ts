@@ -49,16 +49,19 @@ export class FileTree {
 		}
 	}
 
-	create_file(this: this, filename: string) {
-		localStorage.setItem(filename, "");
+	create_file(this: this, filename: string, content?: string) {
+		localStorage.setItem(filename, content ?? "");
 		this.create_tree_entry(filename);
 	}
 
-	create_file_if_not_exist(this: this, filename: string) {
-		if (localStorage.getItem(filename) == null) {
-			localStorage.setItem(filename, "");
+	create_file_if_not_exist(this: this, filename: string, content?: string, override: boolean = false) {
+		const file_not_exist = localStorage.getItem(filename) == null;
+		if (override || file_not_exist) {
+			localStorage.setItem(filename, content ?? "");
 		}
-		this.create_tree_entry(filename);
+		if (file_not_exist) {
+			this.create_tree_entry(filename);
+		}
 	}
 
 	save_code(this: this) {
