@@ -319,9 +319,9 @@ export class Application {
 		});
 		this.on_did_change_listener = model.onDidChangeContent(async () => {
 			await sleep(50);
-			validate(model);
+			validate(model, this.file_tree.current_file);
 		});
-		validate(model);
+		validate(model, this.file_tree.current_file);
 	}
 
 	init_palette(this: this) {

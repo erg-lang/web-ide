@@ -1,4 +1,5 @@
 import { Application } from "./index";
+import * as monaco from "monaco-editor";
 
 export class FileTree {
 	app: Application;
@@ -18,7 +19,7 @@ export class FileTree {
 		if (this.tree.children.length === 0) {
 			this.create_file("playground.er");
 		}
-		let main_file = this.tree.children.namedItem("playground-file-playground");
+		let main_file = this.tree.children.namedItem("playground-file-playground-er");
 		if (main_file != null && this.tree.children.length > 1) {
 			this.tree.removeChild(main_file);
 			this.tree.insertBefore(main_file, this.tree.firstChild);
@@ -26,8 +27,7 @@ export class FileTree {
 	}
 
 	remove_file(this: this, filename: string) {
-		let id = `playground-file-${filename.split(".")[0]}`;
-		let file = this.tree.children.namedItem(id);
+		let file = this.get_file_node(filename);
 		if (file != null) {
 			this.tree.removeChild(file);
 			localStorage.removeItem(filename);
@@ -43,6 +43,22 @@ export class FileTree {
 			const code = localStorage.getItem(firstKey) ?? "";
 			this.set_current(firstKey);
 			this.app.editor.setValue(code);
+		}
+	}
+
+	rename_file(this: this, old_name: string, new_name: string) {
+		if (this.get_file_node(new_name) != null) {
+			alert("File with same name already exists");
+			return;
+		}
+		let file = this.get_file_node(old_name);
+		if (file != null) {
+			file.lastChild!.textContent = new_name;
+			file.id = `playground-file-${new_name.replace(".", "-")}`;
+			localStorage.setItem(new_name, localStorage.getItem(old_name) ?? "");
+			localStorage.removeItem(old_name);
+		} else {
+			console.log(`Could not find file: ${old_name}`);
 		}
 	}
 
@@ -70,22 +86,33 @@ export class FileTree {
 		localStorage.setItem(this.current_file, this.app.editor.getValue());
 	}
 
+	get_file_node(this: this, filename: string): HTMLAnchorElement | null {
+		let id = `playground-file-${filename.replace(".", "-")}`;
+		return this.tree.children.namedItem(id) as HTMLAnchorElement | null;
+	}
+
 	set_current(this: this, filename: string) {
-		let new_id = `playground-file-${filename.split(".")[0]}`;
-		let new_current = this.tree.children.namedItem(new_id);
+		let new_current = this.get_file_node(filename);
 		if (new_current == null) {
 			return;
 		}
-		let id = `playground-file-${this.current_file.split(".")[0]}`;
-		let current_file = this.tree.children.namedItem(id);
-		if (current_file != null) {
-			current_file.classList.remove("is-active");
+		let old_file = this.get_file_node(this.current_file);
+		if (old_file != null) {
+			old_file.classList.remove("is-active");
+			old_file.classList.remove("dropdown");
 		}
 		this.current_file = filename;
 		new_current.classList.add("is-active");
 	}
 
-	gen_dropdown(this: this, filename: string) {
+	set_current_and_load(this: this, filename: string) {
+		this.set_current(filename);
+		const lang = filename.endsWith(".er") ? "erg" : "plaintext";
+		monaco.editor.setModelLanguage(this.app.editor.getModel()!, lang);
+		this.app.editor.setValue(localStorage.getItem(filename) ?? "");
+	}
+
+	gen_dropdown(this: this, file: HTMLAnchorElement) {
 		let dropdown_menu = document.createElement("div");
 		dropdown_menu.className = "dropdown-menu";
 		dropdown_menu.ariaRoleDescription = "menu";
@@ -95,10 +122,24 @@ export class FileTree {
 		remove_btn.className = "dropdown-item";
 		remove_btn.innerHTML = "Remove";
 		remove_btn.onclick = (_event) => {
-			this.remove_file(filename);
+			this.remove_file(file.lastChild!.textContent!);
 			_event.stopPropagation();
 		};
 		dropdown_content.appendChild(remove_btn);
+		let rename_btn = document.createElement("a");
+		rename_btn.className = "dropdown-item";
+		rename_btn.innerHTML = "Rename";
+		rename_btn.onclick = (_event) => {
+			let new_name = prompt("Enter new name", file.lastChild!.textContent!);
+			if (new_name == null) {
+				_event.stopPropagation();
+				return;
+			}
+			this.rename_file(file.lastChild!.textContent!, new_name);
+			this.set_current_and_load(new_name);
+			_event.stopPropagation();
+		};
+		dropdown_content.appendChild(rename_btn);
 		dropdown_menu.appendChild(dropdown_content);
 		return dropdown_menu;
 	}
@@ -106,12 +147,12 @@ export class FileTree {
 	create_tree_entry(this: this, filename: string) {
 		let file = document.createElement("a");
 		file.className = "panel-block tree-entry";
-		file.id = `playground-file-${filename.split(".")[0]}`;
+		file.id = `playground-file-${filename.replace(".", "-")}`;
 		let file_icon = document.createElement("span");
 		file_icon.className = "panel-icon";
 		file_icon.innerHTML = '<i class="fas fa-file" aria-hidden="true"></i>';
 		file.appendChild(file_icon);
-		file.appendChild(this.gen_dropdown(filename));
+		file.appendChild(this.gen_dropdown(file));
 		file.oncontextmenu = (_event) => {
 			file.classList.add("dropdown");
 			file.classList.add("is-active");
@@ -120,8 +161,7 @@ export class FileTree {
 		file.onclick = (_event) => {
 			if (_event.button === 0) {
 				this.save_code();
-				this.set_current(filename);
-				this.app.editor.setValue(localStorage.getItem(filename) ?? "");
+				this.set_current_and_load(file.lastChild!.textContent!);
 			}
 		};
 		file.appendChild(document.createTextNode(filename));
