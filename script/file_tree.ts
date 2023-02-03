@@ -19,7 +19,9 @@ export class FileTree {
 		if (this.tree.children.length === 0) {
 			this.create_file("playground.er");
 		}
-		let main_file = this.tree.children.namedItem("playground-file-playground-er");
+		let main_file = this.tree.children.namedItem(
+			"playground-file-playground-er",
+		);
 		if (main_file != null && this.tree.children.length > 1) {
 			this.tree.removeChild(main_file);
 			this.tree.insertBefore(main_file, this.tree.firstChild);

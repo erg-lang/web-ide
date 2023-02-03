@@ -6,7 +6,10 @@ var validator = wasm.Playground.new(); // ~9ms
 // To keep the load down. If the inspection has already been turned around, it will be finished.
 var validate_on_running = false;
 
-export async function validate(model: monaco.editor.ITextModel, filename?: string) {
+export async function validate(
+	model: monaco.editor.ITextModel,
+	filename?: string,
+) {
 	if (validate_on_running || !filename?.endsWith(".er")) {
 		return;
 	} else {
