@@ -135,6 +135,7 @@ export class FileTree {
 				_event.stopPropagation();
 				return;
 			}
+			this.save_code();
 			this.rename_file(file.lastChild!.textContent!, new_name);
 			this.set_current_and_load(new_name);
 			_event.stopPropagation();
