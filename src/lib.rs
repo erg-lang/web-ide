@@ -1,14 +1,14 @@
 mod utils;
 
-use wasm_bindgen::prelude::*;
-use rustpython_wasm::{VMStore, WASMVirtualMachine};
 use once_cell::sync::Lazy;
+use rustpython_wasm::{VMStore, WASMVirtualMachine};
+use wasm_bindgen::prelude::*;
 
+use erg_common::error::{ErrorCore, Location};
+use erg_common::traits::{Runnable, Stream};
 use erg_compiler::erg_parser::ast::VarName;
 use erg_compiler::error::CompileError;
 use erg_compiler::transpile::Transpiler;
-use erg_common::traits::{Runnable, Stream};
-use erg_common::error::{Location, ErrorCore};
 use erg_compiler::ty::Type;
 use erg_compiler::varinfo::VarInfo;
 
@@ -42,7 +42,7 @@ pub enum CompItemKind {
     TypeParameter = 24,
     User = 25,
     Issue = 26,
-    Snippet = 27
+    Snippet = 27,
 }
 
 #[derive(Debug, Clone)]
@@ -78,27 +78,33 @@ impl ErgVarEntry {
 
 #[wasm_bindgen]
 impl ErgVarEntry {
-    pub fn name(&self) -> String { self.name.to_string() }
+    pub fn name(&self) -> String {
+        self.name.to_string()
+    }
     pub fn item_kind(&self) -> CompItemKind {
         match &self.vi.t {
             Type::Callable { .. } => CompItemKind::Function,
-            Type::Subr(subr) => if subr.self_t().is_some() {
-                CompItemKind::Method
-            } else {
-                CompItemKind::Function
-            },
-            Type::Quantified(quant) => match quant.as_ref() {
-                Type::Callable { .. } => CompItemKind::Function,
-                Type::Subr(subr) => if subr.self_t().is_some() {
+            Type::Subr(subr) => {
+                if subr.self_t().is_some() {
                     CompItemKind::Method
                 } else {
                     CompItemKind::Function
-                },
+                }
+            }
+            Type::Quantified(quant) => match quant.as_ref() {
+                Type::Callable { .. } => CompItemKind::Function,
+                Type::Subr(subr) => {
+                    if subr.self_t().is_some() {
+                        CompItemKind::Method
+                    } else {
+                        CompItemKind::Function
+                    }
+                }
                 _ => unreachable!(),
             },
             Type::ClassType => CompItemKind::Class,
             Type::TraitType => CompItemKind::Interface,
-            Type::Poly{ name, .. } if &name[..] == "Module" => CompItemKind::Module,
+            Type::Poly { name, .. } if &name[..] == "Module" => CompItemKind::Module,
             _ if self.vi.muty.is_const() => CompItemKind::Constant,
             _ => CompItemKind::Variable,
         }
@@ -146,15 +152,23 @@ fn find_fallback_loc(err: &ErrorCore) -> Location {
             }
         }
         Location::Unknown
-    } else { err.loc }
+    } else {
+        err.loc
+    }
 }
 
 impl From<CompileError> for ErgError {
     fn from(err: CompileError) -> Self {
         let loc = ErgErrorLoc(find_fallback_loc(&err.core));
-        let sub_msg = err.core.sub_messages
+        let sub_msg = err
+            .core
+            .sub_messages
             .get(0)
-            .map(|sub| sub.msg.iter().fold("\n".to_string(), |acc, s| acc + s + "\n"))
+            .map(|sub| {
+                sub.msg
+                    .iter()
+                    .fold("\n".to_string(), |acc, s| acc + s + "\n")
+            })
             .unwrap_or_default();
         let desc = err.core.main_message + &sub_msg;
         Self {
@@ -163,13 +177,23 @@ impl From<CompileError> for ErgError {
             // kind: err.kind(),
             loc,
             desc,
-            hint: err.core.sub_messages.get(0).and_then(|sub| sub.hint.clone()),
+            hint: err
+                .core
+                .sub_messages
+                .get(0)
+                .and_then(|sub| sub.hint.clone()),
         }
     }
 }
 
 impl ErgError {
-    pub const fn new(errno: usize, is_warning: bool, loc: ErgErrorLoc, desc: String, hint: Option<String>) -> Self {
+    pub const fn new(
+        errno: usize,
+        is_warning: bool,
+        loc: ErgErrorLoc,
+        desc: String,
+        hint: Option<String>,
+    ) -> Self {
         Self {
             errno,
             is_warning,
@@ -207,7 +231,9 @@ impl Playground {
     }
 
     fn initialize(&mut self) {
-        self.vm.exec_single("from collections import namedtuple as NamedTuple__", None).unwrap();
+        self.vm
+            .exec_single("from collections import namedtuple as NamedTuple__", None)
+            .unwrap();
         self.inited = true;
     }
 
@@ -220,12 +246,15 @@ impl Playground {
     }
 
     pub fn start_message(&self) -> String {
-        self.transpiler.start_message().replace("Erg transpiler", "Erg Playground (experimental)")
+        self.transpiler
+            .start_message()
+            .replace("Erg transpiler", "Erg Playground (experimental)")
     }
 
     /// returns `Box<[JsValue]>` instead of `Vec<ErgVarEntry>`
     pub fn dir(&mut self) -> Box<[JsValue]> {
-        self.transpiler.dir()
+        self.transpiler
+            .dir()
             .into_iter()
             .map(|(n, vi)| JsValue::from(ErgVarEntry::new(n.clone(), vi.clone())))
             .collect::<Vec<_>>()
@@ -235,34 +264,53 @@ impl Playground {
     /// returns `Box<[JsValue]>` instead of `Vec<ErgError>`
     pub fn check(&mut self, input: &str) -> Box<[JsValue]> {
         match self.transpiler.transpile(input.to_string(), "exec") {
-            Ok(artifact) => artifact.warns.into_iter().map(|err| ErgError::from(err).into()).collect::<Vec<_>>().into_boxed_slice(),
+            Ok(artifact) => artifact
+                .warns
+                .into_iter()
+                .map(|err| ErgError::from(err).into())
+                .collect::<Vec<_>>()
+                .into_boxed_slice(),
             Err(mut err_artifact) => {
                 err_artifact.errors.extend(err_artifact.warns);
-                let errs = err_artifact.errors.into_iter().map(|err| ErgError::from(err).into()).collect::<Vec<_>>();
+                let errs = err_artifact
+                    .errors
+                    .into_iter()
+                    .map(|err| ErgError::from(err).into())
+                    .collect::<Vec<_>>();
                 errs.into_boxed_slice()
             }
         }
     }
 
     pub fn transpile(&mut self, input: &str) -> Option<String> {
-        self.transpiler.transpile(input.to_string(), "exec").map(|script| script.object.code).ok()
+        self.transpiler
+            .transpile(input.to_string(), "exec")
+            .map(|script| script.object.code)
+            .ok()
     }
 
     pub fn exec(&mut self, input: &str) -> String {
         match self.transpiler.transpile(input.to_string(), "exec") {
             Ok(script) => {
-                let code = script.object.code.replace("from collections import namedtuple as NamedTuple__\n", "");
+                let code = script
+                    .object
+                    .code
+                    .replace("from collections import namedtuple as NamedTuple__\n", "");
                 if !self.inited {
                     self.initialize();
                 }
                 match self.vm.exec(&code, None) {
                     Ok(val) => val.as_string().unwrap_or_default(),
-                    Err(err) => format!("<<RuntimeError>>{}\n{}", code, err.as_string().unwrap_or_default()),
+                    Err(err) => format!(
+                        "<<RuntimeError>>{}\n{}",
+                        code,
+                        err.as_string().unwrap_or_default()
+                    ),
                 }
-            },
+            }
             Err(errors) => {
                 format!("<<CompileError>>{errors}")
-            },
+            }
         }
     }
 }
