@@ -3,6 +3,10 @@ name: Deploy
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "**.md"
+      - "LICENSE_**"
+      - ".pre-commit-config.yaml"
   repository_dispatch:
     types: [release-notification]
 
