@@ -17,7 +17,7 @@ jobs:
   deploy:
     runs-on: macos-latest
     permissions: # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-      contents: read
+      contents: write
       pages: write
       id-token: write
     environment:
