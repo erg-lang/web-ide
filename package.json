@@ -2,10 +2,10 @@
 	"name": "erg-web-ide",
 	"scripts": {
 		"start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-		"copy": "cp -r pkg node_modules\\erg-playground",
+		"copy": "cp -r pkg/ node_modules/erg-playground",
 		"copy-win": "xcopy /e /y pkg node_modules\\erg-playground",
-		"full-build": "wasm-pack build && npm install && cp -r pkg node_modules\\erg-playground && npm run build",
-		"full-build-win": "wasm-pack build && npm install && xcopy /e /y pkg node_modules\\erg-playground && npm run build",
+		"full-build": "wasm-pack build && npm install && npm run copy && npm run build",
+		"full-build-win": "wasm-pack build && npm install && npm run copy && npm run build",
 		"build": "node ./node_modules/webpack/bin/webpack.js --progress",
 		"type-check": "tsc --noEmit",
 		"lint": "rome check .",
