@@ -222,6 +222,7 @@ impl Default for Playground {
 #[wasm_bindgen]
 impl Playground {
     pub fn new() -> Self {
+        crate::utils::set_panic_hook();
         Playground {
             transpiler: Transpiler::default(),
             // vm: VMStore::init("term_vm".into(), None),
