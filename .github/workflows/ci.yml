@@ -36,6 +36,7 @@ jobs:
         run: npm run full-build
   lint:
     runs-on: ubuntu-latest
+    needs: build
 
     name: "Lint on ubuntu-latest"
     steps:
