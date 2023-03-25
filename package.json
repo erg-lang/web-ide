@@ -2,7 +2,7 @@
 	"name": "erg-web-ide",
 	"scripts": {
 		"start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-		"copy": "cp -r pkg/ node_modules/erg-playground",
+		"copy": "cp -rf pkg/ node_modules/erg-playground",
 		"copy-win": "xcopy /e /y pkg node_modules\\erg-playground",
 		"full-build": "wasm-pack build && npm install && npm run copy && npm run build",
 		"full-build-win": "wasm-pack build && npm install && npm run copy-win && npm run build",
