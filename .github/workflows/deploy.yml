@@ -26,11 +26,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: Swatinem/rust-cache@v2
-      - name: Build
+      - name: Setup
         run: |
           rustup update stable
           # cargo install wasm-pack
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Update
+        run: |
+          cargo update
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Automatic update \`Cargo.lock\`"
+      - name: Build
+        run: |
           npm run full-build || (cargo clean | npm run full-build)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
