@@ -36,6 +36,7 @@ jobs:
           cargo update
           git add .
           git diff-index --quiet HEAD || git commit -m "Automatic update \`Cargo.lock\`"
+          git push
       - name: Build
         run: |
           npm run full-build || (cargo clean | npm run full-build)
