@@ -286,7 +286,7 @@ impl Playground {
     pub fn transpile(&mut self, input: &str) -> Option<String> {
         self.transpiler
             .transpile(input.to_string(), "exec")
-            .map(|script| script.object.code)
+            .map(|script| script.object.into_code())
             .ok()
     }
 
@@ -295,7 +295,7 @@ impl Playground {
             Ok(script) => {
                 let code = script
                     .object
-                    .code
+                    .into_code()
                     .replace("from collections import namedtuple as NamedTuple__\n", "");
                 if !self.inited {
                     self.initialize();
