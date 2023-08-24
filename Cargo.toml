@@ -13,7 +13,7 @@ crate-type = ["cdylib", "rlib"]
 default = ["console_error_panic_hook"]
 
 [dependencies]
-wasm-bindgen = "=0.2.83"
+wasm-bindgen = "=0.2.87"
 erg_common = { git = "https://github.com/erg-lang/erg", features = ["no_std"] }
 erg_compiler = { git = "https://github.com/erg-lang/erg", features = ["no_std"] }
 rustpython_wasm = { git = "https://github.com/rustpython/rustpython", version = "0.2.0" }
