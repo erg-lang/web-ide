@@ -160,7 +160,7 @@ export class Application {
 			result = vm.exec(replaced_code);
 		} catch (_e) {
 			console.log(_e);
-			result = "compiler crashed";
+			result = "compiler crashed (see console)";
 			vm = wasm.Playground.new();
 			this.run_btn.classList.remove("is-loading");
 		}

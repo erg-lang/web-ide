@@ -296,17 +296,14 @@ impl Playground {
                 let code = script
                     .object
                     .into_code()
-                    .replace("from collections import namedtuple as NamedTuple__\n", "");
+                    .replace("from collections import namedtuple as NamedTuple__\n", "")
+                    .replace("    import warnings\n    warnings.warn(\"`typing.Union` is not available. Please use Python 3.8+.\")\n", "");
                 if !self.inited {
                     self.initialize();
                 }
                 match self.vm.exec(&code, None) {
                     Ok(val) => val.as_string().unwrap_or_default(),
-                    Err(err) => format!(
-                        "<<RuntimeError>>{}\n{}",
-                        code,
-                        err.as_string().unwrap_or_default()
-                    ),
+                    Err(err) => format!("<<RuntimeError>>\nreason:\n{err:?}\ncode:\n{code}"),
                 }
             }
             Err(errors) => {
