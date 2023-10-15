@@ -411,8 +411,8 @@ dependencies = [
 
 [[package]]
 name = "erg_common"
-version = "0.6.22"
-source = "git+https://github.com/erg-lang/erg#b2415c4d3de7b5d6da47668a3de630c07b30b300"
+version = "0.6.23"
+source = "git+https://github.com/erg-lang/erg#9389ba3641e333116697592b518bed7ba2922167"
 dependencies = [
  "parking_lot",
  "thread_local",
@@ -420,8 +420,8 @@ dependencies = [
 
 [[package]]
 name = "erg_compiler"
-version = "0.6.22"
-source = "git+https://github.com/erg-lang/erg#b2415c4d3de7b5d6da47668a3de630c07b30b300"
+version = "0.6.23"
+source = "git+https://github.com/erg-lang/erg#9389ba3641e333116697592b518bed7ba2922167"
 dependencies = [
  "erg_common",
  "erg_parser",
@@ -429,8 +429,8 @@ dependencies = [
 
 [[package]]
 name = "erg_parser"
-version = "0.6.22"
-source = "git+https://github.com/erg-lang/erg#b2415c4d3de7b5d6da47668a3de630c07b30b300"
+version = "0.6.23"
+source = "git+https://github.com/erg-lang/erg#9389ba3641e333116697592b518bed7ba2922167"
 dependencies = [
  "erg_common",
  "unicode-xid",
@@ -475,9 +475,9 @@ dependencies = [
 
 [[package]]
 name = "flate2"
-version = "1.0.27"
+version = "1.0.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c6c98ee8095e9d1dcbf2fcc6d95acccb90d1c81db1e44725c6a984b1dbdfb010"
+checksum = "46303f565772937ffe1d394a4fac6f411c6013172fadde9dcdb1e147a086940e"
 dependencies = [
  "crc32fast",
  "miniz_oxide",
@@ -1313,13 +1313,13 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.10.0"
+version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d119d7c7ca818f8a53c300863d4f87566aac09943aef5b355bb83969dae75d87"
+checksum = "aaac441002f822bc9705a681810a4dd2963094b9ca0ddc41cb963a4c189189ea"
 dependencies = [
  "aho-corasick",
  "memchr",
- "regex-automata 0.4.1",
+ "regex-automata 0.4.2",
  "regex-syntax",
 ]
 
@@ -1331,9 +1331,9 @@ checksum = "6c230d73fb8d8c1b9c0b3135c5142a8acee3a0558fb8db5cf1cb65f8d7862132"
 
 [[package]]
 name = "regex-automata"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "465c6fc0621e4abc4187a2bda0937bfd4f722c2730b29562e19689ea796c9a4b"
+checksum = "5011c7e263a695dc8ca064cddb722af1be54e517a280b12a5356f98366899e5d"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1342,9 +1342,9 @@ dependencies = [
 
 [[package]]
 name = "regex-syntax"
-version = "0.8.0"
+version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c3cbb081b9784b07cceb8824c8583f86db4814d172ab043f3c23f7dc600bf83d"
+checksum = "c08c74e62047bb2de4ff487b251e4a92e24f48745648451635cec7d591162d9f"
 
 [[package]]
 name = "result-like"
@@ -1385,9 +1385,9 @@ dependencies = [
 
 [[package]]
 name = "rustix"
-version = "0.38.18"
+version = "0.38.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a74ee2d7c2581cd139b42447d7d9389b889bdaad3a73f1ebb16f2a3237bb19c"
+checksum = "745ecfa778e66b2b63c88a61cb36e0eea109e803b0b86bf9879fbc77c70e86ed"
 dependencies = [
  "bitflags 2.4.0",
  "errno",
@@ -1411,7 +1411,7 @@ dependencies = [
 [[package]]
 name = "rustpython-codegen"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "ahash",
  "bitflags 2.4.0",
@@ -1428,7 +1428,7 @@ dependencies = [
 [[package]]
 name = "rustpython-common"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "ascii",
  "bitflags 2.4.0",
@@ -1454,7 +1454,7 @@ dependencies = [
 [[package]]
 name = "rustpython-compiler"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "rustpython-codegen",
  "rustpython-compiler-core",
@@ -1464,7 +1464,7 @@ dependencies = [
 [[package]]
 name = "rustpython-compiler-core"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "bitflags 2.4.0",
  "itertools 0.11.0",
@@ -1477,7 +1477,7 @@ dependencies = [
 [[package]]
 name = "rustpython-derive"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "rustpython-compiler",
  "rustpython-derive-impl",
@@ -1487,7 +1487,7 @@ dependencies = [
 [[package]]
 name = "rustpython-derive-impl"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "itertools 0.11.0",
  "maplit",
@@ -1579,7 +1579,7 @@ dependencies = [
 [[package]]
 name = "rustpython-pylib"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "glob",
  "rustpython-compiler-core",
@@ -1589,7 +1589,7 @@ dependencies = [
 [[package]]
 name = "rustpython-stdlib"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "adler32",
  "ahash",
@@ -1655,7 +1655,7 @@ dependencies = [
 [[package]]
 name = "rustpython-vm"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "ahash",
  "ascii",
@@ -1730,7 +1730,7 @@ dependencies = [
 [[package]]
 name = "rustpython_wasm"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#830389f62c9600f1f51526c85e4ae9f5edfb840d"
+source = "git+https://github.com/rustpython/rustpython#9241e2e5d5430f2e6f80c01bf37c000bde233210"
 dependencies = [
  "console_error_panic_hook",
  "js-sys",
@@ -1810,9 +1810,9 @@ checksum = "836fa6a3e1e547f9a2c4040802ec865b5d85f4014efe00555d7090a3dcaa1090"
 
 [[package]]
 name = "serde"
-version = "1.0.188"
+version = "1.0.189"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf9e0fcba69a370eed61bcf2b728575f726b50b55cba78064753d708ddc7549e"
+checksum = "8e422a44e74ad4001bdc8eede9a4570ab52f71190e9c076d14369f38b9200537"
 dependencies = [
  "serde_derive",
 ]
@@ -1831,9 +1831,9 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.188"
+version = "1.0.189"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4eca7ac642d82aa35b60049a6eccb4be6be75e599bd2e9adb5f875a737654af2"
+checksum = "1e48d1f918009ce3145511378cf68d613e3b3d9137d67272562080d68a2b32d5"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2302,9 +2302,9 @@ checksum = "f962df74c8c05a667b5ee8bcf162993134c104e96440b663c8daa176dc772d8c"
 
 [[package]]
 name = "unicode_names2"
-version = "1.1.0"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38b2c0942619ae1797f999a0ce7efc6c09592ad30e68e16cdbfdcd48a98c3579"
+checksum = "5d5506ae2c3c1ccbdf468e52fc5ef536c2ccd981f01273a4cb81aa61021f3a5f"
 dependencies = [
  "phf",
  "unicode_names2_generator",
@@ -2312,9 +2312,9 @@ dependencies = [
 
 [[package]]
 name = "unicode_names2_generator"
-version = "1.1.0"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4d0d66ab60be9799a70f8eb227ea43da7dcc47561dd9102cbadacfe0930113f7"
+checksum = "b6dfc680313e95bc6637fa278cd7a22390c3c2cd7b8b2bd28755bc6c0fc811e7"
 dependencies = [
  "getopts",
  "log",
@@ -2618,9 +2618,9 @@ checksum = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
 
 [[package]]
 name = "winnow"
-version = "0.5.16"
+version = "0.5.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "037711d82167854aff2018dfd193aa0fef5370f456732f0d5a0c59b0f1b4b907"
+checksum = "a3b801d0e0a6726477cc207f60162da452f3a95adb368399bef20a946e06f65c"
 dependencies = [
  "memchr",
 ]
