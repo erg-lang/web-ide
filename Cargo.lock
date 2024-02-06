@@ -362,7 +362,7 @@ dependencies = [
 [[package]]
 name = "erg_common"
 version = "0.6.30"
-source = "git+https://github.com/erg-lang/erg#f234daf5b2485cd24d3e7279105c65d11f93c923"
+source = "git+https://github.com/erg-lang/erg#757f387d91bc086fbf92a2b2fdcc11698f20dadf"
 dependencies = [
  "parking_lot",
  "thread_local",
@@ -371,7 +371,7 @@ dependencies = [
 [[package]]
 name = "erg_compiler"
 version = "0.6.30"
-source = "git+https://github.com/erg-lang/erg#f234daf5b2485cd24d3e7279105c65d11f93c923"
+source = "git+https://github.com/erg-lang/erg#757f387d91bc086fbf92a2b2fdcc11698f20dadf"
 dependencies = [
  "erg_common",
  "erg_parser",
@@ -380,7 +380,7 @@ dependencies = [
 [[package]]
 name = "erg_parser"
 version = "0.6.30"
-source = "git+https://github.com/erg-lang/erg#f234daf5b2485cd24d3e7279105c65d11f93c923"
+source = "git+https://github.com/erg-lang/erg#757f387d91bc086fbf92a2b2fdcc11698f20dadf"
 dependencies = [
  "erg_common",
  "erg_proc_macros",
@@ -390,7 +390,7 @@ dependencies = [
 [[package]]
 name = "erg_proc_macros"
 version = "0.6.30"
-source = "git+https://github.com/erg-lang/erg#f234daf5b2485cd24d3e7279105c65d11f93c923"
+source = "git+https://github.com/erg-lang/erg#757f387d91bc086fbf92a2b2fdcc11698f20dadf"
 dependencies = [
  "erg_common",
  "quote",
