@@ -349,8 +349,8 @@ dependencies = [
 
 [[package]]
 name = "erg_common"
-version = "0.6.32-nightly.0"
-source = "git+https://github.com/erg-lang/erg#5fe79c1d41efd4b8094839f48c7ac5890d693127"
+version = "0.6.32-nightly.1"
+source = "git+https://github.com/erg-lang/erg#3869dd022efdb6a6eec45dc3ea92545195ad9b0f"
 dependencies = [
  "erg_proc_macros",
  "parking_lot",
@@ -359,8 +359,8 @@ dependencies = [
 
 [[package]]
 name = "erg_compiler"
-version = "0.6.32-nightly.0"
-source = "git+https://github.com/erg-lang/erg#5fe79c1d41efd4b8094839f48c7ac5890d693127"
+version = "0.6.32-nightly.1"
+source = "git+https://github.com/erg-lang/erg#3869dd022efdb6a6eec45dc3ea92545195ad9b0f"
 dependencies = [
  "erg_common",
  "erg_parser",
@@ -368,8 +368,8 @@ dependencies = [
 
 [[package]]
 name = "erg_parser"
-version = "0.6.32-nightly.0"
-source = "git+https://github.com/erg-lang/erg#5fe79c1d41efd4b8094839f48c7ac5890d693127"
+version = "0.6.32-nightly.1"
+source = "git+https://github.com/erg-lang/erg#3869dd022efdb6a6eec45dc3ea92545195ad9b0f"
 dependencies = [
  "erg_common",
  "erg_proc_macros",
@@ -378,8 +378,8 @@ dependencies = [
 
 [[package]]
 name = "erg_proc_macros"
-version = "0.6.32-nightly.0"
-source = "git+https://github.com/erg-lang/erg#5fe79c1d41efd4b8094839f48c7ac5890d693127"
+version = "0.6.32-nightly.1"
+source = "git+https://github.com/erg-lang/erg#3869dd022efdb6a6eec45dc3ea92545195ad9b0f"
 dependencies = [
  "quote",
  "syn 1.0.109",
@@ -1257,7 +1257,7 @@ dependencies = [
 [[package]]
 name = "rustpython-codegen"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "ahash",
  "bitflags 2.4.2",
@@ -1274,7 +1274,7 @@ dependencies = [
 [[package]]
 name = "rustpython-common"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "ascii",
  "bitflags 2.4.2",
@@ -1300,7 +1300,7 @@ dependencies = [
 [[package]]
 name = "rustpython-compiler"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "rustpython-codegen",
  "rustpython-compiler-core",
@@ -1310,7 +1310,7 @@ dependencies = [
 [[package]]
 name = "rustpython-compiler-core"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "bitflags 2.4.2",
  "itertools",
@@ -1323,7 +1323,7 @@ dependencies = [
 [[package]]
 name = "rustpython-derive"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "rustpython-compiler",
  "rustpython-derive-impl",
@@ -1333,7 +1333,7 @@ dependencies = [
 [[package]]
 name = "rustpython-derive-impl"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "itertools",
  "maplit",
@@ -1425,7 +1425,7 @@ dependencies = [
 [[package]]
 name = "rustpython-pylib"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "glob",
  "rustpython-compiler-core",
@@ -1435,7 +1435,7 @@ dependencies = [
 [[package]]
 name = "rustpython-stdlib"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "adler32",
  "ahash",
@@ -1502,7 +1502,7 @@ dependencies = [
 [[package]]
 name = "rustpython-vm"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "ahash",
  "ascii",
@@ -1576,7 +1576,7 @@ dependencies = [
 [[package]]
 name = "rustpython_wasm"
 version = "0.3.0"
-source = "git+https://github.com/rustpython/rustpython#1c93c1630b536d398ab86f91b0f3424aad76ddc8"
+source = "git+https://github.com/rustpython/rustpython#a88c2fe00050255e0859ca6432034608c4f848ba"
 dependencies = [
  "console_error_panic_hook",
  "js-sys",
