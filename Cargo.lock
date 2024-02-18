@@ -349,8 +349,8 @@ dependencies = [
 
 [[package]]
 name = "erg_common"
-version = "0.6.31"
-source = "git+https://github.com/erg-lang/erg#b928e792512a23d67f7b35c5c84a0c836044fa4a"
+version = "0.6.32-nightly.0"
+source = "git+https://github.com/erg-lang/erg#5fe79c1d41efd4b8094839f48c7ac5890d693127"
 dependencies = [
  "erg_proc_macros",
  "parking_lot",
@@ -359,8 +359,8 @@ dependencies = [
 
 [[package]]
 name = "erg_compiler"
-version = "0.6.31"
-source = "git+https://github.com/erg-lang/erg#b928e792512a23d67f7b35c5c84a0c836044fa4a"
+version = "0.6.32-nightly.0"
+source = "git+https://github.com/erg-lang/erg#5fe79c1d41efd4b8094839f48c7ac5890d693127"
 dependencies = [
  "erg_common",
  "erg_parser",
@@ -368,8 +368,8 @@ dependencies = [
 
 [[package]]
 name = "erg_parser"
-version = "0.6.31"
-source = "git+https://github.com/erg-lang/erg#b928e792512a23d67f7b35c5c84a0c836044fa4a"
+version = "0.6.32-nightly.0"
+source = "git+https://github.com/erg-lang/erg#5fe79c1d41efd4b8094839f48c7ac5890d693127"
 dependencies = [
  "erg_common",
  "erg_proc_macros",
@@ -378,8 +378,8 @@ dependencies = [
 
 [[package]]
 name = "erg_proc_macros"
-version = "0.6.31"
-source = "git+https://github.com/erg-lang/erg#b928e792512a23d67f7b35c5c84a0c836044fa4a"
+version = "0.6.32-nightly.0"
+source = "git+https://github.com/erg-lang/erg#5fe79c1d41efd4b8094839f48c7ac5890d693127"
 dependencies = [
  "quote",
  "syn 1.0.109",
@@ -1089,9 +1089,9 @@ dependencies = [
 
 [[package]]
 name = "puruspe"
-version = "0.2.1"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cbc3c7c2743e2b094bb3fab45339eaf437ecc089e238aba1b6bcf3598fbc18dd"
+checksum = "2c6778a7ae74b21f07fc5b9d550b1fdc212d719ec76d03cd2940c41002247c8a"
 
 [[package]]
 name = "quote"
