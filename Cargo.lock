@@ -346,8 +346,8 @@ dependencies = [
 
 [[package]]
 name = "erg_common"
-version = "0.6.32-nightly.3"
-source = "git+https://github.com/erg-lang/erg#ca140680db879111a623642437a12d162e1c628a"
+version = "0.6.32"
+source = "git+https://github.com/erg-lang/erg#cd5c4ebbfeeda4d48045d21785be298e0f6117ef"
 dependencies = [
  "erg_proc_macros",
  "parking_lot",
@@ -356,8 +356,8 @@ dependencies = [
 
 [[package]]
 name = "erg_compiler"
-version = "0.6.32-nightly.3"
-source = "git+https://github.com/erg-lang/erg#ca140680db879111a623642437a12d162e1c628a"
+version = "0.6.32"
+source = "git+https://github.com/erg-lang/erg#cd5c4ebbfeeda4d48045d21785be298e0f6117ef"
 dependencies = [
  "erg_common",
  "erg_parser",
@@ -365,8 +365,8 @@ dependencies = [
 
 [[package]]
 name = "erg_parser"
-version = "0.6.32-nightly.3"
-source = "git+https://github.com/erg-lang/erg#ca140680db879111a623642437a12d162e1c628a"
+version = "0.6.32"
+source = "git+https://github.com/erg-lang/erg#cd5c4ebbfeeda4d48045d21785be298e0f6117ef"
 dependencies = [
  "erg_common",
  "erg_proc_macros",
@@ -375,8 +375,8 @@ dependencies = [
 
 [[package]]
 name = "erg_proc_macros"
-version = "0.6.32-nightly.3"
-source = "git+https://github.com/erg-lang/erg#ca140680db879111a623642437a12d162e1c628a"
+version = "0.6.32"
+source = "git+https://github.com/erg-lang/erg#cd5c4ebbfeeda4d48045d21785be298e0f6117ef"
 dependencies = [
  "quote",
  "syn 1.0.109",
