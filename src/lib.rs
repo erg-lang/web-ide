@@ -163,7 +163,7 @@ impl From<CompileError> for ErgError {
         let sub_msg = err
             .core
             .sub_messages
-            .get(0)
+            .first()
             .map(|sub| {
                 sub.msg
                     .iter()
@@ -180,7 +180,7 @@ impl From<CompileError> for ErgError {
             hint: err
                 .core
                 .sub_messages
-                .get(0)
+                .first()
                 .and_then(|sub| sub.hint.clone()),
         }
     }
