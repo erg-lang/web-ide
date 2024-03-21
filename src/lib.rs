@@ -297,7 +297,8 @@ impl Playground {
                     .object
                     .into_code()
                     .replace("from collections import namedtuple as NamedTuple__\n", "")
-                    .replace("    import warnings\n    warnings.warn(\"`typing.Union` is not available. Please use Python 3.8+.\")\n", "");
+                    .replace("    import warnings\n", "")
+                    .replace("    warnings.warn(\"`typing.Union` is not available. Please use Python 3.8+.\")\n", "");
                 if !self.inited {
                     self.initialize();
                 }
