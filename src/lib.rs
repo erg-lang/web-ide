@@ -61,6 +61,7 @@ impl ErgErrorLoc {
 
 #[derive(Debug, Clone)]
 #[wasm_bindgen]
+#[allow(dead_code)]
 pub struct ErgType(Type);
 
 #[derive(Debug, Clone)]

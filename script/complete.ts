@@ -10,7 +10,7 @@ export function dir(range: monaco.IRange): monaco.languages.CompletionItem[] {
 	return vars.map((ent) => {
 		return {
 			label: ent.name(),
-			kind: ent.item_kind(),
+			kind: ent.item_kind() as unknown as monaco.languages.CompletionItemKind,
 			insertText: ent.name(),
 			range: range,
 			detail: ent.typ(),
