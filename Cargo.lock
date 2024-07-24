@@ -166,9 +166,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.0.104"
+version = "1.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "74b6a57f98764a267ff415d50a25e6e166f3831a5071af4995296ea97d210490"
+checksum = "2aba8f4e9906c7ce3c73463f62a7f0c65183ada1a2d47e397cc8810827f9694f"
 
 [[package]]
 name = "cfg-if"
@@ -198,9 +198,9 @@ dependencies = [
 
 [[package]]
 name = "clipboard-win"
-version = "5.3.1"
+version = "5.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "79f4473f5144e20d9aceaf2972478f06ddf687831eafeeb434fbaf0acc4144ad"
+checksum = "15efe7a882b08f34e38556b14f2fb3daa98769d06c7f0c1b076dfd0d983bc892"
 dependencies = [
  "error-code",
 ]
@@ -296,7 +296,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustc_version",
- "syn 2.0.68",
+ "syn 2.0.72",
 ]
 
 [[package]]
@@ -361,8 +361,8 @@ dependencies = [
 
 [[package]]
 name = "erg_common"
-version = "0.6.40-nightly.0"
-source = "git+https://github.com/erg-lang/erg#2cf0e676bfa0149cc6e03a45bc3406edf408a11b"
+version = "0.6.40"
+source = "git+https://github.com/erg-lang/erg#380511a65b27bc3ffed0589199c42b009e1d9d60"
 dependencies = [
  "erg_proc_macros",
  "parking_lot",
@@ -371,8 +371,8 @@ dependencies = [
 
 [[package]]
 name = "erg_compiler"
-version = "0.6.40-nightly.0"
-source = "git+https://github.com/erg-lang/erg#2cf0e676bfa0149cc6e03a45bc3406edf408a11b"
+version = "0.6.40"
+source = "git+https://github.com/erg-lang/erg#380511a65b27bc3ffed0589199c42b009e1d9d60"
 dependencies = [
  "erg_common",
  "erg_parser",
@@ -380,8 +380,8 @@ dependencies = [
 
 [[package]]
 name = "erg_parser"
-version = "0.6.40-nightly.0"
-source = "git+https://github.com/erg-lang/erg#2cf0e676bfa0149cc6e03a45bc3406edf408a11b"
+version = "0.6.40"
+source = "git+https://github.com/erg-lang/erg#380511a65b27bc3ffed0589199c42b009e1d9d60"
 dependencies = [
  "erg_common",
  "erg_proc_macros",
@@ -390,8 +390,8 @@ dependencies = [
 
 [[package]]
 name = "erg_proc_macros"
-version = "0.6.40-nightly.0"
-source = "git+https://github.com/erg-lang/erg#2cf0e676bfa0149cc6e03a45bc3406edf408a11b"
+version = "0.6.40"
+source = "git+https://github.com/erg-lang/erg#380511a65b27bc3ffed0589199c42b009e1d9d60"
 dependencies = [
  "quote",
  "syn 1.0.109",
@@ -593,7 +593,7 @@ dependencies = [
  "Inflector",
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
 ]
 
 [[package]]
@@ -950,7 +950,7 @@ dependencies = [
  "proc-macro-crate",
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
 ]
 
 [[package]]
@@ -1146,9 +1146,9 @@ dependencies = [
 
 [[package]]
 name = "redox_syscall"
-version = "0.5.2"
+version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c82cf8cff14456045f55ec4241383baeff27af886adb72ffb2162f99911de0fd"
+checksum = "2a908a6e00f1fdd0dfd9c0eb08ce85126f6d8bbda50017e74bc4a4b7d4a926a4"
 dependencies = [
  "bitflags 2.6.0",
 ]
@@ -1253,7 +1253,7 @@ dependencies = [
 [[package]]
 name = "rustpython-codegen"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "ahash",
  "bitflags 2.6.0",
@@ -1270,7 +1270,7 @@ dependencies = [
 [[package]]
 name = "rustpython-common"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "ascii",
  "bitflags 2.6.0",
@@ -1297,7 +1297,7 @@ dependencies = [
 [[package]]
 name = "rustpython-compiler"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "rustpython-codegen",
  "rustpython-compiler-core",
@@ -1307,7 +1307,7 @@ dependencies = [
 [[package]]
 name = "rustpython-compiler-core"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "bitflags 2.6.0",
  "itertools",
@@ -1320,7 +1320,7 @@ dependencies = [
 [[package]]
 name = "rustpython-derive"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "rustpython-compiler",
  "rustpython-derive-impl",
@@ -1330,7 +1330,7 @@ dependencies = [
 [[package]]
 name = "rustpython-derive-impl"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "itertools",
  "maplit",
@@ -1422,7 +1422,7 @@ dependencies = [
 [[package]]
 name = "rustpython-pylib"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "glob",
  "rustpython-compiler-core",
@@ -1432,7 +1432,7 @@ dependencies = [
 [[package]]
 name = "rustpython-sre_engine"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "bitflags 2.6.0",
  "num_enum",
@@ -1442,7 +1442,7 @@ dependencies = [
 [[package]]
 name = "rustpython-stdlib"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "adler32",
  "ahash",
@@ -1512,7 +1512,7 @@ dependencies = [
 [[package]]
 name = "rustpython-vm"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "ahash",
  "ascii",
@@ -1587,7 +1587,7 @@ dependencies = [
 [[package]]
 name = "rustpython_wasm"
 version = "0.3.1"
-source = "git+https://github.com/rustpython/rustpython#b4bae8173be2e691a8a7234bab4baa2ffd4a116a"
+source = "git+https://github.com/rustpython/rustpython#f1f05303db97e9aa6f4d3d492ce85d1ca81e1df7"
 dependencies = [
  "console_error_panic_hook",
  "js-sys",
@@ -1666,9 +1666,9 @@ checksum = "61697e0a1c7e512e84a621326239844a24d8207b4669b41bc18b32ea5cbf988b"
 
 [[package]]
 name = "serde"
-version = "1.0.203"
+version = "1.0.204"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7253ab4de971e72fb7be983802300c30b5a7f0c2e56fab8abfc6a214307c0094"
+checksum = "bc76f558e0cbb2a839d37354c575f1dc3fdc6546b5be373ba43d95f231bf7c12"
 dependencies = [
  "serde_derive",
 ]
@@ -1687,13 +1687,13 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.203"
+version = "1.0.204"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "500cbc0ebeb6f46627f50f3f5811ccf6bf00643be300b4c3eabc0ef55dc5b5ba"
+checksum = "e0cd7e117be63d3c3678776753929474f3b04a43a080c744d6b0ae2a8c28e222"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
 ]
 
 [[package]]
@@ -1794,9 +1794,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.68"
+version = "2.0.72"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "901fa70d88b9d6c98022e23b4136f9f3e54e4662c3bc1bd1d84a42a9a0f0c1e9"
+checksum = "dc4b9b9bf2add8093d3f2c0204471e951b2285580335de42f9d2534f3ae7a8af"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1850,22 +1850,22 @@ checksum = "b7b3e525a49ec206798b40326a44121291b530c963cfb01018f63e135bac543d"
 
 [[package]]
 name = "thiserror"
-version = "1.0.61"
+version = "1.0.63"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c546c80d6be4bc6a00c0f01730c08df82eaa7a7a61f11d656526506112cc1709"
+checksum = "c0342370b38b6a11b6cc11d6a805569958d54cfa061a29969c3b5ce2ea405724"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "1.0.61"
+version = "1.0.63"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46c3384250002a6d5af4d114f2845d37b57521033f30d5c3f46c4d70e1197533"
+checksum = "a4558b58466b9ad7ca0f102865eccc95938dca1a74a856f2b57b6629050da261"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
 ]
 
 [[package]]
@@ -1895,9 +1895,9 @@ dependencies = [
 
 [[package]]
 name = "tinyvec"
-version = "1.6.1"
+version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c55115c6fbe2d2bef26eb09ad74bde02d8255476fc0c7b515ef09fbb35742d82"
+checksum = "445e881f4f6d382d5f27c034e25eb92edd7c784ceab92a0937db7f2e9471b938"
 dependencies = [
  "tinyvec_macros",
 ]
@@ -2141,9 +2141,9 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 
 [[package]]
 name = "uuid"
-version = "1.9.1"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5de17fd2f7da591098415cff336e12965a28061ddace43b59cb3c430179c9439"
+checksum = "81dfa00651efa65069b0b6b651f4aaa31ba9e3c3ce0137aaad053604ee7e0314"
 dependencies = [
  "atomic",
  "getrandom",
@@ -2153,13 +2153,13 @@ dependencies = [
 
 [[package]]
 name = "uuid-macro-internal"
-version = "1.9.1"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a3ff64d5cde1e2cb5268bdb497235b6bd255ba8244f910dbc3574e59593de68c"
+checksum = "ee1cd046f83ea2c4e920d6ee9f7c3537ef928d75dce5d84a87c2c5d6b3999a3a"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
 ]
 
 [[package]]
@@ -2207,7 +2207,7 @@ dependencies = [
  "once_cell",
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
  "wasm-bindgen-shared",
 ]
 
@@ -2241,7 +2241,7 @@ checksum = "e94f17b526d0a461a191c78ea52bbce64071ed5c04c9ffe424dcb38f74171bb7"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
 ]
@@ -2274,7 +2274,7 @@ checksum = "b7f89739351a2e03cb94beb799d47fb2cac01759b40ec441f7de39b00cbf7ef0"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
 ]
 
 [[package]]
@@ -2526,5 +2526,5 @@ checksum = "fa4f8080344d4671fb4e831a13ad1e68092748387dfc4f55e356242fae12ce3e"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.68",
+ "syn 2.0.72",
 ]
