@@ -253,23 +253,21 @@ impl Playground {
             .replace("Erg transpiler", "Erg Playground (experimental)")
     }
 
-    /// returns `Box<[JsValue]>` instead of `Vec<ErgVarEntry>`
-    pub fn dir(&mut self) -> Box<[JsValue]> {
+    pub fn dir(&mut self) -> Box<[ErgVarEntry]> {
         self.transpiler
             .dir()
             .into_iter()
-            .map(|(n, vi)| JsValue::from(ErgVarEntry::new(n.clone(), vi.clone())))
+            .map(|(n, vi)| ErgVarEntry::new(n.clone(), vi.clone()))
             .collect::<Vec<_>>()
             .into_boxed_slice()
     }
 
-    /// returns `Box<[JsValue]>` instead of `Vec<ErgError>`
-    pub fn check(&mut self, input: &str) -> Box<[JsValue]> {
+    pub fn check(&mut self, input: &str) -> Box<[ErgError]> {
         match self.transpiler.transpile(input.to_string(), "exec") {
             Ok(artifact) => artifact
                 .warns
                 .into_iter()
-                .map(|err| ErgError::from(err).into())
+                .map(ErgError::from)
                 .collect::<Vec<_>>()
                 .into_boxed_slice(),
             Err(mut err_artifact) => {
@@ -277,7 +275,7 @@ impl Playground {
                 let errs = err_artifact
                     .errors
                     .into_iter()
-                    .map(|err| ErgError::from(err).into())
+                    .map(ErgError::from)
                     .collect::<Vec<_>>();
                 errs.into_boxed_slice()
             }
