@@ -31,14 +31,6 @@ jobs:
           rustup update stable
           # cargo install wasm-pack
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-      - name: Update
-        run: |
-          cargo update
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Automatic update \`Cargo.lock\`"
-          git push
       - name: Build
         run: |
           npm run full-build || (cargo clean | npm run full-build)
