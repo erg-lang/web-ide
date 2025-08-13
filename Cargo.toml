@@ -36,3 +36,6 @@ strip = true
 [profile.dev]
 opt-level = 1
 incremental = true
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
